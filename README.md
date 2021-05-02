@@ -1,2 +1,2 @@
-# litebub_latest.github.io
+# litebub_latest
 Created with CodeSandbox

@@ -1,0 +1,544 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+}
+/* Start.js */
+.white-text {
+  color: white !important;
+}
+.center-it {
+  transform: translate(4%, 115%);
+  /* border: 1px solid #fff */
+}
+.artistLink{
+  /* border: 1px solid #fff; */
+/* position:absolute; */
+  /* transform: translate(40vw, 70vh); */
+  color: #fff;
+  font-size: 1.15em;
+  align-self:end;
+  justify-self:end;
+  padding: 1.5em;
+}
+.artistLink:hover{
+  color: #fff;
+}
+/* App.js */
+.wrapper{
+/* border:1px solid #fff; */
+display:grid;
+}
+/* createLink.js */
+
+.prevIcon {
+  /* align-self: end; */
+  /* border: 3px solid #000; */
+}
+.header2 {
+  color: #fff;
+  font-weight: 200;
+  font-size: 2em;
+  /* border: 3px solid #000; */
+}
+.center-it-cl{
+  /* border: 2px solid #000; */
+  width: 70%;
+  height: 67%;
+  /* align-self: start; */
+}
+.cbtn{
+/* height: 2.3em; */
+box-sizing: border-box;
+color: #fff !important;
+font-size: 1.7em !important;
+/* display: table-cell;
+vertical-align: middle; */
+}
+
+.chatAbout {
+  font-size: 2em;
+  margin-top: 85px;
+  /* border: 2px solid #000; */
+}
+.cl-inputSec{
+/* border: 2px solid #000; */
+width: 75.5%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  justify-self:center;
+  /* flex-direction: row */
+}
+.inlineBlock {
+  display: inline-block;
+}
+.bubb {
+  font-family: "Courier New", Courier, monospace;
+  opacity: 0.7;
+}
+
+.bg {
+  /* background-image: url("images/giphy-3.gif"); */
+  background-image: linear-gradient(rgba(109, 72, 225, 0.45), #7325c2),
+    /* url("https://media.giphy.com/media/eBtpLQVJeFEBx92VCy/giphy.gif"); */
+      url("https://media.discordapp.net/attachments/787951209818226708/788658752982351892/giphy-3.gif");
+  opacity: 1;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  transform: scale(1.2);
+}
+
+/* .position {
+  margin: 2em;
+  position: relative;
+  bottom: 10vw;
+} */
+.ui.center.aligned {
+  color: #fff;
+  position: relative;
+  right: 3em;
+}
+/* copyLink.js */
+.copyLink-div{
+  width: inherit;
+  height: 80%;
+  margin-top: 2em;
+  /* border: 1px solid #000; */
+  transform: translateX(2.5%);
+  justify-self: center;
+  align-self: center;
+}
+.corner{
+  display: flex;
+  align-items: flex-end;
+  /* border: 2px solid #000; */
+}
+.header{
+  font-size: 2em;
+  display: block;
+}.circular-btns{
+  display: flex;
+  justify-content: space-around;
+  /* border: 1px solid #fff; */
+  width: 250;
+  text-transform: uppercase;
+  margin: .4em 0 .6em 0;
+}
+.circular-btns div{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  /* border: 1px solid #fff */
+  /* text-align:center;
+  vertical-align: middle; */
+}
+.avatarBtn{
+background-color: transparent;
+/* border: 1px solid #fff; */
+}
+
+.form{
+display: grid;
+place-items: center;
+/* border: 2px solid #fff; */
+}
+#url-preview{
+  display: flex;
+  flex-direction: row;
+}
+.copyHover:hover {
+  background-color: #48A7FF !important;
+  box-shadow: none !important;
+}
+.btnOutlineDiv{
+  border: 3px solid transparent
+}
+.btnOutlineDiv:hover{
+  box-shadow: inset 0 0 0 1px #fff;
+  border: 3px solid #fff
+}
+
+.btnOutline:hover{
+box-shadow: 0 0 0 3px #fff;
+position: relative;
+z-index: 10
+
+}
+.linkCopied{
+  background: #fff;
+  border-radius:24px;
+  border-radius: 35px;
+  text-align: center;
+  padding: 7px 12px;
+  margin-right: 5px;
+  width: auto;
+  visibility: hidden;
+}
+.lcChatRoom{
+  position: absolute;
+  left: 5em;
+  top: 6em;
+}
+/* #url-previe{
+  width: 100%;
+  height: 100%;
+  object-fit: stretch;
+} */
+.topic-input::-webkit-input-placeholder{
+  color: #d9d9d9;
+  font-size: 1.2em;
+  vertical-align: middle;
+  line-height: 1.5em;
+  /* text-align: center; */
+}
+#input-area {
+  bottom: 10px;
+  width: 60%;
+  height: 75%;
+  /* margin-left: 10em; */
+  /* border: 1px solid #000; */
+  display: grid;
+  grid-row-gap: 5px;
+  text-align: center;
+  /* background-color: transparent; */
+}
+#input-area ::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: 0px;
+}
+.in-grid {
+  /* border: 2px solid #000; */
+  display: grid;
+  width: 85%;
+  grid-template-columns: 2fr 0.01fr;
+  place-items: center;
+  justify-self: end;
+  align-content: center;
+}
+/*preventing border*/
+:focus {
+  outline: none;
+}
+::-moz-focus-inner {
+  border: 0;
+}
+.message-input {
+  border-radius: 40px;
+  width: inherit;
+  resize: none;
+  font-size: 15px;
+  padding-left: 25px;
+  padding-top: 15px;
+  border: 1px solid;
+  justify-self: end;
+  margin-bottom: 50px;
+}
+.message-input::-webkit-input-placeholder {
+  color: #d9d9d9;
+  font-size: 1em;
+  vertical-align: middle;
+  line-height: 1.5em;
+  padding-left: 0.1em;
+}
+.enterBtn {
+  justify-self: start;
+}
+
+.chatBg {
+  /* background-image: url("images/giphy-3.gif"); */
+  /* background-image: url("https://cdn.discordapp.com/attachments/787951209818226708/788658412892061716/source.gif"); */
+  z-index: -5;
+  background-position: center;
+  background-size: cover;
+  height: 90vh;
+  transform: scale(1.2);
+  text-align: center;
+  align-content: center;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+}
+#inChatRoom{
+  z-index: 20;
+  position:absolute;
+  width: 90%;
+  height: 12%;
+  /* display:flex; */
+  justify-content: center;
+  /* top: 2em;
+  left: 5em */
+}
+#new-user {
+  width: 330px;
+  height: 56%;
+  /* height: 300px; */
+  /* max-height: 60vh; */
+  background-color: white;
+  border-radius: 55px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  margin-top: auto;
+  margin-bottom: auto;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  /* display: grid;
+  place-items: center; */
+  /* border: 2px solid #000; */
+  /* align-content: center; */
+  text-align: center;
+  font-family: 'Roboto'
+}
+.userName-input {
+  border-radius: 20px;
+  border: 2px solid #DCDCDC;
+  font-size: 23px;
+  width: 210px;
+  padding: 17px;
+}
+::placeholder{
+  color: #E7E7E7;
+}
+.userName-input:focus {
+  outline: none;
+}
+.chatJoinBg {
+  /* background-image: url("images/giphy-3.gif"); */
+  /* background-image: url("https://cdn.discordapp.com/attachments/787951209818226708/788658412892061716/source.gif"); */
+  background-position: center;
+  background-size: cover;
+  height: 110px;
+  width: 100%;
+  border-radius: 55px 55px 0px 0px;
+  padding: 20px;
+  text-align: center;
+}
+button:focus {
+  outline: none !important;
+  opacity: 0.6;
+}
+button:hover {
+  padding: 5px;
+}
+.inputTextBox {
+  display: flex;
+  align-content: center;
+}
+.cancelText {
+  margin: 0 auto;
+  margin-top: 10px;
+  visibility: hidden;
+}
+.newRoom {
+  /* border: 1px solid #000; */
+  height: 100vh;
+  object-fit: contain;
+  display: grid;
+  grid-template-columns: 0.07fr 1fr;
+}
+.rBtns {
+  /* border: 2px solid #000; */
+  height: inherit;
+  justify-content: center;
+}
+.crossSvg {
+  /* border: 1px solid #000; */
+  /* height: 10%; */
+}
+.copySvg {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 10%;
+  width: 15%;
+  /* border: 2px solid #000; */
+}
+.copy:hover path{
+  fill: #656565 ;
+}
+
+.chat-container {
+  /* border: 2px solid #000; */
+  /* overflow: hidden; */
+  display: grid;
+  grid-gap: 0;
+  place-items: center;
+  height: 90%;
+  width: 100%;
+  justify-self: center;
+}
+.chat-topic {
+  width: inherit;
+  /* border: 3px solid #000; */
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.6em;
+  font-style: "roboto";
+  /* word-spacing: .4em; */
+  /* margin: 5em 0; */
+}
+.chatting-about {
+  font-weight: 200;
+  color: #656565;
+  font-size: 0.8em;
+  /* word-spacing: .1em; */
+}
+.topic {
+  font-weight: bold;
+}
+#chat-area {
+  overflow: auto;
+  background: white;
+  width: 80%;
+  /* height: 90vh; */
+  /* border: 3px solid #000; */
+  align-self: start;
+  /* position: absolute; */
+}
+#chat-area::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: 0px;
+}
+.chatContainer {
+  /* border: 4px solid #000; */
+  width: 90%;
+  /* display: flex;
+  justify-content: end; */
+}
+.msg-container {
+  display: flex;
+  width: inherit;
+  height: inherit;
+  font-size: 1.5em;
+  margin: 0.7em 0;
+  text-align: center;
+  /* justify-content: start; */
+  /* border: 5px solid #000; */
+}
+.msg-user-name {
+  /* margin: 6em 0; */
+  min-width: 15vw;
+  /* height: 50%; */
+  margin: 5px;
+  /* padding-top: 15px; */
+  margin-right: 10px;
+  text-align: right;
+  vertical-align: middle;
+  /* border: 3px solid #000; */
+}
+.msg-msg {
+  max-width: 90%;
+  height: 50%;
+  display: flex;
+  justify-content: end;
+  /* align-items: center; */
+  /* margin-top: 10px; */
+  padding-right: 20px;
+  /* padding-bottom: 5px; */
+  overflow: hidden;
+  text-align: left;
+  vertical-align: middle;
+  /* border: 1px solid #000; */
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+.icon {
+  /* border: 3px solid #000; */
+  padding-right: 8px;
+  justify-self: start;
+}
+.msg-msg p {
+  /* border: 3px solid #000; */
+  /* display: flex; */
+  justify-self: end;
+  text-align: left;
+}
+.msg-and-btns {
+  /* border: 3px solid #000; */
+  display: flex;
+  justify-content: center;
+}
+.msg-btn-container {
+  /* border: 3px solid #000; */
+  display: flex;
+  align-items: center;
+}
+.btnRContainer,
+.btnLContainer,
+.btnTContainer{
+  padding: 0 2px;
+  /* border: 1px solid #000; */
+}
+.btnRContainer{
+  padding-right: .3em;
+}
+
+.divLr {
+  border: 1px solid #000;
+  /* display: flex; */
+  /* flex-direction: row; */
+  justify-content: center;
+}
+.divLrBtns {
+  width: inherit;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 2px solid #000;
+}
+#replyBox {
+  display: flex;
+  text-align: center;
+}
+.replyTo {
+  margin-left: 10px;
+  text-align: center;
+}
+button, .cl-joinRoom {
+  cursor: pointer
+}
+.btn-join-chat{
+  padding-left: 55px;
+  padding-right: 55px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+}
+.stayBtn{
+  background-color:#BCBCBC;
+}
+.leaveBtn{
+  background-color:#48A7FF;
+
+}
+.blur-bg{
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+
+  position: absolute;
+height: 75%;
+width: 50%;
+border-radius: 50%;
+z-index: 1;
+left: 30%;
+background: rgba(0,0,0,0.3);
+
+}
+
+/*hover states for buttons*/
+.btnh:hover{
+cursor: grab
+}
+.noSelect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

@@ -1,0 +1,21 @@
+.bubblesDiv{
+display: flex;
+border: 2px solid #fff;
+height: 100%
+}
+.bubbleUI{
+	width: 100%;
+	height: 160%;
+	/* border: 2px solid #fff; */
+	margin-top: 6em;
+	font-size: 1.7em
+}
+.bubble {
+	/* width: 100%; 
+	height: 90%;  */
+	border-radius: 50%; /* rounded border forms a circle   */
+	border: 4px solid transparent
+}
+.bubble:hover{
+	border: 4px solid #fff
+}
