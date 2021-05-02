@@ -525,7 +525,7 @@ export default function ChatRoom() {
         });
     }
   }
-  this.setMessageInput = (value) => {
+  const setMessageInput = (value) => {
     // console.log(value);
     setMessageText(value.target.value);
   };
@@ -991,7 +991,7 @@ export default function ChatRoom() {
                     placeholder="type a message..."
                     onKeyDown={onKeyPress}
                     value={message}
-                    onChange={this.setMessageInput}
+                    onChange={setMessageInput}
                     style={{
                       fontSize: "1.2em",
                       height: "3.5em",
