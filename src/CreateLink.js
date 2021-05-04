@@ -71,77 +71,105 @@ const Address = ({ setForm, formData, navigation }) => {
   const bubbleTopics = [
     {
       topic:"food",
-      color:"#A1BCFF"
+      color:"#A1BCFF",
+      size: 100,
+      fontSize: "1em"
     },
     {
       topic:"news",
-      color:"#FF84D6"
+      color: "#FF84D6",
+      size: 70,
+      fontSize: ".9em"
     },
     {
       topic:"tech",
-      color:"#55A3B5"
+      color: "#55A3B5",
+      size: 70,
+      fontSize: ".9em"
     },
     {
       topic:"love",
-      color:"#D375FF"
+      color: "#D375FF",
+      size: 100,
+      fontSize: "1em"
     },
     {
       topic:"netflix",
-      color:"#FF766D"
+      color: "#FF766D",
+      size: 90,
+      fontSize: ".95em"
     },
     {
       topic:"Your tweet",
-      color:"#7BC0FF"
+      color: "#7BC0FF",
+      size: 90,
+      fontSize: ".95em"
     },
     {
       topic:"working out",
-      color:"#FFA620"
+      color: "#FFA620",
+      size: 70,
+      fontSize: ".9em"
     },
     {
       topic:"coffee chat",
-      color:"#FF766D"
+      color: "#FF766D",
+      size: 45,
+      fontSize: ".6em"
     },
     {
       topic:"that thing",
-      color:"#65D72C"
+      color: "#65D72C",
+      size: 45,
+      fontSize: ".6em"
     },
     {
       topic:"music",
-      color:"#BEAFFA"
+      color: "#BEAFFA",
+      size: 100,
+      fontSize: "1em"
     },
     {
       topic:"your reply",
-      color:"#FFA620"
+      color: "#FFA620",
+      size: 90,
+      fontSize: ".95em"
     },
     {
       topic:"you",
-      color:"#FAD824"
+      color: "#FAD824",
+      size: 100,
+      fontSize: "1em"
     },
     {
       topic:"books",
-      color:"#FF84D6"
+      color: "#FF84D6",
+      size: 70,
+      fontSize: ".9em"
     },
     {
       topic:"today",
-      color:"#65D72C"
+      color: "#65D72C",
+      size: 60,
+      fontSize: ".85em"
     }
   ]
-  const sizes = [
-    {
-      bubSize: '40',
-      fontSize: '.5em'
-    },
-    {
-      bubSize: '70',
-      fontSize: '.9em'
-    },
-    {
-      bubSize: '100',
-      fontSize: '1em'
-    }
-  ]
+  // const sizes = [
+  //   {
+  //     bubSize: '40',
+  //     fontSize: '.5em'
+  //   },
+  //   {
+  //     bubSize: '70',
+  //     fontSize: '.9em'
+  //   },
+  //   {
+  //     bubSize: '100',
+  //     fontSize: '1em'
+  //   }
+  // ]
   const bubbles = bubbleTopics.map((obj, i) => {
-    const sizeObj = sizes[Math.floor(Math.random()*sizes.length)];
+    // const sizeObj = sizes[Math.floor(Math.random()*sizes.length)];
     // console.log(sizeObj)
     return (<div 
       className = "bubble"
@@ -173,26 +201,25 @@ const Address = ({ setForm, formData, navigation }) => {
       alignItems: "center",
       justifyContent: "center",
       // border: currentTopic == obj.topic? "4px solid #fff": "4px solid transparent",
-      height: `${sizeObj.bubSize}%`,
-      width: `${sizeObj.bubSize}%`,
-      fontSize: sizeObj.fontSize,
+      height: `${obj.size}%`,
+      width: `${obj.size}%`,
+      fontSize: obj.fontSize,
       // padding: "10px 10px"
       // opacity: currentTopic == obj.topic ? 
       // 1 :  0.5
     }} key = {i} id = {i}>{obj.topic}</div>)
   })
-  // console.log(bubbles)
   const options = {
     size: 120,
     minSize: 50,
     provideProps: true,
-    numCols: 5,
+    numCols: 6,
     gutter: 10,
-    fringeWidth: 300,
+    fringeWidth: 10,
     yRadius:140,
     xRadius: 250,
     cornerRadius: 40,
-    // showGuides: true,
+    showGuides: true,
     compact: false,
     gravitation: 5
   }
