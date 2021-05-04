@@ -11,7 +11,7 @@
     "html2canvas": "1.0.0-rc.7",
     "react": "next",
     "react-alerts-plus": "1.0.0",
-    "react-bubble-ui": "1.1.0",
+    "react-bubble-ui": "github:afsheen-01/React-Bubble-UI",
     "react-dom": "next",
     "react-helmet": "6.1.0",
     "react-hooks-helper": "next",
