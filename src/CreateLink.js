@@ -120,8 +120,8 @@ const Address = ({ setForm, formData, navigation }) => {
     {
       topic:"that thing",
       color: "#65D72C",
-      size: 45,
-      fontSize: ".6em"
+      size: 100,
+      fontSize: ".8em"
     },
     {
       topic:"music",
@@ -132,7 +132,7 @@ const Address = ({ setForm, formData, navigation }) => {
     {
       topic:"your reply",
       color: "#FFA620",
-      size: 90,
+      size: 85,
       fontSize: ".95em"
     },
     {
@@ -150,8 +150,8 @@ const Address = ({ setForm, formData, navigation }) => {
     {
       topic:"today",
       color: "#65D72C",
-      size: 60,
-      fontSize: ".85em"
+      size: 100,
+      fontSize: ".9em"
     }
   ]
   // const sizes = [
@@ -200,26 +200,22 @@ const Address = ({ setForm, formData, navigation }) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      // border: currentTopic == obj.topic? "4px solid #fff": "4px solid transparent",
       height: `${obj.size}%`,
       width: `${obj.size}%`,
       fontSize: obj.fontSize,
-      // padding: "10px 10px"
-      // opacity: currentTopic == obj.topic ? 
-      // 1 :  0.5
     }} key = {i} id = {i}>{obj.topic}</div>)
   })
   const options = {
     size: 120,
     minSize: 50,
     provideProps: true,
-    numCols: 6,
+    numCols: 5,
     gutter: 10,
     fringeWidth: 10,
     yRadius:140,
     xRadius: 250,
     cornerRadius: 40,
-    showGuides: true,
+    showGuides: false,
     compact: false,
     gravitation: 5
   }
