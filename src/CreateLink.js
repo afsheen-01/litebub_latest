@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 import ItemForm from "./ItemForm";
 import firebase from "firebase/app";
@@ -10,11 +10,128 @@ import './bubbles.css'
 const Address = ({ setForm, formData, navigation }) => {
   let [btnState, setBtnState] = useState(true)
   let [currentTopic, settopic] = useState('')
+  const [bubbleTopics, setTopics] = useState([])
+    // {
+  //   topic: "food",
+  //   color: "#A1BCFF",
+  //   // size: 100,
+  //   // fontSize: "1em"
+  // },
+  //   {
+  //     topic: "news",
+  //     color: "#FF84D6",
+  //     // size: 70,
+  //     // fontSize: ".9em"
+  //   },
+  //   {
+  //     topic: "tech",
+  //     color: "#55A3B5",
+  //     // size: 70,
+  //     // fontSize: ".9em"
+  //   },
+  //   {
+  //     topic: "love",
+  //     color: "#D375FF",
+  //     // size: 100,
+  //     // fontSize: "1em"
+  //   },
+  //   {
+  //     topic: "netflix",
+  //     color: "#FF766D",
+  //     // size: 90,
+  //     // fontSize: ".95em"
+  //   },
+  //   {
+  //     topic: "Your tweet",
+  //     color: "#7BC0FF",
+  //     // size: 90,
+  //     // fontSize: ".95em"
+  //   },
+  //   {
+  //     topic: "working out",
+  //     color: "#FFA620",
+  //     // size: 70,
+  //     // fontSize: ".9em"
+  //   },
+  //   {
+  //     topic: "coffee chat",
+  //     color: "#FF766D",
+  //     // size: 45,
+  //     // fontSize: ".6em"
+  //   },
+  //   {
+  //     topic: "that thing",
+  //     color: "#65D72C",
+  //     // size: 45,
+  //     // fontSize: ".6em"
+  //   },
+  //   {
+  //     topic: "music",
+  //     color: "#BEAFFA",
+  //     // size: 100,
+  //     // fontSize: "1em"
+  //   },
+  //   {
+  //     topic: "your reply",
+  //     color: "#FFA620",
+  //     // size: 90,
+  //     // fontSize: ".95em"
+  //   },
+  //   {
+  //     topic: "you",
+  //     color: "#FAD824",
+  //     // size: 100,
+  //     // fontSize: "1em"
+  //   },
+  //   {
+  //     topic: "books",
+  //     color: "#FF84D6",
+  //     // size: 70,
+  //     // fontSize: ".9em"
+  //   },
+  //   {
+  //     topic: "today",
+  //     color: "#65D72C",
+  //     // size: 60,
+  //     // fontSize: ".85em"
+  // }
+
+  const bubSizes = [
+     {
+      name:"big",
+      size: 100, 
+      fontSize: "1em"
+    },
+    {
+      name: "medium",
+      size: 70,
+      fontSize: ".9em"
+    },
+    {
+      name: "small",
+      size: 60,
+      fontSize: ".85em"
+    }
+  ]
+  // console.log(bubSizes);
 // console.log(setForm)
   const goBackAndEmptyInput = () => {
     formData.topic = ""
     navigation.previous()
     }
+  useEffect(() => {
+    firebase
+      .database()
+      .ref("/topics")
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.val()) {
+          let data = Object.values(snapshot.val())
+          // console.log(data)
+          setTopics(data)
+        }
+      })
+  }, [])
   function createRoom() {
     // console.log(formData);
     let val = document.querySelector('.topic-input').value
@@ -36,7 +153,6 @@ const Address = ({ setForm, formData, navigation }) => {
   }
   // console.log(formData)
   const transparentBtn = (btn, cBtn) => {
-    // console.log('in transparentBtn')
     setBtnState(true)
     cBtn.style.visibility = "hidden"
     btn.style.backgroundColor = "transparent"
@@ -65,112 +181,15 @@ const Address = ({ setForm, formData, navigation }) => {
     let btn = document.querySelector('.cbtn');
     let cBtn = document.querySelector('.cl-crossBtn');
     transparentBtn(btn, cBtn)
-    // console.log('in emptInp')
-    // transparentBtn(document.querySelector('.cbtn')) 
   }
-  const bubbleTopics = [
-    {
-      topic:"food",
-      color:"#A1BCFF",
-      size: 100,
-      fontSize: "1em"
-    },
-    {
-      topic:"news",
-      color: "#FF84D6",
-      size: 70,
-      fontSize: ".9em"
-    },
-    {
-      topic:"tech",
-      color: "#55A3B5",
-      size: 70,
-      fontSize: ".9em"
-    },
-    {
-      topic:"love",
-      color: "#D375FF",
-      size: 100,
-      fontSize: "1em"
-    },
-    {
-      topic:"netflix",
-      color: "#FF766D",
-      size: 90,
-      fontSize: ".95em"
-    },
-    {
-      topic:"Your tweet",
-      color: "#7BC0FF",
-      size: 90,
-      fontSize: ".95em"
-    },
-    {
-      topic:"working out",
-      color: "#FFA620",
-      size: 70,
-      fontSize: ".9em"
-    },
-    {
-      topic:"coffee chat",
-      color: "#FF766D",
-      size: 45,
-      fontSize: ".6em"
-    },
-    {
-      topic:"that thing",
-      color: "#65D72C",
-      size: 100,
-      fontSize: ".8em"
-    },
-    {
-      topic:"music",
-      color: "#BEAFFA",
-      size: 100,
-      fontSize: "1em"
-    },
-    {
-      topic:"your reply",
-      color: "#FFA620",
-      size: 85,
-      fontSize: ".95em"
-    },
-    {
-      topic:"you",
-      color: "#FAD824",
-      size: 100,
-      fontSize: "1em"
-    },
-    {
-      topic:"books",
-      color: "#FF84D6",
-      size: 70,
-      fontSize: ".9em"
-    },
-    {
-      topic:"today",
-      color: "#65D72C",
-      size: 100,
-      fontSize: ".9em"
-    }
-  ]
-  // const sizes = [
-  //   {
-  //     bubSize: '40',
-  //     fontSize: '.5em'
-  //   },
-  //   {
-  //     bubSize: '70',
-  //     fontSize: '.9em'
-  //   },
-  //   {
-  //     bubSize: '100',
-  //     fontSize: '1em'
-  //   }
-  // ]
   const bubbles = bubbleTopics.map((obj, i) => {
-    // const sizeObj = sizes[Math.floor(Math.random()*sizes.length)];
-    // console.log(sizeObj)
+    let bubSize = bubSizes.filter(elem => {
+      if(elem.name === obj.size){
+        console.log(elem)
+        return elem
+      }
+    })
+    console.log(bubSize[0])
     return (<div 
       className = "bubble"
     onClick = {() => {
@@ -180,13 +199,13 @@ const Address = ({ setForm, formData, navigation }) => {
       let cBtn = document.querySelector('.cl-crossBtn');
           
           if(currentTopic === obj.topic){
-            console.log("same bubble clicked.")
+            // console.log("same bubble clicked.")
             topicInp.value = ""
             settopic("")
             transparentBtn(btn, cBtn)
             
           } else{
-            console.log("topic value changed")
+            // console.log("topic value changed")
             topicInp.value = obj.topic
             setBtnState(false)
           settopic(obj.topic)
@@ -200,9 +219,9 @@ const Address = ({ setForm, formData, navigation }) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      height: `${obj.size}%`,
-      width: `${obj.size}%`,
-      fontSize: obj.fontSize,
+      height: `${bubSize[0].size}%`,
+      width: `${bubSize[0].size}%`,
+      fontSize: bubSize[0].fontSize,
     }} key = {i} id = {i}>{obj.topic}</div>)
   })
   const options = {
