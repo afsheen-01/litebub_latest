@@ -219,7 +219,7 @@ const Address = ({ setForm, formData, navigation }) => {
     yRadius:140,
     xRadius: 250,
     cornerRadius: 40,
-    showGuides: true,
+    showGuides: false,
     compact: false,
     gravitation: 5
   }
