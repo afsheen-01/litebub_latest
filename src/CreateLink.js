@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 
 import ItemForm from "./ItemForm";
 import firebase from "firebase/app";
@@ -10,11 +10,44 @@ import './bubbles.css'
 const Address = ({ setForm, formData, navigation }) => {
   let [btnState, setBtnState] = useState(true)
   let [currentTopic, settopic] = useState('')
-// console.log(setForm)
+  const [bubbleTopics, setTopics] = useState([])
+
+  // const bubSizes = [
+  //    {
+  //     name:"big",
+  //     size: 98, 
+  //     fontSize: "1em"
+  //   },
+  //   {
+  //     name: "medium",
+  //     size: 70,
+  //     fontSize: ".9em"
+  //   },
+  //   {
+  //     name: "small",
+  //     size: 60,
+  //     fontSize: ".85em"
+  //   }
+  // ]
+  // console.log(bubSizes);
+  // console.log(setForm)
   const goBackAndEmptyInput = () => {
     formData.topic = ""
     navigation.previous()
-    }
+  }
+  useEffect(() => {
+    firebase
+      .database()
+      .ref("/topics")
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.val()) {
+          let data = Object.values(snapshot.val())
+          // console.log(data)
+          setTopics(data)
+        }
+      })
+  }, [])
   function createRoom() {
     // console.log(formData);
     let val = document.querySelector('.topic-input').value
@@ -36,7 +69,6 @@ const Address = ({ setForm, formData, navigation }) => {
   }
   // console.log(formData)
   const transparentBtn = (btn, cBtn) => {
-    // console.log('in transparentBtn')
     setBtnState(true)
     cBtn.style.visibility = "hidden"
     btn.style.backgroundColor = "transparent"
@@ -45,19 +77,19 @@ const Address = ({ setForm, formData, navigation }) => {
   const changeBtnState = (e) => {
     let btn = document.querySelector('.cbtn');
     let cBtn = document.querySelector('.cl-crossBtn');
-      if(e.keyCode > 31 && e.keyCode < 127){
-        settopic(document.querySelector('.topic-input').value)
-        setBtnState(false)
-        cBtn.style.visibility = "visible"
-        btn.style.backgroundColor = "#48A7FF"
-        btn.style.border = "2px solid #48A7FF"
-      }
-      if (e.target.value === ""){
-        settopic('')
-        
-        transparentBtn(btn, cBtn)
-      }
+    if (e.keyCode > 31 && e.keyCode < 127) {
+      settopic(document.querySelector('.topic-input').value)
+      setBtnState(false)
+      cBtn.style.visibility = "visible"
+      btn.style.backgroundColor = "#48A7FF"
+      btn.style.border = "2px solid #48A7FF"
     }
+    if (e.target.value === "") {
+      settopic('')
+
+      transparentBtn(btn, cBtn)
+    }
+  }
   const emptyInp = () => {
     const topicInput = document.querySelector('.topic-input')
     topicInput.value = ""
@@ -65,154 +97,52 @@ const Address = ({ setForm, formData, navigation }) => {
     let btn = document.querySelector('.cbtn');
     let cBtn = document.querySelector('.cl-crossBtn');
     transparentBtn(btn, cBtn)
-    // console.log('in emptInp')
-    // transparentBtn(document.querySelector('.cbtn')) 
   }
-  const bubbleTopics = [
-    {
-      topic:"food",
-      color:"#A1BCFF",
-      size: 100,
-      fontSize: "1em"
-    },
-    {
-      topic:"news",
-      color: "#FF84D6",
-      size: 70,
-      fontSize: ".9em"
-    },
-    {
-      topic:"tech",
-      color: "#55A3B5",
-      size: 70,
-      fontSize: ".9em"
-    },
-    {
-      topic:"love",
-      color: "#D375FF",
-      size: 100,
-      fontSize: "1em"
-    },
-    {
-      topic:"netflix",
-      color: "#FF766D",
-      size: 90,
-      fontSize: ".95em"
-    },
-    {
-      topic:"Your tweet",
-      color: "#7BC0FF",
-      size: 90,
-      fontSize: ".95em"
-    },
-    {
-      topic:"working out",
-      color: "#FFA620",
-      size: 70,
-      fontSize: ".9em"
-    },
-    {
-      topic:"coffee chat",
-      color: "#FF766D",
-      size: 45,
-      fontSize: ".6em"
-    },
-    {
-      topic:"that thing",
-      color: "#65D72C",
-      size: 100,
-      fontSize: ".8em"
-    },
-    {
-      topic:"music",
-      color: "#BEAFFA",
-      size: 100,
-      fontSize: "1em"
-    },
-    {
-      topic:"your reply",
-      color: "#FFA620",
-      size: 85,
-      fontSize: ".95em"
-    },
-    {
-      topic:"you",
-      color: "#FAD824",
-      size: 100,
-      fontSize: "1em"
-    },
-    {
-      topic:"books",
-      color: "#FF84D6",
-      size: 70,
-      fontSize: ".9em"
-    },
-    {
-      topic:"today",
-      color: "#65D72C",
-      size: 100,
-      fontSize: ".9em"
-    }
-  ]
-  // const sizes = [
-  //   {
-  //     bubSize: '40',
-  //     fontSize: '.5em'
-  //   },
-  //   {
-  //     bubSize: '70',
-  //     fontSize: '.9em'
-  //   },
-  //   {
-  //     bubSize: '100',
-  //     fontSize: '1em'
-  //   }
-  // ]
   const bubbles = bubbleTopics.map((obj, i) => {
-    // const sizeObj = sizes[Math.floor(Math.random()*sizes.length)];
-    // console.log(sizeObj)
-    return (<div 
-      className = "bubble"
-    onClick = {() => {
-      const topicInp = document.querySelector('.topic-input')
-      
-      let btn = document.querySelector('.cbtn');
-      let cBtn = document.querySelector('.cl-crossBtn');
-          
-          if(currentTopic === obj.topic){
-            console.log("same bubble clicked.")
-            topicInp.value = ""
-            settopic("")
-            transparentBtn(btn, cBtn)
-            
-          } else{
-            console.log("topic value changed")
-            topicInp.value = obj.topic
-            setBtnState(false)
+    // let bubSize = 
+    return (<div
+      className="bubble"
+      onClick={() => {
+        const topicInp = document.querySelector('.topic-input')
+
+        let btn = document.querySelector('.cbtn');
+        let cBtn = document.querySelector('.cl-crossBtn');
+
+        if (currentTopic === obj.topic) {
+          // console.log("same bubble clicked.")
+          topicInp.value = ""
+          settopic("")
+          transparentBtn(btn, cBtn)
+
+        } else {
+          // console.log("topic value changed")
+          topicInp.value = obj.topic
+          setBtnState(false)
           settopic(obj.topic)
           cBtn.style.visibility = "visible"
           btn.style.backgroundColor = "#48A7FF"
           btn.style.border = "2px solid #48A7FF"
-          }
-    }}
-    style = {{
-      backgroundColor:obj.color,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      height: `${obj.size}%`,
-      width: `${obj.size}%`,
-      fontSize: obj.fontSize,
-    }} key = {i} id = {i}>{obj.topic}</div>)
+        }
+      }}
+      style={{
+        backgroundColor: obj.color,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow: currentTopic === obj.topic ? "0 0 0 4px #fff" : "none",
+        height: obj.size == "big" ? `${100}%` : obj.size == "medium" ? `${80}%` : `${65}%`,
+        width: obj.size == "big" ? `${100}%` : obj.size == "medium" ? `${80}%` : `${65}%`,
+        fontSize: obj.size == "big" ? "1em" : obj.size == "medium" ? "0.9em" : "0.85em",
+      }} key={i} id={i}>{obj.topic}</div>)
   })
   const options = {
-    size: 120,
+    size: 140,
     minSize: 50,
     provideProps: true,
     numCols: 5,
-    gutter: 10,
+    gutter: 0,
     fringeWidth: 10,
-    yRadius:140,
+    yRadius: 140,
     xRadius: 250,
     cornerRadius: 40,
     showGuides: false,
