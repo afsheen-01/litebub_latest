@@ -17,7 +17,8 @@ height: 100%
 	height: 90%;  */
 	border-radius: 50%; /* rounded border forms a circle   */
 	/* border: 4px solid transparent */
+	/* -moz-outline-radius: 50%; */
 }
 .bubble:hover{
-	border: 4px solid #fff
+	box-shadow: 0 0 0 4px #fff !important;
 }
