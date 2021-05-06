@@ -126,7 +126,7 @@ const Address = ({ setForm, formData, navigation }) => {
     yRadius: 140,
     xRadius: 250,
     cornerRadius: 40,
-    showGuides: false,
+    showGuides: true,
     compact: false,
     gravitation: 5
   }
