@@ -11,108 +11,24 @@ const Address = ({ setForm, formData, navigation }) => {
   let [btnState, setBtnState] = useState(true)
   let [currentTopic, settopic] = useState('')
   const [bubbleTopics, setTopics] = useState([])
-    // {
-  //   topic: "food",
-  //   color: "#A1BCFF",
-  //   // size: 100,
-  //   // fontSize: "1em"
-  // },
-  //   {
-  //     topic: "news",
-  //     color: "#FF84D6",
-  //     // size: 70,
-  //     // fontSize: ".9em"
-  //   },
-  //   {
-  //     topic: "tech",
-  //     color: "#55A3B5",
-  //     // size: 70,
-  //     // fontSize: ".9em"
-  //   },
-  //   {
-  //     topic: "love",
-  //     color: "#D375FF",
-  //     // size: 100,
-  //     // fontSize: "1em"
-  //   },
-  //   {
-  //     topic: "netflix",
-  //     color: "#FF766D",
-  //     // size: 90,
-  //     // fontSize: ".95em"
-  //   },
-  //   {
-  //     topic: "Your tweet",
-  //     color: "#7BC0FF",
-  //     // size: 90,
-  //     // fontSize: ".95em"
-  //   },
-  //   {
-  //     topic: "working out",
-  //     color: "#FFA620",
-  //     // size: 70,
-  //     // fontSize: ".9em"
-  //   },
-  //   {
-  //     topic: "coffee chat",
-  //     color: "#FF766D",
-  //     // size: 45,
-  //     // fontSize: ".6em"
-  //   },
-  //   {
-  //     topic: "that thing",
-  //     color: "#65D72C",
-  //     // size: 45,
-  //     // fontSize: ".6em"
-  //   },
-  //   {
-  //     topic: "music",
-  //     color: "#BEAFFA",
-  //     // size: 100,
-  //     // fontSize: "1em"
-  //   },
-  //   {
-  //     topic: "your reply",
-  //     color: "#FFA620",
-  //     // size: 90,
-  //     // fontSize: ".95em"
-  //   },
-  //   {
-  //     topic: "you",
-  //     color: "#FAD824",
-  //     // size: 100,
-  //     // fontSize: "1em"
-  //   },
-  //   {
-  //     topic: "books",
-  //     color: "#FF84D6",
-  //     // size: 70,
-  //     // fontSize: ".9em"
-  //   },
-  //   {
-  //     topic: "today",
-  //     color: "#65D72C",
-  //     // size: 60,
-  //     // fontSize: ".85em"
-  // }
 
-  const bubSizes = [
-     {
-      name:"big",
-      size: 100, 
-      fontSize: "1em"
-    },
-    {
-      name: "medium",
-      size: 70,
-      fontSize: ".9em"
-    },
-    {
-      name: "small",
-      size: 60,
-      fontSize: ".85em"
-    }
-  ]
+  // const bubSizes = [
+  //    {
+  //     name:"big",
+  //     size: 98, 
+  //     fontSize: "1em"
+  //   },
+  //   {
+  //     name: "medium",
+  //     size: 70,
+  //     fontSize: ".9em"
+  //   },
+  //   {
+  //     name: "small",
+  //     size: 60,
+  //     fontSize: ".85em"
+  //   }
+  // ]
   // console.log(bubSizes);
 // console.log(setForm)
   const goBackAndEmptyInput = () => {
@@ -183,13 +99,7 @@ const Address = ({ setForm, formData, navigation }) => {
     transparentBtn(btn, cBtn)
   }
   const bubbles = bubbleTopics.map((obj, i) => {
-    let bubSize = bubSizes.filter(elem => {
-      if(elem.name === obj.size){
-        console.log(elem)
-        return elem
-      }
-    })
-    console.log(bubSize[0])
+    // let bubSize = 
     return (<div 
       className = "bubble"
     onClick = {() => {
@@ -219,17 +129,18 @@ const Address = ({ setForm, formData, navigation }) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      height: `${bubSize[0].size}%`,
-      width: `${bubSize[0].size}%`,
-      fontSize: bubSize[0].fontSize,
+      boxShadow:currentTopic === obj.topic? "0 0 0 4px #fff": "none",
+      height: obj.size == "big" ? `${100}%` : obj.size == "medium" ? `${80}%` : `${65}%`,
+      width: obj.size == "big" ? `${100}%` : obj.size == "medium" ? `${80}%` : `${65}%` ,
+      fontSize: obj.size == "big" ? "1em" : obj.size == "medium" ? "0.9em" : "0.85em",
     }} key = {i} id = {i}>{obj.topic}</div>)
   })
   const options = {
-    size: 120,
+    size: 140,
     minSize: 50,
     provideProps: true,
     numCols: 5,
-    gutter: 10,
+    gutter: 0,
     fringeWidth: 10,
     yRadius:140,
     xRadius: 250,
