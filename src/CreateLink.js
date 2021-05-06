@@ -12,25 +12,6 @@ const Address = ({ setForm, formData, navigation }) => {
   let [currentTopic, settopic] = useState('')
   const [bubbleTopics, setTopics] = useState([])
 
-  // const bubSizes = [
-  //    {
-  //     name:"big",
-  //     size: 98, 
-  //     fontSize: "1em"
-  //   },
-  //   {
-  //     name: "medium",
-  //     size: 70,
-  //     fontSize: ".9em"
-  //   },
-  //   {
-  //     name: "small",
-  //     size: 60,
-  //     fontSize: ".85em"
-  //   }
-  // ]
-  // console.log(bubSizes);
-  // console.log(setForm)
   const goBackAndEmptyInput = () => {
     formData.topic = ""
     navigation.previous()
