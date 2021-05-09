@@ -1,5 +1,8 @@
 {
   "vetur.format.scriptInitialIndent": true,
   "editor.foldingStrategy": "indentation",
-  "editor.insertSpaces": false
+  "editor.insertSpaces": false,
+  "editor.wrappingIndent": "indent",
+  "html.format.indentInnerHtml": true,
+  "html.format.indentHandlebars": true
 }

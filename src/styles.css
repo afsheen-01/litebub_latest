@@ -44,8 +44,9 @@ display:grid;
 .center-it-cl{
   /* border: 2px solid #000; */
   width: 70%;
-  height: 67%;
+  height: 100%;
   /* align-self: start; */
+  /* justify-self: center; */
 }
 .cbtn{
 /* height: 2.3em; */
@@ -113,7 +114,7 @@ width: 75.5%;
 .corner{
   display: flex;
   align-items: flex-end;
-  /* border: 2px solid #000; */
+  /* border: 2px solid #000;  */
 }
 .header{
   font-size: 2em;
