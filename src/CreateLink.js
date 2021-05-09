@@ -140,9 +140,8 @@ const Address = ({ setForm, formData, navigation }) => {
       <div className="corner">
         {/*icon here */}
         
-        <svg
+        {/* <svg
           className="prevIcon btnh"
-          onClick={goBackAndEmptyInput}
           style={{ margin: "0 18px" }}
             width="28"
             height="33"
@@ -176,9 +175,10 @@ const Address = ({ setForm, formData, navigation }) => {
                     stroke-width="4.6751"
                     stroke-linecap="round"
                   />
-                </svg>
+                </svg> */}
         
-        <h2 className="header2">litebub</h2>
+        <h2 className="header2 btnh"
+          onClick={goBackAndEmptyInput}>litebub</h2>
       </div>
       <div 
       className="form" 
