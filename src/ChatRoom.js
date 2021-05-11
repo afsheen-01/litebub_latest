@@ -23,7 +23,6 @@ import AvatarTen from "./avatars/avatar-10.js";
 import AvatarEleven from "./avatars/avatar-11.js";
 import AvatarTwelve from "./avatars/avatar-12.js";
 
-// console.log(this.props.formData);
 const cookies = new Cookies();
 
 const noNameGiven = () => {
@@ -88,7 +87,8 @@ export default function ChatRoom() {
           //console.log(snapshot.val());
           var arr = Object.values(snapshot.val());
           // console.log(arr);
-          let obj = arr[Math.floor(Math.random() * arr.length)]
+          let obj = arr[new URLSearchParams(
+            history.location.search).get('chatBg')]
           // console.log(obj);
           setbgs(obj);
         }

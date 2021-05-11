@@ -127,15 +127,15 @@ const Contact = ({ formData, navigation }) => {
         if (snapshot.val()) {
           //console.log(snapshot.val());
           var arr = Object.values(snapshot.val());
-          // console.log(arr);
+        //   console.log(arr);
           let obj = arr[Math.floor(Math.random() * arr.length)]
-          // console.log(obj.url);
+        //   console.log(obj);
           setBgs(arr);
         }
       });
 	function joinRoom() {
 		formData.bgGif = (Gifs[chatBg].url)
-		history.push("/room/" + formData.roomId + `?avatarNum=${chatAvatar}&avatarColor=${chatColor}`);
+		history.push("/room/" + formData.roomId + `?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${chatBg}`);
 	}
 	return (
 		<div className="copyLink-div" style={{ zIndex: 10 }}>
@@ -208,7 +208,7 @@ const Contact = ({ formData, navigation }) => {
 							backgroundImage: `url(${Gifs[chatBg].url})`,
 							backgroundPosition: "center",
 							backgroundSize: "cover",
-							height: 320,
+							height: 325,
 							width: 290,
 							display: "grid",
 							placeItems: "center",
@@ -415,7 +415,8 @@ const Contact = ({ formData, navigation }) => {
 								borderRadius: "50%"
 							}}
 							onClick={() => {
-								if (chatBg == 6) {
+								if (chatBg+1 >= Gifs.length) {
+									// console.log("if of chatBg gif btn")
 									setChatBg(0);
 								} else {
 									setChatBg(chatBg + 1);

@@ -45,8 +45,6 @@ const MultiStepForm = ({ images }) => {
       return <CreateLink {...props} />;
     case "copy":
       return <CopyLink {...props} />;
-      // case "chat":
-      // return <ChatRoom {...props} />;
     default:
       return null;
   }
