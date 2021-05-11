@@ -180,7 +180,10 @@ const Contact = ({ formData, navigation }) => {
 				<h2 className="header2">litebub</h2>
 			</div>
 			<div className="form">
-				<p className="header" style={{ zIndex: 10 }}>
+				<p className="header" style={{ 
+						zIndex: 10
+					}}
+				>
 					Here's the link!
 					<span
 						style={{
@@ -205,7 +208,7 @@ const Contact = ({ formData, navigation }) => {
 							backgroundImage: `url(${Gifs[chatBg].url})`,
 							backgroundPosition: "center",
 							backgroundSize: "cover",
-							height: 330,
+							height: 320,
 							width: 290,
 							display: "grid",
 							placeItems: "center",

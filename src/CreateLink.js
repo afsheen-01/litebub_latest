@@ -123,7 +123,7 @@ const Address = ({ setForm, formData, navigation }) => {
     minSize: 50,
     provideProps: true,
     numCols: 6,
-    gutter: 5,
+    gutter: 0,
     fringeWidth: 0,
     yRadius: 50,
     xRadius: 400,
@@ -136,55 +136,25 @@ const Address = ({ setForm, formData, navigation }) => {
   return (
     <div 
     // id = "main"
-    class=  "copyLink-div">
-      <div className="corner">
+      class="copyLink-div" id="createLink-div">
+      <div 
+        // className="corner"
+        style={{
+          marginTop: "1.5em",
+          width: "19%"
+        }}
+        
+      >
         {/*icon here */}
-        
-        {/* <svg
-          className="prevIcon btnh"
-          style={{ margin: "0 18px" }}
-            width="28"
-            height="33"
-            viewBox="0 0 30 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-                  <path
-                    d="M3.31323 14.7004L15.0138 3L26.7142 14.7004"
-                    stroke="white"
-                    stroke-width="4.6751"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M3.31323 14.7004L15.0138 3L26.7142 14.7004"
-                    stroke="white"
-                    stroke-width="4.6751"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M15.3198 3.30649L15.3198 31.7791"
-                    stroke="white"
-                    stroke-width="4.6751"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    d="M15.3198 3.30649L15.3198 31.7791"
-                    stroke="white"
-                    stroke-width="4.6751"
-                    stroke-linecap="round"
-                  />
-                </svg> */}
-        
         <h2 className="header2 btnh"
           onClick={goBackAndEmptyInput}>litebub</h2>
       </div>
       <div 
       className="form" 
-      style = {{height: "100%",  
-      // border:"1px solid #000"
-    }}
+      style = {{
+        // height: "100%",  
+        // border:"1px solid #000"
+      }}
       >
         <div className = "center-it-cl">
           <div className="chatAbout">what's the chat about?
@@ -203,9 +173,9 @@ const Address = ({ setForm, formData, navigation }) => {
                 border: "none",
                 borderRadius: "10px" ,
                 height: "2.7em",
-                width: "auto",
+                // width: "30%",
                 paddingLeft: "23px",
-                margin: "14px 0 0 ",
+                margin: "14px 0 0 2em",
                 paddingTop: 0,
                 paddingRight:0
               }}       
@@ -230,7 +200,6 @@ const Address = ({ setForm, formData, navigation }) => {
               marginTop: 18
             }}
             onClick={createRoom}>
-            {/* <Icon> */}
             <svg width="30" height="21" viewBox="3.5 0 30 26.89" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0.167294 25.1068L1.7813 26.7208C1.8926 26.8321 2.0387 26.888 2.18481 26.888C2.33091 26.888 2.47702 26.8321 2.58831 26.7208L7.83327 21.4764C7.83384 21.4758 7.83499 21.4752 7.83556 21.4747C7.83613 21.4741 7.83613 21.473 7.83727 21.4718L18.7313 10.5784C18.8386 10.4711 18.8985 10.3261 18.8985 10.1749C18.8985 10.0236 18.8386 9.87811 18.7313 9.77139L17.1161 8.15681C16.893 7.93365 16.5323 7.93365 16.3091 8.15681L5.4134 19.0531C5.4134 19.0537 5.4134 19.0537 5.4134 19.0537C5.41283 19.0537 5.41283 19.0542 5.41283 19.0542L4.20346 20.263C4.20346 20.2636 4.20346 20.2636 4.20346 20.2636C4.20289 20.2636 4.20289 20.2642 4.20289 20.2642L0.167864 24.2992C-0.0558598 24.5223 -0.0558595 24.8836 0.167294 25.1068ZM16.7132 9.36788L17.5208 10.1755L7.43148 20.2642L6.62334 19.4572L16.7132 9.36788ZM5.81633 20.2647L6.62391 21.0712L6.21983 21.4752L5.41283 20.6677L5.81633 20.2647ZM4.60582 21.4752L5.41283 22.2823L2.18481 25.5103L1.3778 24.7033L4.60582 21.4752Z" fill="white"/>
               <path d="M6.27819 9.1316C6.27819 9.44664 6.53387 9.70232 6.84891 9.70232C7.16395 9.70232 7.41964 9.44664 7.41964 9.1316C7.41964 7.87258 8.44352 6.8487 9.70254 6.8487C10.0176 6.8487 10.2733 6.59301 10.2733 6.27797C10.2733 5.96293 10.0176 5.70725 9.70254 5.70725C8.44352 5.70725 7.41964 4.68337 7.41964 3.42435C7.41964 3.10931 7.16395 2.85362 6.84891 2.85362C6.53387 2.85362 6.27819 3.10931 6.27819 3.42435C6.27819 4.68337 5.25431 5.70725 3.99529 5.70725C3.68025 5.70725 3.42456 5.96293 3.42456 6.27797C3.42456 6.59301 3.68025 6.8487 3.99529 6.8487C5.25431 6.8487 6.27819 7.87258 6.27819 9.1316ZM6.84891 5.31516C7.10231 5.6964 7.43048 6.024 7.81172 6.27797C7.43048 6.53138 7.10288 6.85954 6.84891 7.24079C6.59551 6.85954 6.26734 6.53195 5.8861 6.27797C6.26734 6.024 6.59551 5.6964 6.84891 5.31516Z" fill="white"/>

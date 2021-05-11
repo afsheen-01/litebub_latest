@@ -1252,29 +1252,36 @@ export default function ChatRoom() {
             }
         />
       <svg 
-      className = "nameCrossBtn"
-      style = {{
-        visibility: "hidden",
-        margin: "0 15px ",
-        // border: "1px solid #000",
-      }}
-      onClick = {() => {
-        const userInput =  document.querySelector('.userName-input')
-        userInput.value = ""
-        setUserNameText(userInput.value)
-        userInput.focus()
-        hideDisplayBtns(userInput.value)
-        // setChatCredential();
-        setAvatar(chatAvatar++)
-        renderAvatar(chatAvatar)
-        console.log(chatAvatar)
-      }}
-      width="36"
-      height="30"
-      viewBox="0 0 36 36" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M34.1549 1.95906C32.8146 0.618783 30.6414 0.618963 29.3009 1.95946L17.9789 13.2815L6.87398 2.17652C5.5337 0.836241 3.36051 0.836421 2.02002 2.17692C0.67952 3.51741 0.67934 5.69061 2.01961 7.03089L13.1246 18.1358L1.80445 29.456C0.463951 30.7965 0.463772 32.9697 1.80404 34.3099C3.14432 35.6502 5.31751 35.65 6.65801 34.3095L17.9781 22.9894L29.082 34.0933C30.4223 35.4336 32.5955 35.4334 33.936 34.0929C35.2764 32.7524 35.2766 30.5792 33.9364 29.2389L22.8325 18.135L34.1545 6.81303C35.495 5.47253 35.4952 3.29933 34.1549 1.95906Z" fill="black" fill-opacity="0.12"/>
+        className = "nameCrossBtn"
+        style = {{
+          visibility: "hidden",
+          margin: "0 15px ",
+          // border: "1px solid #000",
+        }}
+        onClick={() => {
+          const userInput = document.querySelector('.userName-input')
+          userInput.value = ""
+          setUserNameText(userInput.value)
+          userInput.focus()
+          hideDisplayBtns(userInput.value)
+          // setChatCredential();
+          if (chatAvatar > 11) {
+            setAvatar(0)
+          } else {
+            setAvatar(chatAvatar + 1)
+          }
+          //setAvatar(chatAvatar > 11 ? 0 : chatAvatar + 1)
+          setColor(colorArr[Math.floor(Math.random() * colorArr.length)])
+          //console.log(chatColor, colorArr[idx])
+          renderAvatar(chatAvatar)
+          console.log(chatAvatar)
+        }}
+        width="36"
+        height="30"
+        viewBox="0 0 36 36" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M34.1549 1.95906C32.8146 0.618783 30.6414 0.618963 29.3009 1.95946L17.9789 13.2815L6.87398 2.17652C5.5337 0.836241 3.36051 0.836421 2.02002 2.17692C0.67952 3.51741 0.67934 5.69061 2.01961 7.03089L13.1246 18.1358L1.80445 29.456C0.463951 30.7965 0.463772 32.9697 1.80404 34.3099C3.14432 35.6502 5.31751 35.65 6.65801 34.3095L17.9781 22.9894L29.082 34.0933C30.4223 35.4336 32.5955 35.4334 33.936 34.0929C35.2764 32.7524 35.2766 30.5792 33.9364 29.2389L22.8325 18.135L34.1545 6.81303C35.495 5.47253 35.4952 3.29933 34.1549 1.95906Z" fill="black" fill-opacity="0.12"/>
       </svg>
       </div>
 
@@ -1282,10 +1289,10 @@ export default function ChatRoom() {
               <div 
               style = {{
                 // border: "1px solid #000",
-                marginTop: 15,
+                // marginTop: 15,
                 height: "37%"
               }}>
-              <p
+              <span
               style = {{
                 fontWeight:"400",
                 fontSize: "1.1em",
@@ -1293,11 +1300,13 @@ export default function ChatRoom() {
                 // border: "1px solid #000",
                 textAlign: "center",
                 width: "70%",
+                display: "block",
+                marginBottom: 10
               }}>
                 joining as:
                  {/* <br /> */}
                 
-                </p>
+                </span>
                 <div style={{
                    color: "#000",
                   textAlign: "left",
@@ -1305,11 +1314,11 @@ export default function ChatRoom() {
                   //  border: "1px solid #000",
                   width: "13em",
                   float:"right",
-                  marginBottom: "17px",
+                  marginBottom: 10,
                   display: "flex",
                   alignItems: "center",
                   position: "relative",
-                  bottom: ".5em"
+                  // bottom: ".5em"
                }}>
                  <span className = "avatarSpace"
                  style = {{

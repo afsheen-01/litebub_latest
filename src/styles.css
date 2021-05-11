@@ -30,7 +30,10 @@
 display:grid;
 }
 /* createLink.js */
-
+#createLink-div{
+  /* margin-top: 1em; */
+  /* border: 2px solid #000 */
+}
 .prevIcon {
   /* align-self: end; */
   /* border: 3px solid #000; */
@@ -43,10 +46,16 @@ display:grid;
 }
 .center-it-cl{
   /* border: 2px solid #000; */
-  width: 70%;
+  width: 100%;
   height: 100%;
-  /* align-self: start; */
-  /* justify-self: center; */
+  align-self:  
+
+
+  center;
+  justify-self: center;
+}
+.center-it-cl div{
+  /* border: 3px solid #000 */
 }
 .cbtn{
 /* height: 2.3em; */
@@ -64,10 +73,10 @@ vertical-align: middle; */
 }
 .cl-inputSec{
 /* border: 2px solid #000; */
-width: 75.5%;
+width: 100%;
   display: flex;
   align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: center;
   justify-self:center;
   /* flex-direction: row */
 }
@@ -103,17 +112,18 @@ width: 75.5%;
 }
 /* copyLink.js */
 .copyLink-div{
-  width: inherit;
-  height: 80%;
-  margin-top: 2em;
+  width: 100%;
+  height: 100%;
+  /* margin-top: 2em; */
   /* border: 1px solid #000; */
-  transform: translateX(2.5%);
-  justify-self: center;
-  align-self: center;
+  transform: translateX(4.1%);
+  /* justify-self: center;
+  align-self: center; */
 }
 .corner{
   display: flex;
   align-items: flex-end;
+  /* position: absolute; */
   /* border: 2px solid #000;  */
 }
 .header{
@@ -143,6 +153,8 @@ background-color: transparent;
 .form{
 display: grid;
 place-items: center;
+/* height: 99%;
+width: 99%; */
 /* border: 2px solid #fff; */
 }
 #url-preview{
@@ -192,6 +204,7 @@ z-index: 10
   font-size: 1.2em;
   vertical-align: middle;
   line-height: 1.5em;
+  /* border: 1px solid #000; */
   /* text-align: center; */
 }
 #input-area {
@@ -272,11 +285,11 @@ z-index: 10
 }
 #new-user {
   width: 330px;
-  height: 56%;
+  height: 57%;
   /* height: 300px; */
   /* max-height: 60vh; */
   background-color: white;
-  border-radius: 55px;
+  border-radius: 70px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -314,7 +327,7 @@ z-index: 10
   background-size: cover;
   height: 110px;
   width: 100%;
-  border-radius: 55px 55px 0px 0px;
+  border-radius: 70px 70px 0px 0px;
   padding: 20px;
   text-align: center;
 }
