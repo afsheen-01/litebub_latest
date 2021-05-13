@@ -216,7 +216,7 @@ const Address = ({ setForm, formData, navigation }) => {
             >Create Link</span>
           </button>
         </div>
-        <BubbleUI props={options} className = "bubbleUI">
+        <BubbleUI options={options} className = "bubbleUI">
           {bubbles}
         </BubbleUI>
       </div>
