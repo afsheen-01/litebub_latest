@@ -164,9 +164,6 @@ export default function ChatRoom() {
     var cavatar = cookies.get("chatAvatar");
     setColor(Ccolor);
     setAvatar(cavatar);
-    // console.log(Ccolor)
-    // console.log(cavatar)
-    // console.log("in getCredential")
   }
   let colorArr = [
     "#FF766D",
@@ -199,7 +196,7 @@ export default function ChatRoom() {
     if (!chatColor) {
       
       setColor(color);
-      console.log(color)
+      // console.log(color)
     }
     if (!chatAvatar) {
       
@@ -353,7 +350,7 @@ export default function ChatRoom() {
       cookies.set("user", userNameText, { path: "/" });
       cookies.set("chatColor", chatColor, { path: "/" });
       cookies.set("chatAvatar", chatAvatar, { path: "/" });
-      console.log(cookies.cookies)
+      // console.log(cookies.cookies)
       
       var updates = {};
       updates["/rooms/" + id + "/participantCount"] = participants + 1;
@@ -1274,7 +1271,7 @@ export default function ChatRoom() {
           setColor(colorArr[Math.floor(Math.random() * colorArr.length)])
           //console.log(chatColor, colorArr[idx])
           renderAvatar(chatAvatar)
-          console.log(chatAvatar)
+          // console.log(chatAvatar)
         }}
         width="36"
         height="30"
@@ -1300,6 +1297,7 @@ export default function ChatRoom() {
                 // border: "1px solid #000",
                 textAlign: "center",
                 width: "70%",
+                height: "30%",
                 display: "block",
                 marginBottom: 10
               }}>
