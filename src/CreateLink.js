@@ -140,7 +140,7 @@ const Address = ({ setForm, formData, navigation }) => {
       <div 
         // className="corner"
         style={{
-          marginTop: "1.5em",
+          marginTop: "1.7em",
           width: "19%"
         }}
         
