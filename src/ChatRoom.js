@@ -1297,8 +1297,9 @@ export default function ChatRoom() {
                 // border: "1px solid #000",
                 textAlign: "center",
                 width: "70%",
-                height: "30%",
+                // height: "30%",
                 display: "block",
+                marginTop: 10,
                 marginBottom: 10
               }}>
                 joining as:
