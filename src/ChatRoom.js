@@ -1116,7 +1116,7 @@ export default function ChatRoom() {
         <div>
           <Helmet titleTemplate="%s">
             <meta charSet="utf-8" />
-            <title>{str}</title>
+            <title>Litebub</title>
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:site" content="LitBub" />
             <meta
