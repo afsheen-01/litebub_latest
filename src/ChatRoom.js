@@ -537,7 +537,7 @@ export default function ChatRoom() {
 
   function copyRoomID() {
     // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://litebub.netlify.app/room/" + id);
+    copyToClipboard("https://82ksv.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
@@ -1103,13 +1103,7 @@ export default function ChatRoom() {
       let str = ""
       document.addEventListener('visibilitychange',() => {
         console.log("visibility changed"+document.visibilityState)
-        if (document.visibilityState === "hidden"){
-          str = "new msg Litebub"
-          
-        } else{
-          str = "Litebub"
-        }
-        console.log(str)
+        str = document.visibilityState === "hidden" ? "new msg Litebub" : "Litebub"
         document.title = str;
       })
       return (

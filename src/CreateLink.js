@@ -85,8 +85,9 @@ const Address = ({ setForm, formData, navigation }) => {
     return
   }
   const bubbles = bubbleTopics.map((obj, i) => {
-    
-      return (
+
+    return (
+      <>
         <div
           className="bubble"
           onClick={() => {
@@ -125,7 +126,10 @@ const Address = ({ setForm, formData, navigation }) => {
           }} key={i} id={i}>
           {/* {obj.breakLine?"\n":null} */}
           {obj.topic.replace(" ", "\n")}
-        </div>) 
+        </div>
+        <br />
+        {/* { i % 3 == 0 ? <br /> : null} */}
+        </>) 
   })
   const options = {
     size: 0, 

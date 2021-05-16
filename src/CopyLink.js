@@ -100,7 +100,7 @@ const Contact = ({ formData, navigation }) => {
 	var roomID = formData.roomId;
 	function copyRoomID() {
 		// console.log("https://hkwft.csb.app/room/" + roomID);
-		copyToClipboard("https://litebub.netlify.app/room/" + roomID);
+		copyToClipboard("https://82ksv.csb.app/room/" + roomID);
 
 		html2canvas(document.getElementById("url-preview"), {
 			allowTaint: true,
