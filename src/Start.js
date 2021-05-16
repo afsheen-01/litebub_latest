@@ -2,8 +2,9 @@ import React from "react";
 
 const Names = ({ setForm, formData, navigation, currentImage, sideBubb }) => {
   const { next } = navigation;
-
-  return (
+// console.log(window)
+// console.log(document.visibilityState)
+return (
     <div>
       <div className="center-it">
         <div

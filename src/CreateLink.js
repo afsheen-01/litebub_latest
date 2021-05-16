@@ -81,54 +81,64 @@ const Address = ({ setForm, formData, navigation }) => {
     let cBtn = document.querySelector('.cl-crossBtn');
     transparentBtn(btn, cBtn)
   }
+  const fnMakeBubble = makeBub => {
+    return
+  }
   const bubbles = bubbleTopics.map((obj, i) => {
-    // let bubSize = 
-    return (<div
-      className="bubble"
-      onClick={() => {
-        const topicInp = document.querySelector('.topic-input')
+    
+      return (
+        <div
+          className="bubble"
+          onClick={() => {
+            const topicInp = document.querySelector('.topic-input')
 
-        let btn = document.querySelector('.cbtn');
-        let cBtn = document.querySelector('.cl-crossBtn');
+            let btn = document.querySelector('.cbtn');
+            let cBtn = document.querySelector('.cl-crossBtn');
 
-        if (currentTopic === obj.topic) {
-          // console.log("same bubble clicked.")
-          topicInp.value = ""
-          settopic("")
-          transparentBtn(btn, cBtn)
+            if (currentTopic === obj.topic) {
+              // console.log("same bubble clicked.")
+              topicInp.value = ""
+              settopic("")
+              transparentBtn(btn, cBtn)
 
-        } else {
-          // console.log("topic value changed")
-          topicInp.value = obj.topic
-          setBtnState(false)
-          settopic(obj.topic)
-          cBtn.style.visibility = "visible"
-          btn.style.backgroundColor = "#48A7FF"
-          btn.style.border = "2px solid #48A7FF"
-        }
-      }}
-      style={{
-        backgroundColor: obj.color,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        boxShadow: currentTopic === obj.topic ? "0 0 0 4px #fff" : "none",
-        height: obj.size == "big" ? `${100}%` : obj.size == "medium" ? `${80}%` : `${65}%`,
-        width: obj.size == "big" ? `${100}%` : obj.size == "medium" ? `${80}%` : `${65}%`,
-        fontSize: obj.size == "big" ? "1em" : obj.size == "medium" ? "0.9em" : "0.85em",
-      }} key={i} id={i}>{obj.topic.replace(" ","\n")}</div>)
+            } else {
+              // console.log("topic value changed")
+              topicInp.value = obj.topic
+              setBtnState(false)
+              settopic(obj.topic)
+              cBtn.style.visibility = "visible"
+              btn.style.backgroundColor = "#48A7FF"
+              btn.style.border = "2px solid #48A7FF"
+            }
+          }}
+          style={{
+            backgroundColor: obj.color,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: currentTopic === obj.topic ? "0 0 0 4px #fff" : "none",
+            // height: obj.size == "big" ? `${30}%` : obj.size == "medium" ? `${20}%` : `${10}%`,
+            // width: obj.size == "big" ? `${70}%` : obj.size == "medium" ? `${20}%` : `${10}%`,
+            fontSize: obj.size == "big" ? "1em" : obj.size == "medium" ? "0.9em" : "0.85em",
+            padding: obj.size == "big" ? `${10}%` : obj.size == "medium" ? `${7}%` : `${5}%`,
+            margin: obj.size == "big" ? `${3}%` : obj.size == "medium" ? `${2}%` : `${1}%`
+          }} key={i} id={i}>
+          {/* {obj.breakLine?"\n":null} */}
+          {obj.topic.replace(" ", "\n")}
+        </div>) 
   })
   const options = {
-    size: 140,
-    minSize: 50,
+    size: 0, 
+    //block size
+    minSize: 0,
     provideProps: true,
-    numCols: 6,
-    gutter: 0,
+    numCols: 6, //number of columns
+    gutter: 0, //used to set margin
     fringeWidth: 0,
     yRadius: 50,
     xRadius: 400,
     cornerRadius: 40,
-    showGuides: false,
+    showGuides: true,
     compact: false,
     gravitation: 5
   }
@@ -216,9 +226,12 @@ const Address = ({ setForm, formData, navigation }) => {
             >Create Link</span>
           </button>
         </div>
-        <BubbleUI options={options} className = "bubbleUI">
+        {/* <BubbleUI className = "bubbleUI"> */}
+        <div class = "bubbleUI">
           {bubbles}
-        </BubbleUI>
+          {console.log(bubbles)}
+          </div>
+        {/* </BubbleUI> */}
       </div>
     </div>
   );

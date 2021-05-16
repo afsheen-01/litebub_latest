@@ -432,7 +432,7 @@ export default function ChatRoom() {
             "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
           )
           .update({
-            likeColor: item.prevlikeColor ? item.prevlikeColor : "#fff",
+            likeColor: item.prevlikeColor ? item.prevlikeColor : "transparent",
             likes: item.likes - 1
           });
 
@@ -810,7 +810,7 @@ export default function ChatRoom() {
                           className="btnTContainer"
                         >
                           <svg
-                            classNsme="btnT"
+                            className="btnT"
                             width="25"
                             height="27"
                             viewBox="0 0 25 27"
@@ -888,10 +888,10 @@ export default function ChatRoom() {
                                       width="18"
                                       height="17"
                                       viewBox="0 0 20 19"
-                                      fill=
-                                      {
-                                        item.likeColor == ""? "none": item.likeColor
-                                      }
+                                      style={{
+                                        fill: item.likeColor == "" ? "none" : item.likeColor
+                                        
+                                      }}
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
@@ -1099,11 +1099,24 @@ export default function ChatRoom() {
         </div>
       );
     } else {
+      //variable storing different string value for change in visibility of document.
+      let str = ""
+      document.addEventListener('visibilitychange',() => {
+        console.log("visibility changed"+document.visibilityState)
+        if (document.visibilityState === "hidden"){
+          str = "new msg Litebub"
+          
+        } else{
+          str = "Litebub"
+        }
+        console.log(str)
+        document.title = str;
+      })
       return (
         <div>
           <Helmet titleTemplate="%s">
             <meta charSet="utf-8" />
-            <title>litebub chatting about {topic}</title>
+            <title>{str}</title>
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:site" content="LitBub" />
             <meta
