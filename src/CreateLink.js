@@ -118,16 +118,18 @@ const Address = ({ setForm, formData, navigation }) => {
             alignItems: "center",
             justifyContent: "center",
             boxShadow: currentTopic === obj.topic ? "0 0 0 4px #fff" : "none",
-            // height: obj.size == "big" ? `${30}%` : obj.size == "medium" ? `${20}%` : `${10}%`,
-            // width: obj.size == "big" ? `${70}%` : obj.size == "medium" ? `${20}%` : `${10}%`,
+            height: obj.size == "big" ? 150 : obj.size == "medium" ? 120 : 90,
+            width: obj.size == "big" ? 150 : obj.size == "medium" ?  120: 90,
             fontSize: obj.size == "big" ? "1em" : obj.size == "medium" ? "0.9em" : "0.85em",
-            padding: obj.size == "big" ? `${10}%` : obj.size == "medium" ? `${7}%` : `${5}%`,
-            margin: obj.size == "big" ? `${3}%` : obj.size == "medium" ? `${2}%` : `${1}%`
+            // padding: obj.size == "big" ? "70px 50px" : obj.size == "medium" ? "50px 30px" : `${5}% ${3}%`,
+            // padding: 60,
+            margin: 10
           }} key={i} id={i}>
           {/* {obj.breakLine?"\n":null} */}
           {obj.topic.replace(" ", "\n")}
         </div>
-        <br />
+        {' '}
+        {/* <br /> */}
         {/* { i % 3 == 0 ? <br /> : null} */}
         </>) 
   })
