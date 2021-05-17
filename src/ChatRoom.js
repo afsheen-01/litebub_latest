@@ -1,7 +1,8 @@
  import React, { useState, useEffect, useCallback } from "react";
 import "semantic-ui-css/semantic.min.css";
 import "./styles.css";
-import "./leaveRoom.css"
+import "./leaveRoom.css";
+import "./diffRes.css";
 import { useParams, useHistory } from "react-router-dom";
 import firebase from "firebase/app";
 import { animateScroll } from "react-scroll";
@@ -1231,7 +1232,7 @@ export default function ChatRoom() {
               </div>
             </div>
             <br />
-            <p>
+            <p className="name">
               <h2>What's your Name?</h2> (for chat)
             </p>
             <br />
@@ -1242,8 +1243,9 @@ export default function ChatRoom() {
               alignItems: "center",
               justifyContent: "flex-end",
               width: "99%"
-            
-            }}>
+              }}
+              className="inputName"
+            >
              
             <input
             placeholder = "John appleseed"
