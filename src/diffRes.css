@@ -1,11 +1,11 @@
 @media screen and (min-device-height:1000px){
 	#new-user{
 		/* border:2px solid #fff; */
-		height: 45%
+		height: 46%
 	}
 	.name{
 		/* border: 2px solid #000; */
-		margin-top: 1.5em;
+		margin-top: 1.2em;
 	}
 	.inputName{
 		/* border: 2px solid #000 */

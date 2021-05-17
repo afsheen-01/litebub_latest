@@ -286,7 +286,7 @@ z-index: 10
 }
 #new-user {
   width: 330px;
-  height: 58%;
+  height: 57%;
   /* height: 300px; */
   /* max-height: 60vh; */
   background-color: white;
@@ -310,7 +310,7 @@ z-index: 10
 }
 .name{
 		/* border: 2px solid #000; */
-		margin-top: 1.5em;
+		margin-top: 1.2em;
 	}
 .userName-input {
   border-radius: 20px;
