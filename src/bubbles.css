@@ -29,9 +29,9 @@ br {
   display: contents;
   white-space: pre;
 }
-@media screen and (min-device-height:1000){
+@media screen and (min-device-height:900px){
 	.bubbleUI{
-	padding-top: 1em
+	padding-top: 2em
 	/* margin-top: 5px; */
 }
 }
