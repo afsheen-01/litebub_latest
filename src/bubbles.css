@@ -2,18 +2,13 @@
 .bubbleUI{
 	width: 850px;
 	height: 390px;
-	/* position: relative; */
-	/* z-index: 5; */
-	/* margin-top: 2em; */
 	font-size: 1.7em;
 	display: flex;
 	flex-wrap: wrap;
-	/* flex: 2; */
 	align-items: center;
 	justify-content: center;
 	/* border: 2px solid #000; */
-	/* white-space: pre-line; */
-	/* overflow: scroll; */
+	margin-top: 6px;
 }
 .bubble {
 	/* width: 10%; 
@@ -22,6 +17,7 @@
 	white-space: pre;
 	filter: drop-shadow(0px 3.51357px 3.51357px rgba(0, 0, 0, 0.1));
 	line-height: 0.9;
+	/* text-transform: capitalize; */
 }
 .bubble:hover{
 	box-shadow: 0 0 0 4px #fff !important;
