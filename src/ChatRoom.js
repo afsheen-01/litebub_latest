@@ -1322,7 +1322,7 @@ export default function ChatRoom() {
                   //  border: "1px solid #000",
                   width: "13em",
                   float:"right",
-                  marginBottom: 10,
+                  marginBottom: 15,
                   display: "flex",
                   alignItems: "center",
                   position: "relative",
