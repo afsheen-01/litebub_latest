@@ -8,7 +8,8 @@
 	align-items: center;
 	justify-content: center;
 	/* border: 2px solid #000; */
-	margin-top: 6px;
+	padding-top: .45em
+	/* margin-top: 5px; */
 }
 .bubble {
 	/* width: 10%; 
