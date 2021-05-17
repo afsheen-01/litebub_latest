@@ -123,7 +123,7 @@ const Address = ({ setForm, formData, navigation }) => {
             fontSize: obj.size == "big" ? "1em" : obj.size == "medium" ? "0.9em" : "0.85em",
             // padding: obj.size == "big" ? "70px 50px" : obj.size == "medium" ? "50px 30px" : `${5}% ${3}%`,
             // padding: 60,
-            margin: 10
+            margin: "0 10px"
           }} key={i} id={i}>
           {/* {obj.breakLine?"\n":null} */}
           {obj.topic.replace(" ", "\n")}
