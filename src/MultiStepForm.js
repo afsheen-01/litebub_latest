@@ -4,6 +4,8 @@ import { useForm, useStep } from "react-hooks-helper";
 import Start from "./Start";
 import CreateLink from "./CreateLink";
 import CopyLink from "./CopyLink";
+import { ComponentTransition, AnimationTypes } from "react-component-transition"
+
 
 import "./styles.css";
 
@@ -16,7 +18,7 @@ const steps = [
 var defaultData = {
   topic: "",
   roomId: "",
-  bgGif:""
+  bgGif: ""
 };
 
 const MultiStepForm = ({ images }) => {
@@ -38,16 +40,16 @@ const MultiStepForm = ({ images }) => {
     setVisible,
   };
   // console.log(formData)
-  switch (id) {
-    case "start":
-      return <Start {...props} />;
-    case "create":
-      return <CreateLink {...props} />;
-    case "copy":
-      return <CopyLink {...props} />;
-    default:
-      return null;
-  }
+  return id == 'start' ? <Start {...props} />
+    :
+    <ComponentTransition
+      enterAnimation={AnimationTypes.slideDown.enter}
+      exitAnimation={AnimationTypes.slideUp.exit}
+    >
+      {id == 'copy' ? <CopyLink {...props} />
+        : <CreateLink {...props} />}
+    </ComponentTransition>
+
 };
 
 export default MultiStepForm;

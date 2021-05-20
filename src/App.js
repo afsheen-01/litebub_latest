@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "semantic-ui-react";
-import "semantic-ui-css/semantic.min.css";
+// import "semantic-ui-css/semantic.min.css";
 import "./styles.css";
 import firebase from "firebase/app";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";

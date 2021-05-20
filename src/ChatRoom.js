@@ -50,6 +50,7 @@ export default function ChatRoom() {
   var [leavingRoom, setislEaving] = useState(false) 
   var [bgGif, setBgGif] = useState("")
   var [bgs, setbgs] = useState([])
+  var [isSystem, setIsSystem] = useState(false)
 
   //history for enterNamePage
   const history = useHistory();
@@ -348,6 +349,8 @@ export default function ChatRoom() {
   function joinChat() {
     if (userNameText) {
       setUserName(userNameText);
+      setIsSystem(true);
+      sendMsg();
       cookies.set("user", userNameText, { path: "/" });
       cookies.set("chatColor", chatColor, { path: "/" });
       cookies.set("chatAvatar", chatAvatar, { path: "/" });
