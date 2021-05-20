@@ -350,7 +350,7 @@ export default function ChatRoom() {
     if (userNameText) {
       setUserName(userNameText);
       setIsSystem(true);
-      sendMsg();
+      sendMsg("enterRoom");
       cookies.set("user", userNameText, { path: "/" });
       cookies.set("chatColor", chatColor, { path: "/" });
       cookies.set("chatAvatar", chatAvatar, { path: "/" });
@@ -374,7 +374,7 @@ export default function ChatRoom() {
       clearBtn.style.visibility = "hidden"
   }
 }
-  function sendMsg() {
+  function sendMsg(str) {
     let mid = +new Date(Date.now());
     // console.log(mid);
     if (replyingTo > 0) {
@@ -393,18 +393,34 @@ export default function ChatRoom() {
           thwacks: 0
         });
     } else {
-      firebase
-        .database()
-        .ref("chats/" + id + "/" + mid)
-        .set({
-          text: message.replaceAll("/n", "//n"),
-          time: mid,
-          user: userName,
-          color: chatColor,
-          avatar: chatAvatar,
-          likes: 0,
-          thwacks: 0
-        });
+      if(str){
+        firebase
+          .database()
+          .ref("chats/" + id + "/" + mid)
+          .set({
+            text: "user has joined the chat",
+            time: mid,
+            user: userName,
+            color: chatColor,
+            avatar: chatAvatar,
+            likes: 0,
+            thwacks: 0,
+            sysAdd: str
+          });
+      } else{
+        firebase
+          .database()
+          .ref("chats/" + id + "/" + mid)
+          .set({
+            text: message.replaceAll("/n", "//n"),
+            time: mid,
+            user: userName,
+            color: chatColor,
+            avatar: chatAvatar,
+            likes: 0,
+            thwacks: 0
+          });
+      }
     }
 
     setMessageText("");
