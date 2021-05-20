@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import ItemForm from "./ItemForm";
 import firebase from "firebase/app";
 import "@firebase/database";
-import 'react-bubble-ui/dist/index.css'
 import './bubbles.css'
 
 const Address = ({ setForm, formData, navigation }) => {
