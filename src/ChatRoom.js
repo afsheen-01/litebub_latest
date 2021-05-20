@@ -350,6 +350,14 @@ export default function ChatRoom() {
     if (userNameText) {
       setUserName(userNameText);
       setIsSystem(true);
+      // messages.push(`
+      //   {
+      //     text: ${userNameText} joined chat!,
+      //     time: mid,
+      //     color: chatColor,
+      //     avatar: chatAvatar
+      //   }`)
+      // messages.forEach(msg => console.log(msg))
       sendMsg("enterRoom");
       cookies.set("user", userNameText, { path: "/" });
       cookies.set("chatColor", chatColor, { path: "/" });
@@ -393,12 +401,12 @@ export default function ChatRoom() {
           thwacks: 0
         });
     } else {
-      if(str){
+      if (str) {
         firebase
           .database()
           .ref("chats/" + id + "/" + mid)
           .set({
-            text: `${userName} has joined the chat`,
+            text: `${userNameText} has joined the chat!`,
             time: mid,
             user: userName,
             color: chatColor,
@@ -407,7 +415,7 @@ export default function ChatRoom() {
             thwacks: 0,
             sysAdd: str
           });
-      } else{
+      } else {
         firebase
           .database()
           .ref("chats/" + id + "/" + mid)
@@ -421,6 +429,7 @@ export default function ChatRoom() {
             thwacks: 0
           });
       }
+
     }
 
     setMessageText("");
@@ -744,14 +753,17 @@ export default function ChatRoom() {
                 return (
                   <div className="chatContainer">
                     <div className="msg-container">
+                      
                       <p className="msg-user-name" style={{ marginTop: "5px" }}>
                         {item.user}
                       </p>
                       {/* start */}
+                      {/* {item.sysAdd?console.log("bleh"):console.log("nope")} */}
                       <div
                         className="msg-msg"
                         style={{
-                          backgroundColor: item.color,
+                          backgroundColor: item.sysAdd? "#FFF":item.color,
+                          border: item.sysAdd ? `1px solid ${item.color}` : "none",
                           alignItems: "center",
                           borderRadius:
                             item.text.length > 100
@@ -1122,7 +1134,6 @@ export default function ChatRoom() {
       //variable storing different string value for change in visibility of document.
       let str = ""
       document.addEventListener('visibilitychange',() => {
-        console.log("visibility changed"+document.visibilityState)
         str = document.visibilityState === "hidden" ? "new msg Litebub" : "Litebub"
         document.title = str;
       })
