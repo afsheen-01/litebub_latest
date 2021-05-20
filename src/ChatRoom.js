@@ -398,7 +398,7 @@ export default function ChatRoom() {
           .database()
           .ref("chats/" + id + "/" + mid)
           .set({
-            text: "user has joined the chat",
+            text: `${userName} has joined the chat`,
             time: mid,
             user: userName,
             color: chatColor,
@@ -1372,13 +1372,17 @@ export default function ChatRoom() {
                 backgroundColor: "#48A7FF",
                 borderWidth: 0,
                 padding: 20,
-                fontSize: 27,
+                marginLeft: 45,
+                fontSize: 25,
                 fontWeight:"700",
                 color: "white",
                 borderRadius: 50,
                 width: "70%",
-                // height: "50%",
-                fontFamily: "Roboto"
+                height: "35%",
+                fontFamily: "Roboto",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
               }}
               onClick={joinChat}
             >

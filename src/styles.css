@@ -286,7 +286,7 @@ z-index: 10
 }
 #new-user {
   width: 330px;
-  height: 57%;
+  height: 60%;
   /* height: 300px; */
   /* max-height: 60vh; */
   background-color: white;
@@ -302,7 +302,8 @@ z-index: 10
   bottom: 0;
   z-index: 10;
   /* display: grid;
-  place-items: center; */
+  place-items: center;
+  grid-template-rows: .1fr .1fr .1fr .1fr; */
   /* border: 2px solid #000; */
   /* align-content: center; */
   text-align: center;
