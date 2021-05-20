@@ -88,10 +88,12 @@ export default function ChatRoom() {
         if (snapshot.val()) {
           //console.log(snapshot.val());
           var arr = Object.values(snapshot.val());
-          // console.log(arr);
-          let obj = arr[new URLSearchParams(
-            history.location.search).get('chatBg')]
-          // console.log(obj);
+          console.log(arr);
+          let bgIter = new URLSearchParams(
+            history.location.search).get('chatBg') ? new URLSearchParams(
+              history.location.search).get('chatBg'): bgGif
+          let obj = arr[bgIter]
+          console.log(obj);
           setbgs(obj);
         }
       });
@@ -134,7 +136,8 @@ export default function ChatRoom() {
             setParticipants(isvalidRoom.participantCount);
             getMessages(id);
             setPreview(isvalidRoom.urlPreview);
-            setBgGif(isvalidRoom.bgGif)
+            setBgGif(new URLSearchParams(
+              history.location.search).get('chatBg'))
             setChatCredential();
             
           } else {
@@ -145,9 +148,8 @@ export default function ChatRoom() {
         }
       });
   }
-  // console.log(bgGif)
   
-
+console.log(bgGif)
   // console.log(rootUser)
   function getUser() {
     var user = cookies.get("user");
@@ -402,11 +404,12 @@ export default function ChatRoom() {
         });
     } else {
       if (str) {
+        let msg = str === "enterRoom" ? `${userNameText} has joined the chat!` : `${userName} left`
         firebase
           .database()
           .ref("chats/" + id + "/" + mid)
           .set({
-            text: `${userNameText} has joined the chat!`,
+            text: msg,
             time: mid,
             user: userName,
             color: chatColor,
@@ -566,7 +569,8 @@ export default function ChatRoom() {
 
   function copyRoomID() {
     // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://82ksv.csb.app/room/" + id);
+    copyToClipboard("https://bhyo2.csb.app/room/" + id + `?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${new URLSearchParams(
+      history.location.search).get('chatBg')}`);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
@@ -661,6 +665,7 @@ export default function ChatRoom() {
 										document.querySelector(
 											".newRoom"
 										).style.filter = "blur(0px)";
+                    sendMsg("leaveRoom")
 									}}
 								>
 									YES

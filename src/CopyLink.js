@@ -100,7 +100,7 @@ const Contact = ({ formData, navigation }) => {
 	var roomID = formData.roomId;
 	function copyRoomID() {
 		// console.log("https://hkwft.csb.app/room/" + roomID);
-		copyToClipboard("https://82ksv.csb.app/room/" + roomID);
+		copyToClipboard("https://bhyo2.csb.app/room/" + roomID + `?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${chatBg}`);
 
 		html2canvas(document.getElementById("url-preview"), {
 			allowTaint: true,
