@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import ItemForm from "./ItemForm";
 import firebase from "firebase/app";
 import "@firebase/database";
-import './bubbles.css'
+import './bubbles.css';
 
 const Address = ({ setForm, formData, navigation }) => {
   let [btnState, setBtnState] = useState(true)
