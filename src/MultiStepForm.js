@@ -45,14 +45,14 @@ const MultiStepForm = ({ images }) => {
     <>
     <ComponentTransition
       enterAnimation={AnimationTypes.slideDown.enter}
-      exitAnimation={AnimationTypes.slideUp.exit}
+      exitAnimation={AnimationTypes.slideDown.exit}
     >
 
         {id == 'copy' ? <CopyLink {...props} /> : null}
       </ComponentTransition>
       <ComponentTransition
         enterAnimation={AnimationTypes.slideUp.enter}
-        exitAnimation={AnimationTypes.slideDown.exit}
+        exitAnimation={AnimationTypes.slideUp.exit}
       >
 
         {id == 'create' ? <CreateLink {...props} /> : null}
