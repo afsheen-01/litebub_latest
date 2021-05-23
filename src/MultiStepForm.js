@@ -42,24 +42,14 @@ const MultiStepForm = ({ images }) => {
   // console.log(formData)
   return id == 'start' ? <Start {...props} />
     :
-    <>
-
-      <ComponentTransition
-        enterAnimation={AnimationTypes.slideUp.enter}
-        exitAnimation={AnimationTypes.slideUp.exit}
-      >
-
-        {id == 'create' ? <CreateLink {...props} /> : null}
-      </ComponentTransition>
     <ComponentTransition
       enterAnimation={AnimationTypes.slideDown.enter}
-      exitAnimation={AnimationTypes.slideDown.exit}
+      exitAnimation={AnimationTypes.slideUp.exit}
     >
+      {id == 'copy' ? <CopyLink {...props} />
+        : <CreateLink {...props} />}
+    </ComponentTransition>
 
-        {id == 'copy' ? <CopyLink {...props} /> : null}
-      </ComponentTransition>
-    
-    </>
 
 };
 

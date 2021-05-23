@@ -86,12 +86,13 @@ export default function ChatRoom() {
       .once("value")
       .then((snapshot) => {
         if (snapshot.val()) {
-          //console.log(snapshot.val());
+          console.log(snapshot.val());
           var arr = Object.values(snapshot.val());
           console.log(arr);
           let bgIter = new URLSearchParams(
-            history.location.search).get('chatBg') ? new URLSearchParams(
-              history.location.search).get('chatBg'): bgGif
+            history.location.search).get('chatBg')
+          console.log(new URLSearchParams(
+            history.location.search).get('chatBg'))
           let obj = arr[bgIter]
           console.log(obj);
           setbgs(obj);
@@ -136,8 +137,8 @@ export default function ChatRoom() {
             setParticipants(isvalidRoom.participantCount);
             getMessages(id);
             setPreview(isvalidRoom.urlPreview);
-            setBgGif(new URLSearchParams(
-              history.location.search).get('chatBg'))
+            // setBgGif(new URLSearchParams(
+            //   history.location.search).get('chatBg'))
             setChatCredential();
             
           } else {

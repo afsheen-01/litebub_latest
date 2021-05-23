@@ -6,6 +6,7 @@ import firebase from "firebase/app";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import MultiStepForm from "./MultiStepForm";
 import ChatRoom from "./ChatRoom";
+import ErrorBoundary from "./ErrorBoundary"
 
 export default function App() {
   var [bgs, setbgs] = useState([])
@@ -56,7 +57,9 @@ export default function App() {
             </div>
           </div>
         </Route>
+        <ErrorBoundary>
         <Route path="/room/:id" children={<ChatRoom />}></Route>
+        </ErrorBoundary>
       </Switch>
     </Router>
   );

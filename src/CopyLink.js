@@ -101,6 +101,7 @@ const Contact = ({ formData, navigation }) => {
 	function copyRoomID() {
 		// console.log("https://hkwft.csb.app/room/" + roomID);
 		copyToClipboard("https://bhyo2.csb.app/room/" + roomID + `?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${chatBg}`);
+		// console.log(chatBg)
 
 		html2canvas(document.getElementById("url-preview"), {
 			allowTaint: true,
@@ -136,6 +137,7 @@ const Contact = ({ formData, navigation }) => {
 	function joinRoom() {
 		formData.bgGif = (Gifs[chatBg].url)
 		history.push("/room/" + formData.roomId + `?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${chatBg}`);
+		// console.log(chatBg)
 	}
 	return (
 		<div className="copyLink-div" style={{ zIndex: 10 }}>

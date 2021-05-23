@@ -79,9 +79,6 @@ const Address = ({ setForm, formData, navigation }) => {
     let cBtn = document.querySelector('.cl-crossBtn');
     transparentBtn(btn, cBtn)
   }
-  const fnMakeBubble = makeBub => {
-    return
-  }
   const bubbles = bubbleTopics.map((obj, i) => {
 
     return (
@@ -233,7 +230,7 @@ const Address = ({ setForm, formData, navigation }) => {
         {/* <BubbleUI className = "bubbleUI"> */}
         <div class = "bubbleUI">
           {bubbles}
-          {console.log(bubbles)}
+          {/* {console.log(bubbles)} */}
           </div>
         {/* </BubbleUI> */}
       </div>
