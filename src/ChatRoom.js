@@ -48,12 +48,16 @@ export default function ChatRoom() {
   var [likeColor, setlikeColor] = useState([""]);
   var [notifications, setNotification] = useState([]);
   var [leavingRoom, setislEaving] = useState(false) 
-  var [bgGif, setBgGif] = useState("")
+  var [bgGif, setBgGif] = useState(0)
   var [bgs, setbgs] = useState([])
   var [isSystem, setIsSystem] = useState(false)
 
   //history for enterNamePage
   const history = useHistory();
+  const { id } = useParams();
+  const useQuery = () =>{
+    return new URLSearchParams(history.location.search)
+  }
 
   useEffect(() => {
     getValidity();
@@ -80,21 +84,26 @@ export default function ChatRoom() {
     };
   }, []);
   useEffect(() => {
+    let query = useQuery();
+    let bgGifNo = 0
+    if(query.get("chatBg")){
+      bgGifNo = query.get("chatBg")
+      console.log(bgGifNo)
+    }else{
+      firebase.database().ref("rooms/" + id).on("value", snapshot => {
+        console.log(snapshot.val().chatBg + " snapshot.val()")
+        bgGifNo = snapshot.val().chatBg
+      })
+    }
+    
     firebase
       .database()
       .ref("/ChatBackgrounds")
       .once("value")
       .then((snapshot) => {
         if (snapshot.val()) {
-          console.log(snapshot.val());
           var arr = Object.values(snapshot.val());
-          console.log(arr);
-          let bgIter = new URLSearchParams(
-            history.location.search).get('chatBg')
-          console.log(new URLSearchParams(
-            history.location.search).get('chatBg'))
-          let obj = arr[bgIter]
-          console.log(obj);
+          let obj = arr[bgGifNo]
           setbgs(obj);
         }
       });
@@ -119,8 +128,6 @@ export default function ChatRoom() {
       return navigator.userAgent.match(toMatchItem);
     });
   }
-  const { id } = useParams();
-  // console.log(id)
   function getValidity() {
     firebase
       .database()
@@ -150,7 +157,7 @@ export default function ChatRoom() {
       });
   }
   
-console.log(bgGif)
+// console.log(bgGif)
   // console.log(rootUser)
   function getUser() {
     var user = cookies.get("user");
@@ -570,8 +577,7 @@ console.log(bgGif)
 
   function copyRoomID() {
     // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://bhyo2.csb.app/room/" + id + `?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${new URLSearchParams(
-      history.location.search).get('chatBg')}`);
+    copyToClipboard("https://bhyo2.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
