@@ -412,7 +412,7 @@ export default function ChatRoom() {
         });
     } else {
       if (str) {
-        let msg = str === "enterRoom" ? `${userName} has joined the chat!` : `${userName} left`
+        let msg = str === "enterRoom" ? `${userNameText} has joined the chat!` : `${userName} left`
         firebase
           .database()
           .ref("chats/" + id + "/" + mid)
