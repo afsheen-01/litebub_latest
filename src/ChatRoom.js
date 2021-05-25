@@ -784,20 +784,20 @@ export default function ChatRoom() {
                             item.text.length > 100
                               ? item.text.length / 1.25
                               : 30,
-                          height: item.sysAdd ?"20%": "50%",
+                          height: item.sysAdd ?"17%": "50%",
                           padding: item.text.length > 100 ? 10 : 0,
                           paddingRight: 20,
-                          fontSize: item.sysAdd ? ".8em": "1em"
+                          fontSize: item.sysAdd ? ".7em": "1em"
                         }}
                       >
                         <span className="icon" style={{
                           backgroundColor: item.sysAdd? item.color: "none",
-                          margin: item.sysAdd ? 5 : "none",
-                          width: item.sysAdd ? 30: "inherit",
-                          // height: "20%",
+                          margin: item.sysAdd ? "4px 4px 4px 6px" : "none",
+                          width: item.sysAdd ? 25: "inherit",
+                          height: item.sysAdd ? 25 : "inherit",
                           borderRadius: "50%"
                         }}>
-                          {item.sysAdd ? renderAvatar(item.avatar, '27', '27'):renderAvatar(item.avatar,'45','45')}
+                          {item.sysAdd ? renderAvatar(item.avatar, '25', '25'):renderAvatar(item.avatar,'45','45')}
                         </span>
 
                         {/* {item.text} */}
