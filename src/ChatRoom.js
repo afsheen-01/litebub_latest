@@ -810,7 +810,10 @@ export default function ChatRoom() {
                             // color: item.sysAdd? item.color: "#fff"
                           }}
                         >
-                          {item.sysAdd?<span style={{color: item.color}}>{item.text.split(" ")[0]}</span>: null}
+                          {item.sysAdd?<span style={{
+                            color: item.color,
+                            fontWeight: "600"
+                            }}>{item.text.split(" ")[0]}</span>: null}
                           {item.sysAdd ?item.text.slice(item.text.indexOf(" ")): item.text}
                         </p>
                         {/* ))} */}
