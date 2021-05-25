@@ -619,7 +619,8 @@ export default function ChatRoom() {
     return rand;
   }
   // console.log(cookies.cookies)  
- 
+ //username string for notification
+ let usernameMsg=""
   if (isValid) {
     if (userName) {
       return (
@@ -809,7 +810,8 @@ export default function ChatRoom() {
                             // color: item.sysAdd? item.color: "#fff"
                           }}
                         >
-                          {item.text}
+                          {item.sysAdd?<span style={{color: item.color}}>{item.text.split(" ")[0]}</span>: null}
+                          {item.sysAdd ?item.text.slice(item.text.indexOf(" ")): item.text}
                         </p>
                         {/* ))} */}
                       </div>
