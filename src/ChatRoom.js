@@ -23,6 +23,7 @@ import AvatarNine from "./avatars/avatar-9.js";
 import AvatarTen from "./avatars/avatar-10.js";
 import AvatarEleven from "./avatars/avatar-11.js";
 import AvatarTwelve from "./avatars/avatar-12.js";
+import { ItemMeta } from "semantic-ui-react";
 
 const cookies = new Cookies();
 
@@ -764,7 +765,9 @@ export default function ChatRoom() {
               {messages.map((item) => {
                 return (
                   <div className="chatContainer">
-                    <div className="msg-container">
+                    <div className="msg-container" style={{
+                      // height: item.sysAdd? "30%": "inherit"
+                    }}>
                       
                       <p className="msg-user-name" style={{ marginTop: "5px" }}>
                         {item.user}
@@ -775,18 +778,26 @@ export default function ChatRoom() {
                         className="msg-msg"
                         style={{
                           backgroundColor: item.sysAdd? "#FFF":item.color,
-                          border: item.sysAdd ? `1px solid ${item.color}` : "none",
+                          boxShadow: item.sysAdd ? `0 0 0 1px #000` : "none",
                           alignItems: "center",
                           borderRadius:
                             item.text.length > 100
                               ? item.text.length / 1.25
                               : 30,
+                          height: item.sysAdd ?"20%": "50%",
                           padding: item.text.length > 100 ? 10 : 0,
-                          paddingRight: 20
+                          paddingRight: 20,
+                          fontSize: item.sysAdd ? ".8em": "1em"
                         }}
                       >
-                        <span className="icon">
-                          {renderAvatar(item.avatar,'45','45')}
+                        <span className="icon" style={{
+                          backgroundColor: item.sysAdd? item.color: "none",
+                          margin: item.sysAdd ? 5 : "none",
+                          width: item.sysAdd ? 30: "inherit",
+                          // height: "20%",
+                          borderRadius: "50%"
+                        }}>
+                          {item.sysAdd ? renderAvatar(item.avatar, '27', '27'):renderAvatar(item.avatar,'45','45')}
                         </span>
 
                         {/* {item.text} */}
@@ -794,7 +805,8 @@ export default function ChatRoom() {
                         <p
                           style={{
                             margin: "7px 0",
-                            whiteSpace: "pre-wrap"
+                            whiteSpace: "pre-wrap",
+                            // color: item.sysAdd? item.color: "#fff"
                           }}
                         >
                           {item.text}
@@ -1146,7 +1158,11 @@ export default function ChatRoom() {
       //variable storing different string value for change in visibility of document.
       let str = ""
       document.addEventListener('visibilitychange',() => {
-        str = document.visibilityState === "hidden" ? "new msg Litebub" : "Litebub"
+        if (document.visibilityState === "hidden"){
+          str = "new msg Litebub"
+        } else{
+          str = "Litebub"
+        }
         document.title = str;
       })
       return (
@@ -1199,8 +1215,6 @@ export default function ChatRoom() {
 											font-family="Roboto"
 											font-size="2.2em"
 											font-weight="400"
-											// letter-spacing=".05em"
-											// text-rendering = "optimizeLegibility"
 											fill="#000"
 										>
 											We're Chatting About:
@@ -1213,8 +1227,6 @@ export default function ChatRoom() {
 											font-size="2.7em"
 											font-weight="700"
 											letter-spacing=".05em"
-											// text-rendering = "geometricPrecision"
-											// shape-rendering =" crispEdges"
 										>
 											{topic.length > 15
 												? topic.substring(

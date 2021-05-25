@@ -453,7 +453,7 @@ button:hover {
 }
 .msg-msg {
   max-width: 90%;
-  height: 50%;
+  /* height: 50%; */
   display: flex;
   justify-content: end;
   /* align-items: center; */
