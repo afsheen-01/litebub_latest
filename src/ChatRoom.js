@@ -578,7 +578,7 @@ export default function ChatRoom() {
 
   function copyRoomID() {
     // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://159ve.csb.app/room/" + id);
+    copyToClipboard("https://0hj3m.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
@@ -618,9 +618,6 @@ export default function ChatRoom() {
     var rand = qarr[Math.floor(Math.random() * qarr.length)];
     return rand;
   }
-  // console.log(cookies.cookies)  
- //username string for notification
- let usernameMsg=""
   if (isValid) {
     if (userName) {
       return (
