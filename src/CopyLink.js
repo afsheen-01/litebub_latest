@@ -137,7 +137,7 @@ const Contact = ({ formData, navigation }) => {
 	function joinRoom() {
 		formData.bgGif = (Gifs[chatBg].url)
 		history.push("/room/" + formData.roomId + `?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${chatBg}`);
-		console.log(history)
+		// console.log(history)
 		firebase
 			.database()
 			.ref("rooms/" + roomID + "/")

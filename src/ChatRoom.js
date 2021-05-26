@@ -48,11 +48,13 @@ export default function ChatRoom() {
   // var [liked, setLiked] = useState(0);
   var [likeColor, setlikeColor] = useState([""]);
   var [notifications, setNotification] = useState([]);
-  var [leavingRoom, setislEaving] = useState(false) 
-  var [bgGif, setBgGif] = useState(0)
+  var [leavingRoom, setislEaving] = useState(false)
   var [bgs, setbgs] = useState([])
   var [isSystem, setIsSystem] = useState(false)
 
+//message length for notification in titlebar
+  let msgLength = 0
+  let currLength = 0
   //history for enterNamePage
   const history = useHistory();
   const { id } = useParams();
@@ -89,7 +91,7 @@ export default function ChatRoom() {
     let bgGifNo = 0
     if(query.get("chatBg")){
       bgGifNo = query.get("chatBg")
-      console.log(bgGifNo)
+      // console.log(bgGifNo)
     }else{
       firebase.database().ref("rooms/" + id).on("value", snapshot => {
         console.log(snapshot.val().chatBg + " snapshot.val()")
@@ -251,12 +253,18 @@ export default function ChatRoom() {
       // console.log("adding 1st msg", notifications);
     }
   }
+  //currLength to compare with notifications
+currLength = messages.length
+// console.log(currLength+" currLength")
   function getUpdate() {
     var liveMessages = firebase.database().ref("/chats/" + id);
     liveMessages.on("value", (snapshot) => {
       if (snapshot.val()) {
+        msgLength = Object.values(snapshot.val()).length
+        // console.log(msgLength+ " msgLength")
         // console.log(Object.values(snapshot.val()));
         setMessages(Object.values(snapshot.val()));
+        // setMsgLength(msgArrLength);
       }
     });
     liveMessages.on("child_changed", (snapshot) => {
@@ -361,14 +369,6 @@ export default function ChatRoom() {
     if (userNameText) {
       setUserName(userNameText);
       setIsSystem(true);
-      // messages.push(`
-      //   {
-      //     text: ${userNameText} joined chat!,
-      //     time: mid,
-      //     color: chatColor,
-      //     avatar: chatAvatar
-      //   }`)
-      // messages.forEach(msg => console.log(msg))
       sendMsg("enterRoom");
       cookies.set("user", userNameText, { path: "/" });
       cookies.set("chatColor", chatColor, { path: "/" });
@@ -1157,12 +1157,24 @@ export default function ChatRoom() {
     } else {
       //variable storing different string value for change in visibility of document.
       let str = ""
+      let msgDiff = 0
+      console.log(messages.length)
       document.addEventListener('visibilitychange',() => {
+        // const event = new Event('push');
         if (document.visibilityState === "hidden"){
-          str = "new msg Litebub"
+          console.log(currLength)
+          if(msgLength > currLength){
+            msgDiff = msgLength - currLength
+            str = `(${msgDiff}) Litebub`
+          }
+          
         } else{
+          // console.log(currLength)
+          msgDiff = 0
           str = "Litebub"
         }
+        // console.log(str)
+        // console.log(msgDiff)
         document.title = str;
       })
       return (
