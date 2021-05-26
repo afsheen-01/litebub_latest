@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-// import { Card, Image } from "semantic-ui-react";
-// import * as PImage from "./bgp.png";
 import html2canvas from "html2canvas";
 import firebase from "firebase/app";
-// import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.css";
 import { useHistory } from "react-router-dom";
@@ -402,33 +399,34 @@ const Contact = ({ formData, navigation }) => {
 							{fnAvatar('55','55')}
 						</div>
 					</div>
-					<div className="nextGif btnh" style={{ width: "50%" }}>
+					<div className="nextGif btnh">
 						<div
-						className = "btnOutlineDiv"
-						 style = {{
-							// border: "3px solid transparent",
-							borderRadius:"50%"
-						}}>
-						<img
-							src={"https://imgur.com/vhcy2CZ.png"}
-							alt="nextGif"
-							className = "btnOutline"
+						className = "btnOutline"
 							style={{
-								height: 69,
-								width: 69,
-								// border: "3px solid #fff",
-								borderSpacing: 0,
-								borderRadius: "50%"
-							}}
-							onClick={() => {
-								if (chatBg+1 >= Gifs.length) {
-									// console.log("if of chatBg gif btn")
-									setChatBg(0);
-								} else {
-									setChatBg(chatBg + 1);
-								}
-							}}
-						/>
+								height: 67,
+								width: 67,
+								// border:"3px solid #fff",
+								borderRadius: "50%",
+								background: "#A6FAAA"
+						}}>
+							<svg 
+								width="40" 
+								height="40" 
+								viewBox="0 0 48 48" 
+								fill="none" 
+								xmlns="http://www.w3.org/2000/svg"
+								onClick={() => {
+									if (chatBg + 1 >= Gifs.length) {
+										// console.log("if of chatBg gif btn")
+										setChatBg(0);
+									} else {
+										setChatBg(chatBg + 1);
+									}
+								}}>
+								<path d="M48 42.6667V5.33333C48 2.4 45.6 0 42.6667 0H5.33333C2.4 0 0 2.4 0 5.33333V42.6667C0 45.6 2.4 48 5.33333 48H42.6667C45.6 48 48 45.6 48 42.6667ZM14.6667 28L21.3333 36.0267L30.6667 24L42.6667 40H5.33333L14.6667 28Z" fill="#48BDFF" />
+							</svg>
+							
+						{/* /> */}
 						</div>
 						<span
 							style={{

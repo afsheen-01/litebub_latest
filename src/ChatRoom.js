@@ -1342,7 +1342,6 @@ currLength = messages.length
           } else {
             setAvatar(chatAvatar + 1)
           }
-          //setAvatar(chatAvatar > 11 ? 0 : chatAvatar + 1)
           setColor(colorArr[Math.floor(Math.random() * colorArr.length)])
           //console.log(chatColor, colorArr[idx])
           renderAvatar(chatAvatar)
@@ -1360,8 +1359,6 @@ currLength = messages.length
             {userNameText ? (
               <div 
               style = {{
-                // border: "1px solid #000",
-                // marginTop: 15,
                 height: "37%"
               }}>
               <span

@@ -43,8 +43,19 @@ const MultiStepForm = ({ images }) => {
   return id == 'start' ? <Start {...props} />
     :
     <ComponentTransition
-      enterAnimation={AnimationTypes.slideDown.enter}
-      exitAnimation={AnimationTypes.slideUp.exit}
+      enterAnimation={
+        [
+          AnimationTypes.collapse.vertical,
+          AnimationTypes.scale.enter,
+        ]}
+      exitAnimation={[{
+        keyframes: [
+          { transform: "translate3d(0,0,0)" },
+          { transform: "translate3d(0,50%,0)" },
+          { transform: "translate3d(0,80%,0)" },
+          { transform: "translate3d(0,90%,0)" },
+          { transform: "translate3d(0,100%,0)" },
+      ]}]}
     >
       {id == 'copy' ? <CopyLink {...props} />
         : <CreateLink {...props} />}

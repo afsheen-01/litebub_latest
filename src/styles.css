@@ -166,13 +166,13 @@ width: 99%; */
   background-color: #48A7FF !important;
   box-shadow: none !important;
 }
-.btnOutlineDiv{
+/* .btnOutlineDiv{
   border: 3px solid transparent
 }
 .btnOutlineDiv:hover{
   box-shadow: inset 0 0 0 1px #fff;
   border: 3px solid #fff
-}
+} */
 
 .btnOutline:hover{
 box-shadow: 0 0 0 3px #fff;
