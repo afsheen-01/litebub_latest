@@ -51,10 +51,8 @@ export default function ChatRoom() {
   var [leavingRoom, setislEaving] = useState(false)
   var [bgs, setbgs] = useState([])
   var [isSystem, setIsSystem] = useState(false)
+  var [unreadMsg, setUnreadMsg] = useState(0)
 
-//message length for notification in titlebar
-  let msgLength = 0
-  let currLength = 0
   //history for enterNamePage
   const history = useHistory();
   const { id } = useParams();
@@ -91,7 +89,6 @@ export default function ChatRoom() {
     let bgGifNo = 0
     if(query.get("chatBg")){
       bgGifNo = query.get("chatBg")
-      // console.log(bgGifNo)
     }else{
       firebase.database().ref("rooms/" + id).on("value", snapshot => {
         console.log(snapshot.val().chatBg + " snapshot.val()")
@@ -138,7 +135,6 @@ export default function ChatRoom() {
       .once("value")
       .then((snapshot) => {
         var isvalidRoom = snapshot.val();
-        // console.log(isvalidRoom)
         if (isvalidRoom) {
           var currentTime = +new Date(Date.now());
           if (isvalidRoom.expiration > currentTime) {
@@ -147,8 +143,6 @@ export default function ChatRoom() {
             setParticipants(isvalidRoom.participantCount);
             getMessages(id);
             setPreview(isvalidRoom.urlPreview);
-            // setBgGif(new URLSearchParams(
-            //   history.location.search).get('chatBg'))
             setChatCredential();
             
           } else {
@@ -160,17 +154,10 @@ export default function ChatRoom() {
       });
   }
   
-// console.log(bgGif)
-  // console.log(rootUser)
   function getUser() {
     var user = cookies.get("user");
-    //when user loads the page, we call this function
-    //using this function we retrieve the string saved in cookie
-    //if anything is saved, then we set state, if not, then it does nothing
     if (user) {
       setUserName(user);
-      //don't call function only here, remember to call function while
-      //user created a new username
       setChatCredential();
     }
   }
@@ -253,14 +240,10 @@ export default function ChatRoom() {
       // console.log("adding 1st msg", notifications);
     }
   }
-  //currLength to compare with notifications
-currLength = messages.length
-// console.log(currLength+" currLength")
   function getUpdate() {
     var liveMessages = firebase.database().ref("/chats/" + id);
     liveMessages.on("value", (snapshot) => {
       if (snapshot.val()) {
-        msgLength = Object.values(snapshot.val()).length
         // console.log(msgLength+ " msgLength")
         // console.log(Object.values(snapshot.val()));
         setMessages(Object.values(snapshot.val()));
@@ -414,6 +397,11 @@ currLength = messages.length
     } else {
       if (str) {
         let msg = str === "enterRoom" ? `${userNameText} has joined the chat!` : `${userName} left`
+        // if (str === "enterRoom"){
+        //   msg = 
+        // } else if(msg === "leaveRoom"){
+        //   msg = 
+        // }
         firebase
           .database()
           .ref("chats/" + id + "/" + mid)
@@ -623,10 +611,8 @@ currLength = messages.length
       return (
         <div style = {{
 					display: "flex",
-					// alignItems: "",
           justifyContent: "center",
           width: "100vw"
-          // border:"2px solid #fff"
 				}}>
 					{leavingRoom ? (
             <div>
@@ -1055,7 +1041,7 @@ currLength = messages.length
                     type="text"
                   />
                   <svg
-                    onClick={sendMsg}
+                    onClick={() => sendMsg(null)}
                     className="enterBtn"
                     width="65"
                     style={{
@@ -1157,24 +1143,33 @@ currLength = messages.length
     } else {
       //variable storing different string value for change in visibility of document.
       let str = ""
-      let msgDiff = 0
-      console.log(messages.length)
+      
+        // .addChildEventListener("onChildAdded")
+        // .then(snapshot => {
+        //   console.log(snapshot.val())
+        // })
       document.addEventListener('visibilitychange',() => {
-        // const event = new Event('push');
+        // console.log(messages.length)
         if (document.visibilityState === "hidden"){
-          console.log(currLength)
-          if(msgLength > currLength){
-            msgDiff = msgLength - currLength
-            str = `(${msgDiff}) Litebub`
+          firebase
+            .database()
+            .ref("chats/" + id)
+            .on("child_added", (snapshot) => {
+              console.log(snapshot.val())
+              console.log(messages.length)
+              setUnreadMsg(unreadMsg+=1)
+            })
+          // console.log(unreadMsg)
+          if(unreadMsg){
+            str = `(${unreadMsg}) Litebub`
+          } else{
+            str = "Litebub"
           }
           
         } else{
-          // console.log(currLength)
-          msgDiff = 0
+          setUnreadMsg(0)
           str = "Litebub"
         }
-        // console.log(str)
-        // console.log(msgDiff)
         document.title = str;
       })
       return (
