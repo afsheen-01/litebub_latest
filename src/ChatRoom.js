@@ -566,7 +566,7 @@ export default function ChatRoom() {
 
   function copyRoomID() {
     // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://0hj3m.csb.app/room/" + id);
+    copyToClipboard("https://638hw.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
@@ -1141,37 +1141,37 @@ export default function ChatRoom() {
         </div>
       );
     } else {
-      //variable storing different string value for change in visibility of document.
       let str = ""
-      
-        // .addChildEventListener("onChildAdded")
-        // .then(snapshot => {
-        //   console.log(snapshot.val())
-        // })
-      document.addEventListener('visibilitychange',() => {
-        // console.log(messages.length)
-        if (document.visibilityState === "hidden"){
-          firebase
-            .database()
-            .ref("chats/" + id)
-            .on("child_added", (snapshot) => {
-              console.log(snapshot.val())
-              console.log(messages.length)
-              setUnreadMsg(unreadMsg+=1)
-            })
-          // console.log(unreadMsg)
-          if(unreadMsg){
-            str = `(${unreadMsg}) Litebub`
-          } else{
-            str = "Litebub"
+      let allMessages = 0
+      firebase
+        .database()
+        .ref("chats/" + id)
+        .on("value", (snapshot) => {
+          if (snapshot.val()) {
+            allMessages = Object.keys(snapshot.val()).length
           }
-          
-        } else{
-          setUnreadMsg(0)
-          str = "Litebub"
-        }
-        document.title = str;
-      })
+        })
+      // console.log(allMessages)
+      firebase
+        .database()
+        .ref("chats/" + id)
+        .on("child_added", (snapshot) => {
+          document.addEventListener("visibilitychange", () => {
+              
+            if (document.visibilityState === "hidden") {
+              setUnreadMsg(unreadMsg += 1)
+              let readMsgs = unreadMsg
+              // console.log(allMessages-readMsgs)
+              str = `(${allMessages-readMsgs}) Litebub`
+            } else {
+              setUnreadMsg(unreadMsg = 0)
+              str = `Litebub`
+            }
+          })
+          document.title = str
+          console.log(document.title)
+            // console.log(allMessages - readMsgs)
+        })
       return (
         <div>
           <Helmet titleTemplate="%s">
