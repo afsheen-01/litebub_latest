@@ -294,16 +294,10 @@ z-index: 10
   top: 0;
   bottom: 0;
   z-index: 10;
-  /* display: grid;
-  place-items: center;
-  grid-template-rows: .1fr .1fr .1fr .1fr; */
-  /* border: 2px solid #000; */
-  /* align-content: center; */
   text-align: center;
   font-family: 'Roboto'
 }
 .name{
-		/* border: 2px solid #000; */
 		margin-top: 1.2em;
 	}
 .userName-input {
@@ -320,8 +314,6 @@ z-index: 10
   outline: none;
 }
 .chatJoinBg {
-  /* background-image: url("images/giphy-3.gif"); */
-  /* background-image: url("https://cdn.discordapp.com/attachments/787951209818226708/788658412892061716/source.gif"); */
   background-position: center;
   background-size: cover;
   height: 110px;
@@ -347,20 +339,14 @@ button:hover {
   visibility: hidden;
 }
 .newRoom {
-  /* border: 1px solid #000; */
   height: 100vh;
   object-fit: contain;
   display: grid;
   grid-template-columns: 0.07fr 1fr;
 }
 .rBtns {
-  /* border: 2px solid #000; */
   height: inherit;
   justify-content: center;
-}
-.crossSvg {
-  /* border: 1px solid #000; */
-  /* height: 10%; */
 }
 .copySvg {
   display: flex;
@@ -369,15 +355,12 @@ button:hover {
   justify-content: space-between;
   height: 10%;
   width: 15%;
-  /* border: 2px solid #000; */
 }
 .copy:hover path{
   fill: #656565 ;
 }
 
 .chat-container {
-  /* border: 2px solid #000; */
-  /* overflow: hidden; */
   display: grid;
   grid-gap: 0;
   place-items: center;
@@ -387,19 +370,15 @@ button:hover {
 }
 .chat-topic {
   width: inherit;
-  /* border: 3px solid #000; */
   text-align: center;
   font-weight: 600;
   font-size: 1.6em;
   font-style: "roboto";
-  /* word-spacing: .4em; */
-  /* margin: 5em 0; */
 }
 .chatting-about {
   font-weight: 200;
   color: #656565;
   font-size: 0.8em;
-  /* word-spacing: .1em; */
 }
 .topic {
   font-weight: bold;
@@ -408,20 +387,14 @@ button:hover {
   overflow: auto;
   background: white;
   width: 80%;
-  /* height: 90vh; */
-  /* border: 3px solid #000; */
   align-self: start;
-  /* position: absolute; */
 }
 #chat-area::-webkit-scrollbar {
   display: none;
   scrollbar-width: 0px;
 }
 .chatContainer {
-  /* border: 4px solid #000; */
   width: 90%;
-  /* display: flex;
-  justify-content: end; */
 }
 .msg-container {
   display: flex;
@@ -430,55 +403,39 @@ button:hover {
   font-size: 1.5em;
   margin: 0.7em 0;
   text-align: center;
-  /* justify-content: start; */
-  /* border: 5px solid #000; */
 }
 .msg-user-name {
-  /* margin: 6em 0; */
   min-width: 15vw;
-  /* height: 50%; */
   margin: 5px;
-  /* padding-top: 15px; */
   margin-right: 10px;
   text-align: right;
   vertical-align: middle;
-  /* border: 3px solid #000; */
 }
 .msg-msg {
   max-width: 90%;
-  /* height: 50%; */
   display: flex;
   justify-content: end;
-  /* align-items: center; */
-  /* margin-top: 10px; */
   padding-right: 20px;
-  /* padding-bottom: 5px; */
   overflow: hidden;
   text-align: left;
   vertical-align: middle;
-  /* border: 1px solid #000; */
 }
 ::-webkit-scrollbar {
   width: 5px;
 }
 .icon {
-  /* border: 3px solid #000; */
   padding-right: 8px;
   justify-self: start;
 }
 .msg-msg p {
-  /* border: 3px solid #000; */
-  /* display: flex; */
   justify-self: end;
   text-align: left;
 }
 .msg-and-btns {
-  /* border: 3px solid #000; */
   display: flex;
   justify-content: center;
 }
 .msg-btn-container {
-  /* border: 3px solid #000; */
   display: flex;
   align-items: center;
 }
@@ -486,7 +443,6 @@ button:hover {
 .btnLContainer,
 .btnTContainer{
   padding: 0 2px;
-  /* border: 1px solid #000; */
 }
 .btnRContainer{
   padding-right: .3em;
@@ -494,8 +450,6 @@ button:hover {
 
 .divLr {
   border: 1px solid #000;
-  /* display: flex; */
-  /* flex-direction: row; */
   justify-content: center;
 }
 .divLrBtns {

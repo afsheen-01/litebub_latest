@@ -1141,37 +1141,25 @@ export default function ChatRoom() {
         </div>
       );
     } else {
-      let str = ""
-      let allMessages = 0
-      firebase
-        .database()
-        .ref("chats/" + id)
-        .on("value", (snapshot) => {
-          if (snapshot.val()) {
-            allMessages = Object.keys(snapshot.val()).length
-          }
-        })
-      // console.log(allMessages)
-      firebase
-        .database()
-        .ref("chats/" + id)
-        .on("child_added", (snapshot) => {
-          document.addEventListener("visibilitychange", () => {
-              
-            if (document.visibilityState === "hidden") {
-              setUnreadMsg(unreadMsg += 1)
-              let readMsgs = unreadMsg
-              // console.log(allMessages-readMsgs)
-              str = `(${allMessages-readMsgs}) Litebub`
-            } else {
-              setUnreadMsg(unreadMsg = 0)
-              str = `Litebub`
-            }
+      let str = "Litebub"
+      // setTimeout(() => {
+        firebase
+          .database()
+          .ref("chats/" + id)
+          .on("child_added", (snapshot) => {
+            document.addEventListener("visibilitychange", () => {
+              if (document.visibilityState === "hidden") {
+                setUnreadMsg(unreadMsg + 1)
+                str = unreadMsg?`(${unreadMsg}) Litebub`:"Litebub"
+              } else {
+                setUnreadMsg(0)
+                str = `Litebub`
+              }
+            })
+            document.title = str
           })
-          document.title = str
-          console.log(document.title)
-            // console.log(allMessages - readMsgs)
-        })
+      // }, 4000)
+      
       return (
         <div>
           <Helmet titleTemplate="%s">
