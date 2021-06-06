@@ -9,7 +9,7 @@ import { animateScroll } from "react-scroll";
 import Cookies from "universal-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Helmet } from "react-helmet";
+// import { Helmet } from "react-helmet";
 
 import AvatarOne from "./avatars/avatar-1-smile.js";
 import AvatarTwo from "./avatars/avatar-2.js";
@@ -23,7 +23,7 @@ import AvatarNine from "./avatars/avatar-9.js";
 import AvatarTen from "./avatars/avatar-10.js";
 import AvatarEleven from "./avatars/avatar-11.js";
 import AvatarTwelve from "./avatars/avatar-12.js";
-import { ItemMeta } from "semantic-ui-react";
+// import { ItemMeta } from "semantic-ui-react";
 
 const cookies = new Cookies();
 
@@ -52,6 +52,7 @@ export default function ChatRoom() {
   var [bgs, setbgs] = useState([])
   var [isSystem, setIsSystem] = useState(false)
   var [unreadMsg, setUnreadMsg] = useState(0)
+  var [title, setTitle] = useState("")
 
   //history for enterNamePage
   const history = useHistory();
@@ -108,6 +109,29 @@ export default function ChatRoom() {
         }
       });
   }, []);
+  useEffect(() => {
+    firebase
+      .database()
+      .ref("/chats/" + id)
+      .on("value", snapshot => {
+        // document.title = document.title !== "Litebub" ? (Object.keys(Object.values(snapshot.val())).length.toString()) : "Litebub"
+        if(snapshot.val()){
+          if (document.title !== "Litebub") {
+            setUnreadMsg(0)
+            document.title = "Litebub"
+
+          } else {
+            // document.title = "Litebub"
+            setUnreadMsg(unreadMsg++)
+            console.log(Object.keys(Object.values(snapshot.val())).length);
+            document.title = `${((Object.keys(Object.values(snapshot.val()))).length - unreadMsg).toString()}`
+          }
+        }
+
+      })
+
+  },[])
+    
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       setReplyingTo(0);
@@ -244,10 +268,8 @@ export default function ChatRoom() {
     var liveMessages = firebase.database().ref("/chats/" + id);
     liveMessages.on("value", (snapshot) => {
       if (snapshot.val()) {
-        // console.log(msgLength+ " msgLength")
-        // console.log(Object.values(snapshot.val()));
+        
         setMessages(Object.values(snapshot.val()));
-        // setMsgLength(msgArrLength);
       }
     });
     liveMessages.on("child_changed", (snapshot) => {
@@ -461,7 +483,7 @@ export default function ChatRoom() {
             "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
           )
           .update({
-            likeColor: item.prevlikeColor ? item.prevlikeColor : "transparent",
+            likeColor: item.prevlikeColor ? item.prevlikeColor : "#fff",
             likes: item.likes - 1
           });
 
@@ -1141,30 +1163,29 @@ export default function ChatRoom() {
         </div>
       );
     } else {
-      let str = "Litebub"
+      // let str = "Litebub"
       // setTimeout(() => {
-        firebase
-          .database()
-          .ref("chats/" + id)
-          .on("child_added", (snapshot) => {
-            document.addEventListener("visibilitychange", () => {
-              if (document.visibilityState === "hidden") {
-                setUnreadMsg(unreadMsg + 1)
-                str = unreadMsg?`(${unreadMsg}) Litebub`:"Litebub"
-              } else {
-                setUnreadMsg(0)
-                str = `Litebub`
-              }
-            })
-            document.title = str
-          })
+        // firebase
+        //   .database()
+        //   .ref("chats/" + id)
+        //   .on("child_added", (snapshot) => {
+        //     document.addEventListener("visibilitychange", () => {
+        //       if (document.visibilityState === "hidden") {
+        //         setUnreadMsg(unreadMsg + 1)
+        //         str = unreadMsg?`(${unreadMsg}) Litebub`:"Litebub"
+        //       } else {
+        //         setUnreadMsg(0)
+        //         str = `Litebub`
+        //       }
+        //     })
+        //     document.title = str
+        //   })
       // }, 4000)
-      
       return (
         <div>
-          <Helmet titleTemplate="%s">
+          {/* <Helmet titleTemplate="%s">
             <meta charSet="utf-8" />
-            <title>Litebub</title>
+            <title>{title}</title>
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:site" content="LitBub" />
             <meta
@@ -1174,7 +1195,7 @@ export default function ChatRoom() {
             <meta name="twitter:description" content="Join us on Litbub" />
             
             <meta property="og:type" content="website" />
-          </Helmet>
+          </Helmet> */}
           <div id = "inChatRoom" className="corner">
 				<h2 className = "header2 btnh" onClick={() => {
             history.push("/")
