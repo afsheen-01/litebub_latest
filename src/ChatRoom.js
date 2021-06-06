@@ -52,6 +52,7 @@ export default function ChatRoom() {
   var [bgs, setbgs] = useState([])
   var [isSystem, setIsSystem] = useState(false)
   var [unreadMsg, setUnreadMsg] = useState(0)
+  var [selfReply, isSelfReply] = useState(0)
   var [title, setTitle] = useState("")
 
   //history for enterNamePage
@@ -307,9 +308,14 @@ export default function ChatRoom() {
         let mid = +new Date(Date.now());
         // console.log(mid);
         if (replyingTo > 0) {
+          if (selfReply > 0) {
+            var path = "chats/" + id + "/" + selfReply + "/replies/" + replyingTo + "/replies/" + mid + "/"
+          } else {
+            var path = "chats/" + id + "/" + replyingTo + "/replies/" + mid + "/"
+          }
           firebase
             .database()
-            .ref("chats/" + id + "/" + replyingTo + "/replies/" + mid + "/")
+            .ref(path)
             .set({
               text: message.replaceAll("/n", "//n"),
               time: mid,
@@ -317,7 +323,7 @@ export default function ChatRoom() {
               color: chatColor,
               avatar: chatAvatar,
               isReply: true,
-              parent: replyingTo,
+              parent: selfReply > 0 ? selfReply : replyingTo,
               likes: 0,
               thwacks: 0
             });
@@ -340,6 +346,7 @@ export default function ChatRoom() {
         setMessageText("");
         setReplyingTo(0);
         setlikeColor([""]);
+        isSelfReply(0)
       }
     }
   }
@@ -402,17 +409,25 @@ export default function ChatRoom() {
     let mid = +new Date(Date.now());
     // console.log(mid);
     if (replyingTo > 0) {
+      if (selfReply > 0) {
+        var path = "chats/" + id + "/" + selfReply + "/replies/" + replyingTo + "/replies/" + mid + "/"
+      } else {
+        var path = "chats/" + id + "/" + replyingTo + "/replies/" + mid + "/"
+      }
+      console.log(path)
       firebase
         .database()
-        .ref("chats/" + id + "/" + replyingTo + "/replies/" + mid + "/")
+        .ref(path)
         .set({
           text: message.replaceAll("/n", "//n"),
           time: mid,
           user: userName,
           color: chatColor,
           avatar: chatAvatar,
-          isReply: true,
-          parent: replyingTo,
+          isDeeperReply: selfReply > 0 ? true : false,
+          isReply: selfReply > 0 ? false : true,
+          parent: selfReply > 0 ? selfReply : replyingTo,
+          mainParent: selfReply > 0 ? replyingTo : 0,
           likes: 0,
           thwacks: 0
         });
@@ -457,9 +472,11 @@ export default function ChatRoom() {
     setMessageText("");
     setReplyingTo(0);
     setlikeColor([""]);
+    isSelfReply(0)
   }
-  function reply(item) {
+  function reply(item, isSelf) {
     setReplyingTo(item.time);
+    isSelfReply(isSelf ? isSelf.time : 0)
     document.querySelector(".message-input").focus();
     // console.log(item);
     //here i am setting the id of the message
@@ -474,7 +491,7 @@ export default function ChatRoom() {
     } else {
       var prev = [];
     }
-    // console.log(prevD)
+    console.log(prevD)
     if (prevD) {
       if (item.isReply) {
         firebase
@@ -483,7 +500,7 @@ export default function ChatRoom() {
             "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
           )
           .update({
-            likeColor: item.prevlikeColor ? item.prevlikeColor : "#fff",
+            likeColor: item.prevlikeColor ? item.prevlikeColor : "transparent",
             likes: item.likes - 1
           });
 
@@ -493,6 +510,25 @@ export default function ChatRoom() {
           .database()
           .ref(
             "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
+          )
+          .update({ likeCount: filteredAry });
+      } else if (item.isDeeperReply) {
+        firebase
+          .database()
+          .ref(
+            "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
+          )
+          .update({
+            likeColor: item.prevlikeColor ? item.prevlikeColor : "transparent",
+            likes: item.likes - 1
+          });
+
+        var filteredAry = prev.filter((e) => e !== userName);
+        // console.log(filteredAry);
+        firebase
+          .database()
+          .ref(
+            "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
           )
           .update({ likeCount: filteredAry });
       } else {
@@ -528,6 +564,23 @@ export default function ChatRoom() {
           .database()
           .ref(
             "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
+          )
+          .update({ likeCount: { ...prev, userName } });
+      } else if (item.isDeeperReply) {
+        firebase
+          .database()
+          .ref(
+            "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
+          )
+          .update({
+            likeColor: chatColor,
+            likes: item.likes + 1,
+            prevlikeColor: item.likeColor ? item.likeColor : "#fff"
+          });
+        firebase
+          .database()
+          .ref(
+            "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
           )
           .update({ likeCount: { ...prev, userName } });
       } else {
@@ -595,20 +648,45 @@ export default function ChatRoom() {
 			linkCopy.style.visibility = "hidden";
 		}, 2000);
   }
-
   function replyingWhom(id) {
-    for (var i in messages) {
-      if (messages[i].time == id) {
-        return messages[i].user;
-        break;
+    if (selfReply > 0) {
+      for (var i in messages) {
+        if (messages[i].time === selfReply) {
+          for (var n in messages[i].replies) {
+            if (messages[i].replies[n].time === replyingTo) {
+              return messages[i].replies[n].user;
+              break;
+            }
+          }
+        }
+      }
+    } else {
+      for (var i in messages) {
+        if (messages[i].time == id) {
+          return messages[i].user;
+          break;
+        }
       }
     }
   }
   function replyingColor(id) {
-    for (var i in messages) {
-      if (messages[i].time == replyingTo) {
-        return messages[i].color;
-        break;
+    if (selfReply > 0) {
+      for (var i in messages) {
+        if (messages[i].time === selfReply) {
+          for (var n in messages[i].replies) {
+            if (messages[i].replies[n].time === replyingTo) {
+              return messages[i].replies[n].color;
+              break;
+            }
+          }
+        }
+      }
+    } else {
+      for (var i in messages) {
+        if (messages[i].time == id) {
+          return messages[i].color;
+          break;
+        }
       }
     }
   }
@@ -893,12 +971,134 @@ export default function ChatRoom() {
                       {/* <ToastContainer /> */}
                     </div>
                     {item.replies
-                      ? Object.values(item.replies).map((item) => {
+                      ? Object.values(item.replies).map((itm) => {
                           return (
                             <div>
                               <div
                                 className="msg-container"
                                 style={{ marginLeft: 50 }}
+                              >
+                                <p
+                                  className="msg-user-name"
+                                  style={{ marginTop: "5px" }}
+                                >
+                                  {itm.user}
+                                </p>
+                                {/* start */}
+                                <div
+                                  className="msg-msg"
+                                  style={{
+                                    alignItems: "center",
+                                    borderRadius:
+                                      itm.text.length > 100
+                                        ? itm.text.length / 1.25
+                                        : 30,
+                                    padding: itm.text.length > 100 ? 10 : 0,
+                                    paddingRight: 20,
+                                    backgroundColor: itm.color
+                                  }}
+                                >
+                                  <span className="icon">
+                                    {renderAvatar(itm.avatar,'45','45')}
+                                  </span>
+
+                                  {itm.text.split("//n").map((itm) => (
+                                    <p
+                                      style={{
+                                        margin: "7px 0"
+                                      }}
+                                    >
+                                      {itm}
+                                      {/* {console.log(item)} */}
+                                    </p>
+                                  ))}
+                                </div>
+                                {/* <button
+                                className="ui circular"
+                                onClick={() => reply(item)}
+                              ></button> */}
+                                <div
+                                  className="msg-btn-container"
+                                  style={{ marginLeft: ".4vw" }}
+                                >
+                                  <div
+                            onClick={() => reply(itm, item)}
+                            className="btnRContainer"
+                            style={{ marginLeft: ".3vw" }}
+                          >
+                            <svg
+                              className="btnR"
+                              width="27"
+                              height="14"
+                              viewBox="0 0 29 14"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g style={{ mixBlendMode: "multiply" }}>
+                                <path
+                                  d="M24.5734 6.88871L22.2171 4.58349C21.7831 4.15885 21.7831 3.47034 22.2171 3.04569C22.6512 2.62105 23.3549 2.62105 23.789 3.04569L28.9047 8.05064C28.9651 8.14161 29 8.24868 29 8.36328C29 8.47867 28.9647 8.58642 28.9035 8.67778L23.789 13.6815C23.3549 14.1062 22.6512 14.1062 22.2171 13.6815C21.7831 13.2569 21.7831 12.5684 22.2171 12.1437L25.0315 9.39032H18.1522C17.367 9.4461 16.5845 9.30985 15.8045 8.98157C14.5491 8.43948 13.5316 7.37688 12.7518 5.7937L12.2018 4.5865C11.7512 3.64586 11.1939 3.04117 10.5299 2.7724C10.203 2.63189 9.88274 2.55001 9.56921 2.52677C9.56831 2.52671 9.56754 2.5274 9.56754 2.52828C9.56754 2.52913 9.56685 2.52981 9.56598 2.52981H1.29291C0.578857 2.52981 0 1.96349 0 1.2649C0 0.566324 0.578857 0 1.29291 0H9.56754C10.2632 0.00304185 10.9572 0.155922 11.6498 0.458577C12.8347 0.97214 13.7805 1.89816 14.487 3.23665L15.3214 4.98336C15.7562 5.84973 16.2906 6.41119 16.9244 6.66773C17.1436 6.75643 17.3625 6.8188 17.5811 6.85476L17.5823 6.85524C17.5831 6.85576 17.5836 6.85663 17.5836 6.8576C17.5836 6.85919 17.5849 6.86049 17.5865 6.86049H17.6151C17.6167 6.86049 17.6183 6.86061 17.6199 6.86084C17.78 6.8849 17.94 6.89481 18.0998 6.89057L18.1003 6.89041L18.1008 6.88964C18.1008 6.88913 18.1012 6.88871 18.1017 6.88871H24.5734Z"
+                                  fill="#DDDDDD"
+                                />
+                              </g>
+                            </svg>
+                          </div>
+                                  <div
+                                    onClick={() => likeMsg(itm)}
+                                    className="btnL"
+                                  >
+                                    <svg
+                                      className="btnL"
+                                      width="18"
+                                      height="17"
+                                      viewBox="0 0 20 19"
+                                      style={{
+                                        fill: itm.likeColor == "" ? "none" : item.likeColor
+                                        
+                                      }}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M7.87348 2.61469C8.73638 1.35561 10.5945 1.35562 11.4574 2.61469L12.8734 4.68075C13.1558 5.09292 13.5718 5.39511 14.0511 5.5364L16.4536 6.24461C17.9177 6.6762 18.4919 8.44339 17.5611 9.65312L16.0337 11.6382C15.729 12.0343 15.5701 12.5232 15.5838 13.0227L15.6527 15.5265C15.6947 17.0523 14.1914 18.1445 12.7532 17.633L10.3933 16.7938C9.9225 16.6264 9.40838 16.6264 8.93758 16.7938L6.57764 17.633C5.13948 18.1445 3.63622 17.0523 3.67819 15.5265L3.74705 13.0227C3.76079 12.5232 3.60192 12.0343 3.29721 11.6382L1.76982 9.65312C0.839026 8.44338 1.41322 6.6762 2.87732 6.24461L5.27981 5.5364C5.7591 5.39511 6.17504 5.09292 6.45752 4.68075L7.87348 2.61469Z"
+                                        stroke={
+                                          itm.likeColor == ""
+                                            ? "#DBDBDB"
+                                            : itm.likeColor
+                                        }
+                                        stroke-width="2"
+                                      />
+                                    </svg>
+                                  </div>
+                                  <div
+                                    onClick={() => thwackMsg(itm)}
+                                    className="btnT"
+                                  >
+                                    <svg
+                                      width="25"
+                                      height="27"
+                                      viewBox="0 0 25 27"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z"
+                                        stroke={
+                                          itm.thwacks > 0
+                                            ? "#FF2020"
+                                            : "#DBDBDB"
+                                        }
+                                        stroke-width="1.39649"
+                                      />
+                                    </svg>
+                                  </div>
+                                </div>
+                              </div>
+                              {itm.replies
+                      ? Object.values(itm.replies).map((item) => {
+                          return (
+                            <div>
+                              <div
+                                className="msg-container"
+                                style={{ marginLeft: 80 }}
                               >
                                 <p
                                   className="msg-user-name"
@@ -996,11 +1196,15 @@ export default function ChatRoom() {
                             </div>
                           );
                         })
+                              : null} </div>
+                        );
+                      })
                       : null}
+
                   </div>
                 );
               })}
-            </div>
+              </div>
 
             <div id="input-area">
               <div
