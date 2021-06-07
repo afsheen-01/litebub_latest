@@ -114,8 +114,8 @@ export default function ChatRoom() {
     const handleActivityFalse = () => {
       firebase.database().ref("/chats/" + id).on("value", snapshot => {
         if (snapshot.val()) {
-          console.log(Object.keys(Object.values(snapshot.val())).length)
-          console.log(currMessages)
+          // console.log(Object.keys(Object.values(snapshot.val())).length)
+          // console.log(currMessages)
           document.title = `${((Object.keys(Object.values(snapshot.val()))).length).toString()}`
         }
       })
@@ -125,7 +125,8 @@ export default function ChatRoom() {
       firebase.database().ref("/chats/"+id).on("value", snapshot => {
         if (snapshot.val()) {
           setMessages(Object.values(snapshot.val()));
-          return document.title = "Litebub"
+          document.title = "Litebub"
+
         }
       })
     };
@@ -137,7 +138,7 @@ export default function ChatRoom() {
       window.removeEventListener('focus', handleActivityTrue);
       window.removeEventListener('blur', handleActivityFalse);
     };
-  }, []);
+  }, [setMessages]);
     
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -269,6 +270,13 @@ export default function ChatRoom() {
   }
   function getUpdate() {
     var liveMessages = firebase.database().ref("/chats/" + id);
+
+    liveMessages.on("value", (snapshot) => {
+      if(snapshot.val()){
+        setMessages(Object.values(snapshot.val()));
+        document.title = "Litebub"
+      }
+    })
 
     liveMessages.on("child_changed", (snapshot) => {
       if (snapshot.val()) {
@@ -528,7 +536,7 @@ export default function ChatRoom() {
           .database()
           .ref("chats/" + id + "/" + item.time)
           .update({
-            likeColor: item.prevlikeColor ? item.prevlikeColor : "#fff",
+            likeColor: item.prevlikeColor ? item.prevlikeColor : "transparent",
             likes: item.likes - 1
           });
 
@@ -549,7 +557,7 @@ export default function ChatRoom() {
           .update({
             likeColor: chatColor,
             likes: item.likes + 1,
-            prevlikeColor: item.likeColor ? item.likeColor : "#fff"
+            prevlikeColor: item.likeColor ? item.likeColor : "transparent"
           });
 
         firebase
@@ -567,7 +575,7 @@ export default function ChatRoom() {
           .update({
             likeColor: chatColor,
             likes: item.likes + 1,
-            prevlikeColor: item.likeColor ? item.likeColor : "#fff"
+            prevlikeColor: item.likeColor ? item.likeColor : "transparent"
           });
         firebase
           .database()
@@ -582,7 +590,7 @@ export default function ChatRoom() {
           .update({
             likeColor: chatColor,
             likes: item.likes + 1,
-            prevlikeColor: item.likeColor ? item.likeColor : "#fff"
+            prevlikeColor: item.likeColor ? item.likeColor : "transparent"
           });
 
         firebase
@@ -838,19 +846,14 @@ export default function ChatRoom() {
               }}
             >
               <ToastContainer position="bottom-right" autoClose={5000} />
-              {() => setCurrMessages(messages.length)}
+              {/* {() => setCurrMessages(messages.length)} */}
               {messages.map((item) => {
                 return (
                   <div className="chatContainer">
-                    <div className="msg-container" style={{
-                      // height: item.sysAdd? "30%": "inherit"
-                    }}>
-                      
+                    <div className="msg-container">
                       <p className="msg-user-name" style={{ marginTop: "5px" }}>
                         {item.user}
                       </p>
-                      {/* start */}
-                      {/* {item.sysAdd?console.log("bleh"):console.log("nope")} */}
                       <div
                         className="msg-msg"
                         style={{
@@ -923,14 +926,14 @@ export default function ChatRoom() {
                               height="17"
                               viewBox="0 0 20 19"
                               fill={
-                                item.likeColor == "" ? "none" : item.likeColor
+                                item.likeColor == "" || !item.likeColor ? "none" : item.likeColor
                               }
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
                                 d="M7.87348 2.61469C8.73638 1.35561 10.5945 1.35562 11.4574 2.61469L12.8734 4.68075C13.1558 5.09292 13.5718 5.39511 14.0511 5.5364L16.4536 6.24461C17.9177 6.6762 18.4919 8.44339 17.5611 9.65312L16.0337 11.6382C15.729 12.0343 15.5701 12.5232 15.5838 13.0227L15.6527 15.5265C15.6947 17.0523 14.1914 18.1445 12.7532 17.633L10.3933 16.7938C9.9225 16.6264 9.40838 16.6264 8.93758 16.7938L6.57764 17.633C5.13948 18.1445 3.63622 17.0523 3.67819 15.5265L3.74705 13.0227C3.76079 12.5232 3.60192 12.0343 3.29721 11.6382L1.76982 9.65312C0.839026 8.44338 1.41322 6.6762 2.87732 6.24461L5.27981 5.5364C5.7591 5.39511 6.17504 5.09292 6.45752 4.68075L7.87348 2.61469Z"
                                 stroke={
-                                  item.likeColor == ""
+                                  item.likeColor == "" || !item.likeColor
                                     ? "#DBDBDB"
                                     : item.likeColor
                                 }
@@ -1045,7 +1048,7 @@ export default function ChatRoom() {
                                       height="17"
                                       viewBox="0 0 20 19"
                                       style={{
-                                        fill: itm.likeColor == "" ? "none" : itm.likeColor
+                                        fill: itm.likeColor == "" || !itm.likeColor ? "none" : itm.likeColor
                                         
                                       }}
                                       xmlns="http://www.w3.org/2000/svg"
@@ -1053,7 +1056,7 @@ export default function ChatRoom() {
                                       <path
                                         d="M7.87348 2.61469C8.73638 1.35561 10.5945 1.35562 11.4574 2.61469L12.8734 4.68075C13.1558 5.09292 13.5718 5.39511 14.0511 5.5364L16.4536 6.24461C17.9177 6.6762 18.4919 8.44339 17.5611 9.65312L16.0337 11.6382C15.729 12.0343 15.5701 12.5232 15.5838 13.0227L15.6527 15.5265C15.6947 17.0523 14.1914 18.1445 12.7532 17.633L10.3933 16.7938C9.9225 16.6264 9.40838 16.6264 8.93758 16.7938L6.57764 17.633C5.13948 18.1445 3.63622 17.0523 3.67819 15.5265L3.74705 13.0227C3.76079 12.5232 3.60192 12.0343 3.29721 11.6382L1.76982 9.65312C0.839026 8.44338 1.41322 6.6762 2.87732 6.24461L5.27981 5.5364C5.7591 5.39511 6.17504 5.09292 6.45752 4.68075L7.87348 2.61469Z"
                                         stroke={
-                                          itm.likeColor == ""
+                                          itm.likeColor == "" || !itm.likeColor
                                             ? "#DBDBDB"
                                             : itm.likeColor
                                         }
@@ -1146,7 +1149,7 @@ export default function ChatRoom() {
                                       height="17"
                                       viewBox="0 0 20 19"
                                       style={{
-                                        fill: item.likeColor == "" ? "none" : item.likeColor
+                                        fill: item.likeColor == "" || !item.likeColor ? "none" : item.likeColor
                                         
                                       }}
                                       xmlns="http://www.w3.org/2000/svg"
@@ -1154,7 +1157,7 @@ export default function ChatRoom() {
                                       <path
                                         d="M7.87348 2.61469C8.73638 1.35561 10.5945 1.35562 11.4574 2.61469L12.8734 4.68075C13.1558 5.09292 13.5718 5.39511 14.0511 5.5364L16.4536 6.24461C17.9177 6.6762 18.4919 8.44339 17.5611 9.65312L16.0337 11.6382C15.729 12.0343 15.5701 12.5232 15.5838 13.0227L15.6527 15.5265C15.6947 17.0523 14.1914 18.1445 12.7532 17.633L10.3933 16.7938C9.9225 16.6264 9.40838 16.6264 8.93758 16.7938L6.57764 17.633C5.13948 18.1445 3.63622 17.0523 3.67819 15.5265L3.74705 13.0227C3.76079 12.5232 3.60192 12.0343 3.29721 11.6382L1.76982 9.65312C0.839026 8.44338 1.41322 6.6762 2.87732 6.24461L5.27981 5.5364C5.7591 5.39511 6.17504 5.09292 6.45752 4.68075L7.87348 2.61469Z"
                                         stroke={
-                                          item.likeColor == ""
+                                          item.likeColor == "" || !item.likeColor
                                             ? "#DBDBDB"
                                             : item.likeColor
                                         }
