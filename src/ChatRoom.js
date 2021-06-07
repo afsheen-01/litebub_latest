@@ -117,16 +117,25 @@ export default function ChatRoom() {
       .on("value", snapshot => {
         // document.title = document.title !== "Litebub" ? (Object.keys(Object.values(snapshot.val())).length.toString()) : "Litebub"
         if(snapshot.val()){
-          if (document.title !== "Litebub") {
-            setUnreadMsg(0)
-            document.title = "Litebub"
+          // if (document.title !== "Litebub") {
+          //   setUnreadMsg(0)
+          //   document.title = "Litebub"
 
-          } else {
+          // } else {
             // document.title = "Litebub"
-            setUnreadMsg(unreadMsg++)
-            console.log(Object.keys(Object.values(snapshot.val())).length);
-            document.title = `${((Object.keys(Object.values(snapshot.val()))).length - unreadMsg).toString()}`
-          }
+          //   setUnreadMsg(unreadMsg++)
+          //   console.log(Object.keys(Object.values(snapshot.val())).length);
+          //   document.title = `${((Object.keys(Object.values(snapshot.val()))).length - unreadMsg).toString()}`
+          // }
+          document.addEventListener('visibilitychange', () => {
+            if(document.visibilityState === "hidden"){
+              setUnreadMsg(unreadMsg++)
+              document.title = `${((Object.keys(Object.values(snapshot.val()))).length - unreadMsg).toString()}`
+            } else{
+              setUnreadMsg(0)
+              document.title = "Litebub"
+            }
+          })
         }
 
       })
@@ -641,7 +650,7 @@ export default function ChatRoom() {
 
   function copyRoomID() {
     // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://z0k6t.csb.app/room/" + id);
+    copyToClipboard("https://x77be.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
@@ -1052,7 +1061,7 @@ export default function ChatRoom() {
                                       height="17"
                                       viewBox="0 0 20 19"
                                       style={{
-                                        fill: itm.likeColor == "" ? "none" : item.likeColor
+                                        fill: itm.likeColor == "" ? "none" : itm.likeColor
                                         
                                       }}
                                       xmlns="http://www.w3.org/2000/svg"
@@ -1367,24 +1376,6 @@ export default function ChatRoom() {
         </div>
       );
     } else {
-      // let str = "Litebub"
-      // setTimeout(() => {
-        // firebase
-        //   .database()
-        //   .ref("chats/" + id)
-        //   .on("child_added", (snapshot) => {
-        //     document.addEventListener("visibilitychange", () => {
-        //       if (document.visibilityState === "hidden") {
-        //         setUnreadMsg(unreadMsg + 1)
-        //         str = unreadMsg?`(${unreadMsg}) Litebub`:"Litebub"
-        //       } else {
-        //         setUnreadMsg(0)
-        //         str = `Litebub`
-        //       }
-        //     })
-        //     document.title = str
-        //   })
-      // }, 4000)
       return (
         <div>
           {/* <Helmet titleTemplate="%s">
