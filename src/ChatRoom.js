@@ -9,6 +9,7 @@ import { animateScroll } from "react-scroll";
 import Cookies from "universal-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import {PageVisibility} from "react-page-visibility";
 // import { Helmet } from "react-helmet";
 
 import AvatarOne from "./avatars/avatar-1-smile.js";
@@ -45,15 +46,13 @@ export default function ChatRoom() {
   var [chatPrev, setPreview] = useState("");
   var [participants, setParticipants] = useState(0);
   var [replyingTo, setReplyingTo] = useState(0);
-  // var [liked, setLiked] = useState(0);
   var [likeColor, setlikeColor] = useState([""]);
   var [notifications, setNotification] = useState([]);
-  var [leavingRoom, setislEaving] = useState(false)
-  var [bgs, setbgs] = useState([])
-  var [isSystem, setIsSystem] = useState(false)
-  var [unreadMsg, setUnreadMsg] = useState(0)
-  var [selfReply, isSelfReply] = useState(0)
-  var [title, setTitle] = useState("")
+  var [leavingRoom, setislEaving] = useState(false);
+  var [bgs, setbgs] = useState([]);
+  var [isSystem, setIsSystem] = useState(false);
+  var [selfReply, isSelfReply] = useState(0);
+  var [currMessages, setCurrMessages] = useState(0);
 
   //history for enterNamePage
   const history = useHistory();
@@ -110,37 +109,35 @@ export default function ChatRoom() {
         }
       });
   }, []);
+
   useEffect(() => {
-    firebase
-      .database()
-      .ref("/chats/" + id)
-      .on("value", snapshot => {
-        // document.title = document.title !== "Litebub" ? (Object.keys(Object.values(snapshot.val())).length.toString()) : "Litebub"
-        if(snapshot.val()){
-          // if (document.title !== "Litebub") {
-          //   setUnreadMsg(0)
-          //   document.title = "Litebub"
-
-          // } else {
-            // document.title = "Litebub"
-          //   setUnreadMsg(unreadMsg++)
-          //   console.log(Object.keys(Object.values(snapshot.val())).length);
-          //   document.title = `${((Object.keys(Object.values(snapshot.val()))).length - unreadMsg).toString()}`
-          // }
-          document.addEventListener('visibilitychange', () => {
-            if(document.visibilityState === "hidden"){
-              setUnreadMsg(unreadMsg++)
-              document.title = `${((Object.keys(Object.values(snapshot.val()))).length - unreadMsg).toString()}`
-            } else{
-              setUnreadMsg(0)
-              document.title = "Litebub"
-            }
-          })
+    const handleActivityFalse = () => {
+      firebase.database().ref("/chats/" + id).on("value", snapshot => {
+        if (snapshot.val()) {
+          console.log(Object.keys(Object.values(snapshot.val())).length)
+          console.log(currMessages)
+          document.title = `${((Object.keys(Object.values(snapshot.val()))).length).toString()}`
         }
-
       })
+    };
 
-  },[])
+    const handleActivityTrue = () => {
+      firebase.database().ref("/chats/"+id).on("value", snapshot => {
+        if (snapshot.val()) {
+          setMessages(Object.values(snapshot.val()));
+          return document.title = "Litebub"
+        }
+      })
+    };
+
+    window.addEventListener('focus', handleActivityTrue);
+    window.addEventListener('blur', handleActivityFalse);
+
+    return () => {
+      window.removeEventListener('focus', handleActivityTrue);
+      window.removeEventListener('blur', handleActivityFalse);
+    };
+  }, []);
     
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -232,7 +229,6 @@ export default function ChatRoom() {
     if (!chatColor) {
       
       setColor(color);
-      // console.log(color)
     }
     if (!chatAvatar) {
       
@@ -268,20 +264,12 @@ export default function ChatRoom() {
     } else {
       var msgs = [msg];
       setNotification((notifications) => [msg]);
-      // var current = JSON.parse(notifications);
-      // localStorage.setItem(current);
       toast(msg);
-      // console.log("adding 1st msg", notifications);
     }
   }
   function getUpdate() {
     var liveMessages = firebase.database().ref("/chats/" + id);
-    liveMessages.on("value", (snapshot) => {
-      if (snapshot.val()) {
-        
-        setMessages(Object.values(snapshot.val()));
-      }
-    });
+
     liveMessages.on("child_changed", (snapshot) => {
       if (snapshot.val()) {
         var item = snapshot.val();
@@ -443,11 +431,6 @@ export default function ChatRoom() {
     } else {
       if (str) {
         let msg = str === "enterRoom" ? `${userNameText} has joined the chat!` : `${userName} left`
-        // if (str === "enterRoom"){
-        //   msg = 
-        // } else if(msg === "leaveRoom"){
-        //   msg = 
-        // }
         firebase
           .database()
           .ref("chats/" + id + "/" + mid)
@@ -855,6 +838,7 @@ export default function ChatRoom() {
               }}
             >
               <ToastContainer position="bottom-right" autoClose={5000} />
+              {() => setCurrMessages(messages.length)}
               {messages.map((item) => {
                 return (
                   <div className="chatContainer">
@@ -1391,6 +1375,7 @@ export default function ChatRoom() {
             
             <meta property="og:type" content="website" />
           </Helmet> */}
+          {/* <PageVisibility onChange={handleChange}></PageVisibility> */}
           <div id = "inChatRoom" className="corner">
 				<h2 className = "header2 btnh" onClick={() => {
             history.push("/")
