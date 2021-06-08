@@ -53,6 +53,7 @@ export default function ChatRoom() {
   var [isSystem, setIsSystem] = useState(false);
   var [selfReply, isSelfReply] = useState(0);
   var [currMessages, setCurrMessages] = useState(0);
+  var [unreadMsg, setUnreadMsg] = useState(0);
 
   //history for enterNamePage
   const history = useHistory();
@@ -114,9 +115,14 @@ export default function ChatRoom() {
     const handleActivityFalse = () => {
       firebase.database().ref("/chats/" + id).on("value", snapshot => {
         if (snapshot.val()) {
+          // getValidity()
+          // setUnreadMsg((Object.keys(Object.values(snapshot.val()))).length - currMessages)
           // console.log(Object.keys(Object.values(snapshot.val())).length)
           // console.log(currMessages)
-          document.title = `${((Object.keys(Object.values(snapshot.val()))).length).toString()}`
+          // console.log((Object.keys(Object.values(snapshot.val()))).length - currMessages)
+          // console.log(currMessages)
+          document.title = (Object.keys(Object.values(snapshot.val()))).length - currMessages > 0 ? 
+          `(${((Object.keys(Object.values(snapshot.val()))).length - currMessages).toString()}) Litebub`:"Litebub";
         }
       })
     };
@@ -124,7 +130,8 @@ export default function ChatRoom() {
     const handleActivityTrue = () => {
       firebase.database().ref("/chats/"+id).on("value", snapshot => {
         if (snapshot.val()) {
-          setMessages(Object.values(snapshot.val()));
+          setMessages(Object.values(snapshot.val()))
+          // setUnreadMsg(0)
           document.title = "Litebub"
 
         }
@@ -138,13 +145,13 @@ export default function ChatRoom() {
       window.removeEventListener('focus', handleActivityTrue);
       window.removeEventListener('blur', handleActivityFalse);
     };
-  }, [setMessages]);
+  }, [currMessages]);
     
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       setReplyingTo(0);
     }
-  }, []);
+  }, [currMessages, unreadMsg]);
   function detectMob() {
     const toMatch = [
       /Android/i,
@@ -245,11 +252,13 @@ export default function ChatRoom() {
       .then((snapshot) => {
         if (snapshot.val()) {
           setMessages(Object.values(snapshot.val()));
+          setCurrMessages(Object.keys(snapshot.val()).length)
           animateScroll.scrollToBottom({
             containerId: "chat-area"
           });
         }
       });
+      // console.log(messages.length)
   }
   function showToast(msg) {
     // console.log(msg);
