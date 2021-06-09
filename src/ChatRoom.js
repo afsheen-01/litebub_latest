@@ -112,11 +112,13 @@ export default function ChatRoom() {
   }, []);
 
   useEffect(() => {
+    console.log("in use effect")
     const handleActivityFalse = () => {
+      console.log("in handle activity false")
       firebase.database().ref("/chats/" + id).on("value", snapshot => {
         if (snapshot.val()) {
           console.log(Object.keys(Object.values(snapshot.val())).length)
-          console.log(currMessages)
+          // console.log(currMessages)
           console.log((Object.keys(Object.values(snapshot.val()))).length - currMessages)
           document.title = (Object.keys(Object.values(snapshot.val()))).length - currMessages > 0 ? 
           `(${((Object.keys(Object.values(snapshot.val()))).length - currMessages).toString()}) Litebub`:"Litebub";
@@ -125,6 +127,7 @@ export default function ChatRoom() {
     };
 
     const handleActivityTrue = () => {
+      console.log("in handle activity true")
       firebase.database().ref("/chats/"+id).on("value", snapshot => {
         if (snapshot.val()) {
           setMessages(Object.values(snapshot.val()))
@@ -136,7 +139,9 @@ export default function ChatRoom() {
     };
 
     window.addEventListener('focus', handleActivityTrue);
+    window.addEventListener('pageshow', handleActivityTrue);
     window.addEventListener('blur', handleActivityFalse);
+    window.addEventListener('pagehide', handleActivityFalse);
 
     return () => {
       window.removeEventListener('focus', handleActivityTrue);
