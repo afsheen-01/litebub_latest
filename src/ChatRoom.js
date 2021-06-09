@@ -138,15 +138,15 @@ export default function ChatRoom() {
       })
     };
 
-    window.addEventListener('focus', handleActivityTrue);
+    // window.addEventListener('focus', handleActivityTrue);
     window.addEventListener('pageshow', handleActivityTrue);
-    window.addEventListener('blur', handleActivityFalse);
+    // window.addEventListener('blur', handleActivityFalse);
     window.addEventListener('pagehide', handleActivityFalse);
 
     return () => {
-      window.addEventListener('focus', handleActivityTrue);
+      // window.addEventListener('focus', handleActivityTrue);
       window.addEventListener('pageshow', handleActivityTrue);
-      window.addEventListener('blur', handleActivityFalse);
+      // window.addEventListener('blur', handleActivityFalse);
       window.addEventListener('pagehide', handleActivityFalse);
     };
   }, [currMessages]);
