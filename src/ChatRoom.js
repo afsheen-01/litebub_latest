@@ -249,7 +249,7 @@ export default function ChatRoom() {
       .then((snapshot) => {
         if (snapshot.val()) {
           setMessages(Object.values(snapshot.val()));
-          setCurrMessages(Object.keys(snapshot.val()).length)
+          // setCurrMessages(Object.keys(snapshot.val()).length)
           animateScroll.scrollToBottom({
             containerId: "chat-area"
           });
@@ -642,7 +642,7 @@ export default function ChatRoom() {
 
   function copyRoomID() {
     // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://kq55d.csb.app/room/" + id);
+    copyToClipboard("https://h4cce.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
