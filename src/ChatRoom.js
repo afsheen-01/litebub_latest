@@ -144,8 +144,10 @@ export default function ChatRoom() {
     window.addEventListener('pagehide', handleActivityFalse);
 
     return () => {
-      window.removeEventListener('focus', handleActivityTrue);
-      window.removeEventListener('blur', handleActivityFalse);
+      window.addEventListener('focus', handleActivityTrue);
+      window.addEventListener('pageshow', handleActivityTrue);
+      window.addEventListener('blur', handleActivityFalse);
+      window.addEventListener('pagehide', handleActivityFalse);
     };
   }, [currMessages]);
     
