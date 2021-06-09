@@ -115,12 +115,9 @@ export default function ChatRoom() {
     const handleActivityFalse = () => {
       firebase.database().ref("/chats/" + id).on("value", snapshot => {
         if (snapshot.val()) {
-          // getValidity()
-          // setUnreadMsg((Object.keys(Object.values(snapshot.val()))).length - currMessages)
-          // console.log(Object.keys(Object.values(snapshot.val())).length)
-          // console.log(currMessages)
-          // console.log((Object.keys(Object.values(snapshot.val()))).length - currMessages)
-          // console.log(currMessages)
+          console.log(Object.keys(Object.values(snapshot.val())).length)
+          console.log(currMessages)
+          console.log((Object.keys(Object.values(snapshot.val()))).length - currMessages)
           document.title = (Object.keys(Object.values(snapshot.val()))).length - currMessages > 0 ? 
           `(${((Object.keys(Object.values(snapshot.val()))).length - currMessages).toString()}) Litebub`:"Litebub";
         }
@@ -131,7 +128,7 @@ export default function ChatRoom() {
       firebase.database().ref("/chats/"+id).on("value", snapshot => {
         if (snapshot.val()) {
           setMessages(Object.values(snapshot.val()))
-          // setUnreadMsg(0)
+          setCurrMessages(Object.keys(Object.values(snapshot.val())).length)
           document.title = "Litebub"
 
         }
@@ -151,7 +148,7 @@ export default function ChatRoom() {
     if (event.keyCode === 27) {
       setReplyingTo(0);
     }
-  }, [currMessages, unreadMsg]);
+  }, [currMessages]);
   function detectMob() {
     const toMatch = [
       /Android/i,
@@ -266,9 +263,6 @@ export default function ChatRoom() {
       if (!notifications.includes(msg)) {
         setNotification((notifications) => [...notifications, msg]);
         toast(msg);
-        // var current = JSON.parse(notifications);
-        // localStorage.setItem(current);
-        // console.log("new!", notifications);
       }
       console.log("new!", notifications);
     } else {
@@ -302,10 +296,8 @@ export default function ChatRoom() {
         if (item.thwacks > 0) {
           if (userName == item.user) {
             showToast("You have been thwacked " + item.thwacks + " time(s)");
-            // console.log("new thwack");
           }
         } else {
-          // console.log("nothing serious", item);
         }
       }
     });
