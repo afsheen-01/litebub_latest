@@ -110,52 +110,44 @@ export default function ChatRoom() {
         }
       });
   }, []);
-
-  useEffect(() => {
-    console.log("in use effect")
-    const handleActivityFalse = () => {
-      console.log("in handle activity false")
+  
+  // useEffect(() => {
+      const handleActivityTrue = () => {
       firebase.database().ref("/chats/" + id).on("value", snapshot => {
         if (snapshot.val()) {
-          console.log(Object.keys(Object.values(snapshot.val())).length)
-          // console.log(currMessages)
-          console.log((Object.keys(Object.values(snapshot.val()))).length - currMessages)
-          document.title = (Object.keys(Object.values(snapshot.val()))).length - currMessages > 0 ? 
-          `(${((Object.keys(Object.values(snapshot.val()))).length - currMessages).toString()}) Litebub`:"Litebub";
-        }
-      })
-    };
-
-    const handleActivityTrue = () => {
-      console.log("in handle activity true")
-      firebase.database().ref("/chats/"+id).on("value", snapshot => {
-        if (snapshot.val()) {
+          console.log("in handle activity true")
           setMessages(Object.values(snapshot.val()))
           setCurrMessages(Object.keys(Object.values(snapshot.val())).length)
           document.title = "Litebub"
 
         }
       })
+    
+    } 
+      const handleActivityFalse = () => {
+      firebase.database().ref("/chats/" + id).on("value", snapshot => {
+        if (snapshot.val()) {
+          console.log("in handle activity false")
+          document.title = (Object.keys(Object.values(snapshot.val()))).length - currMessages > 0 ?
+            `(${((Object.keys(Object.values(snapshot.val()))).length - currMessages).toString()}) Litebub` : "Litebub";
+        }
+      })
     };
+    
+    window.addEventListener('blur', handleActivityFalse);
+    window.addEventListener('focus', handleActivityTrue);
 
-    // window.addEventListener('focus', handleActivityTrue);
-    window.addEventListener('pageshow', handleActivityTrue);
-    // window.addEventListener('blur', handleActivityFalse);
-    window.addEventListener('pagehide', handleActivityFalse);
-
-    return () => {
-      // window.addEventListener('focus', handleActivityTrue);
-      window.addEventListener('pageshow', handleActivityTrue);
-      // window.addEventListener('blur', handleActivityFalse);
-      window.addEventListener('pagehide', handleActivityFalse);
-    };
-  }, [currMessages]);
+  //   return () => {
+  //     window.addEventListener('blur', handleActivityFalse);
+  //     window.addEventListener('focus', handleActivityTrue);
+  //   };
+  // }, [currMessages]);
     
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       setReplyingTo(0);
     }
-  }, [currMessages]);
+  },[])
   function detectMob() {
     const toMatch = [
       /Android/i,
@@ -255,8 +247,7 @@ export default function ChatRoom() {
       .once("value")
       .then((snapshot) => {
         if (snapshot.val()) {
-          setMessages(Object.values(snapshot.val()));
-          // setCurrMessages(Object.keys(snapshot.val()).length)
+          setCurrMessages(Object.keys(snapshot.val()).length)
           animateScroll.scrollToBottom({
             containerId: "chat-area"
           });
@@ -280,14 +271,6 @@ export default function ChatRoom() {
   }
   function getUpdate() {
     var liveMessages = firebase.database().ref("/chats/" + id);
-
-    liveMessages.on("value", (snapshot) => {
-      if(snapshot.val()){
-        setMessages(Object.values(snapshot.val()));
-        document.title = "Litebub"
-      }
-    })
-
     liveMessages.on("child_changed", (snapshot) => {
       if (snapshot.val()) {
         var item = snapshot.val();
