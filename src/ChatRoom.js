@@ -53,7 +53,7 @@ export default function ChatRoom() {
   var [isSystem, setIsSystem] = useState(false);
   var [selfReply, isSelfReply] = useState(0);
   var [currMessages, setCurrMessages] = useState(0);
-  var [unreadMsg, setUnreadMsg] = useState(0);
+  var [newMessageCount, setNewMessageCount] = useState(0);
 
   //history for enterNamePage
   const history = useHistory();
@@ -93,7 +93,6 @@ export default function ChatRoom() {
       bgGifNo = query.get("chatBg")
     }else{
       firebase.database().ref("rooms/" + id).on("value", snapshot => {
-        console.log(snapshot.val().chatBg + " snapshot.val()")
         bgGifNo = snapshot.val().chatBg
       })
     }
@@ -110,39 +109,46 @@ export default function ChatRoom() {
         }
       });
   }, []);
-  
-  // useEffect(() => {
-      const handleActivityTrue = () => {
+
+  useEffect(() => {
+    document.addEventListener("visibilitychange",() => {
+      if(document.visibilityState === "hidden"){
+        console.log("hidden")
+          // && (newMessageCount > currMessages)
+        console.log(newMessageCount)
+        console.log(currMessages)
+        console.log(newMessageCount-currMessages)
+        document.title = `(${(newMessageCount - currMessages).toString()}) Litebub`;
+      } 
+      // else{
+      //   firebase.database().ref("/chats/" + id).on("value", snapshot => {
+      //     if (snapshot.val()) {
+      //       setMessages(Object.values(snapshot.val()))
+      //       setCurrMessages(newMessageCount)
+      //       document.title = "Litebub"
+
+      //     }
+      //   })
+      // }
+    })
+    // console.log(currMessages)
+    // console.log(newMessageCount)
+    
+  }, [currMessages, newMessageCount]);
+    
+  useEffect(() => {
+    if(document.visibilityState !== "hidden"){
       firebase.database().ref("/chats/" + id).on("value", snapshot => {
         if (snapshot.val()) {
-          console.log("in handle activity true")
           setMessages(Object.values(snapshot.val()))
-          setCurrMessages(Object.keys(Object.values(snapshot.val())).length)
+          setCurrMessages(newMessageCount)
           document.title = "Litebub"
 
         }
       })
-    
-    } 
-      const handleActivityFalse = () => {
-      firebase.database().ref("/chats/" + id).on("value", snapshot => {
-        if (snapshot.val()) {
-          console.log("in handle activity false")
-          document.title = (Object.keys(Object.values(snapshot.val()))).length - currMessages > 0 ?
-            `(${((Object.keys(Object.values(snapshot.val()))).length - currMessages).toString()}) Litebub` : "Litebub";
-        }
-      })
-    };
-    
-    window.addEventListener('blur', handleActivityFalse);
-    window.addEventListener('focus', handleActivityTrue);
-
-  //   return () => {
-  //     window.addEventListener('blur', handleActivityFalse);
-  //     window.addEventListener('focus', handleActivityTrue);
-  //   };
-  // }, [currMessages]);
-    
+    }
+  }, [currMessages, newMessageCount])
+  
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       setReplyingTo(0);
@@ -248,6 +254,7 @@ export default function ChatRoom() {
       .then((snapshot) => {
         if (snapshot.val()) {
           setCurrMessages(Object.keys(snapshot.val()).length)
+          setNewMessageCount((Object.keys(Object.values(snapshot.val()))).length);
           animateScroll.scrollToBottom({
             containerId: "chat-area"
           });
@@ -429,7 +436,7 @@ export default function ChatRoom() {
         });
     } else {
       if (str) {
-        let msg = str === "enterRoom" ? `${userNameText} has joined the chat!` : `${userName} left`
+        let msg = str === "enterRoom" ? ` has joined the chat!` : ` left`
         firebase
           .database()
           .ref("chats/" + id + "/" + mid)
@@ -877,11 +884,14 @@ export default function ChatRoom() {
                             whiteSpace: "pre-wrap",
                           }}
                         >
-                          {item.sysAdd?<span style={{
+                          {/* {item.sysAdd?<span style={{
                             color: item.color,
                             fontWeight: "600"
-                            }}>{item.text.split(" ")[0]}</span>: null}
-                          {item.sysAdd ?item.text.slice(item.text.indexOf(" ")): item.text}
+                            }}>{item.user}</span>: null} */}
+                          {item.sysAdd ? <><span style={{
+                            color: item.color,
+                            fontWeight: "600"
+                          }}>{userNameText}</span>{item.text}</>:item.text}
                         </p>
                       </div>
                       {!item.sysAdd?
