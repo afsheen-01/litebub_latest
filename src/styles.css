@@ -398,7 +398,7 @@ button:hover {
 }
 .msg-container {
   display: flex;
-  width: inherit;
+  width: 90;
   height: inherit;
   font-size: 1.5em;
   margin: 0.7em 0;
@@ -499,7 +499,7 @@ background: rgba(0,0,0,0.3);
 
 /*hover states for buttons*/
 .btnh:hover{
-cursor: grab
+cursor: pointer
 }
 .noSelect {
   -webkit-touch-callout: none;
@@ -508,4 +508,49 @@ cursor: grab
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+/* error message */
+.errorContainer{
+  /* border: 2px solid #000; */
+  height: 99vh;
+}
+.container-layout{
+  height: 80%;
+  width: 100%;
+  /* border: 1px solid #000; */
+}
+.error-msg{
+  display: flex;
+  align-items:flex-end;
+  justify-content: center;
+  height: 40%;
+  /* border: 2px solid #000; */
+}
+.console-msg{
+  /* border: 2px solid #000; */
+  color: #AAA;
+  /* position:relative;
+  bottom: 3%; */
+  font-size: 1.2em;
+  margin-left: 4.5em;
+  text-align: center;
+}
+.home-button{
+  border-radius: 12px;
+  background-color: #828282;
+  /* color: #fff; */
+  width: 10%;
+  /* height: 4%; */
+  position:relative;
+  left: 42%;
+  bottom: 1%;
+  padding: 8px;
+}
+.home-button a{
+  color: #fff;
+  font-size:1.2em;
+}
+.home-button a:hover{
+  color:#fff;
 }

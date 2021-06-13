@@ -40,17 +40,18 @@ const MultiStepForm = ({ images }) => {
     setVisible,
   };
   // console.log(formData)
-  return id == 'start' ? <Start {...props} />
-    :
-    <ComponentTransition
-      enterAnimation={AnimationTypes.slideDown.enter}
-      exitAnimation={AnimationTypes.slideUp.exit}
-    >
-      {id == 'copy' ? <CopyLink {...props} />
-        : <CreateLink {...props} />}
-    </ComponentTransition>
-
-
+  switch (id) {
+    case "start":
+      return <Start {...props} />;
+    case "create":
+      return <CreateLink {...props} />;
+    case "copy":
+      return <CopyLink {...props} />;
+    // case "chat":
+    // return <ChatRoom {...props} />;
+    default:
+      return null;
+  }
 };
 
 export default MultiStepForm;

@@ -24,7 +24,6 @@ import AvatarNine from "./avatars/avatar-9.js";
 import AvatarTen from "./avatars/avatar-10.js";
 import AvatarEleven from "./avatars/avatar-11.js";
 import AvatarTwelve from "./avatars/avatar-12.js";
-// import { ItemMeta } from "semantic-ui-react";
 
 const cookies = new Cookies();
 
@@ -50,7 +49,7 @@ export default function ChatRoom() {
   var [notifications, setNotification] = useState([]);
   var [leavingRoom, setislEaving] = useState(false);
   var [bgs, setbgs] = useState([]);
-  var [isSystem, setIsSystem] = useState(false);
+  // var [isSystem, setIsSystem] = useState(true);
   var [selfReply, isSelfReply] = useState(0);
   var [currMessages, setCurrMessages] = useState(0);
   var [newMessageCount, setNewMessageCount] = useState(0);
@@ -110,34 +109,22 @@ export default function ChatRoom() {
       });
   }, []);
 
-  useEffect(() => {
-    document.addEventListener("visibilitychange",() => {
-      if(document.visibilityState === "hidden"){
-        console.log("hidden")
-          // && (newMessageCount > currMessages)
-        console.log(newMessageCount)
-        console.log(currMessages)
-        console.log(newMessageCount-currMessages)
-        document.title = `(${(newMessageCount - currMessages).toString()}) Litebub`;
-      } 
-      // else{
-      //   firebase.database().ref("/chats/" + id).on("value", snapshot => {
-      //     if (snapshot.val()) {
-      //       setMessages(Object.values(snapshot.val()))
-      //       setCurrMessages(newMessageCount)
-      //       document.title = "Litebub"
-
-      //     }
-      //   })
-      // }
-    })
-    // console.log(currMessages)
-    // console.log(newMessageCount)
+  // useEffect(() => {
+  //   document.addEventListener("visibilitychange",() => {
+  //     if(document.visibilityState === "hidden"){
+  //       console.log("hidden")
+  //         // && (newMessageCount > currMessages)
+  //       console.log(newMessageCount)
+  //       console.log(currMessages)
+  //       console.log(newMessageCount-currMessages)
+  //       document.title = `(${(newMessageCount - currMessages).toString()}) Litebub`;
+  //     }
+  //   })
     
-  }, [currMessages, newMessageCount]);
+  // }, [currMessages, newMessageCount]);
     
   useEffect(() => {
-    if(document.visibilityState !== "hidden"){
+  //   if(document.visibilityState !== "hidden"){
       firebase.database().ref("/chats/" + id).on("value", snapshot => {
         if (snapshot.val()) {
           setMessages(Object.values(snapshot.val()))
@@ -146,7 +133,7 @@ export default function ChatRoom() {
 
         }
       })
-    }
+  //   }
   }, [currMessages, newMessageCount])
   
   const escFunction = useCallback((event) => {
@@ -353,38 +340,29 @@ export default function ChatRoom() {
       }
     }
   }
-  function renderAvatar(mavatar, height, width) {
-    if (mavatar == 1) {
-      return <AvatarOne  height = {height?height:'45'} width = {width? width: '45'}  />;
-    } else if (mavatar == 2) {
-      return <AvatarTwo  height = {height?height:'45'} width = {width? width: '45'} />;
-    } else if (mavatar == 3) {
-      return <AvatarThree  height = {height?height:'45'} width = {width? width: '45'} />;
-    } else if (mavatar == 4) {
-      return <AvatarFour  height = {height?height:'45'} width = {width? width: '45'} />;
-    } else if (mavatar == 5) {
-      return <AvatarFive  height = {height?height:'45'} width = {width? width: '45'} />;
-    } else if (mavatar == 6) {
-      return <AvatarSix  height = {height?height:'45'} width = {width? width: '45'} />;
-    } else if (mavatar == 7) {
-      return <AvatarSeven  height = {height?height:'45'} width = {width? width: '45'} />;
-    } else if (mavatar == 8) {
-      return <AvatarEight  height = {height?height:'45'} width = {width? width: '45'} />;
-    } else if (mavatar == 9) {
-      return <AvatarNine  height = {height?height:'45'} width = {width? width: '45'} />;
-    } else if (mavatar == 10) {
-      return <AvatarTen  height = {height?height:'45'} width = {width? width: '45'} />;
-    } else if (mavatar == 11) {
-      return <AvatarEleven  height = {height?height:'45'} width = {width? width: '45'} />;
-    } else if (mavatar == 12) {
-      return <AvatarTwelve  height = {height?height:'45'} width = {width? width: '45'} />;
-    }
+  function joinLeaveNotification(str){
+    console.log("function call")
+      let mid = +new Date(Date.now());
+      firebase
+        .database()
+        .ref("chats/" + id + "/" + mid)
+        .set({
+          text: str === "join" ? " joined chat!" : " left",
+          time: mid,
+          user: str === "join" ? userNameText : userName,
+          color: chatColor,
+          avatar: chatAvatar,
+          likeColor: likeColor,
+          likes: 0,
+          thwacks: 0,
+          sysAdd: true
+        });
   }
   function joinChat() {
-    if (userNameText) {
+    if (userNameText.length) {
       setUserName(userNameText);
-      setIsSystem(true);
-      sendMsg("enterRoom");
+      joinLeaveNotification("join");
+      // setIsSystem(true);
       cookies.set("user", userNameText, { path: "/" });
       cookies.set("chatColor", chatColor, { path: "/" });
       cookies.set("chatAvatar", chatAvatar, { path: "/" });
@@ -398,6 +376,33 @@ export default function ChatRoom() {
       noNameGiven();
     }
   }
+  function renderAvatar(mavatar, height, width) {
+    if (mavatar == 1) {
+      return <AvatarOne height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 2) {
+      return <AvatarTwo height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 3) {
+      return <AvatarThree height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 4) {
+      return <AvatarFour height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 5) {
+      return <AvatarFive height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 6) {
+      return <AvatarSix height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 7) {
+      return <AvatarSeven height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 8) {
+      return <AvatarEight height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 9) {
+      return <AvatarNine height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 10) {
+      return <AvatarTen height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 11) {
+      return <AvatarEleven height={height ? height : '45'} width={width ? width : '45'} />;
+    } else if (mavatar == 12) {
+      return <AvatarTwelve height={height ? height : '45'} width={width ? width : '45'} />;
+    }
+  }
   function hideDisplayBtns (val){
 
     const clearBtn = document.querySelector('.nameCrossBtn')
@@ -408,69 +413,42 @@ export default function ChatRoom() {
       clearBtn.style.visibility = "hidden"
   }
 }
-  function sendMsg(str) {
+  function sendMsg() {
     let mid = +new Date(Date.now());
     // console.log(mid);
     if (replyingTo > 0) {
-      if (selfReply > 0) {
-        var path = "chats/" + id + "/" + selfReply + "/replies/" + replyingTo + "/replies/" + mid + "/"
-      } else {
-        var path = "chats/" + id + "/" + replyingTo + "/replies/" + mid + "/"
-      }
-      console.log(path)
       firebase
         .database()
-        .ref(path)
+        .ref("chats/" + id + "/" + replyingTo + "/replies/" + mid + "/")
         .set({
           text: message.replaceAll("/n", "//n"),
           time: mid,
           user: userName,
           color: chatColor,
           avatar: chatAvatar,
-          isDeeperReply: selfReply > 0 ? true : false,
-          isReply: selfReply > 0 ? false : true,
-          parent: selfReply > 0 ? selfReply : replyingTo,
-          mainParent: selfReply > 0 ? replyingTo : 0,
+          isReply: true,
+          parent: replyingTo,
           likes: 0,
           thwacks: 0
         });
     } else {
-      if (str) {
-        let msg = str === "enterRoom" ? ` has joined the chat!` : ` left`
-        firebase
-          .database()
-          .ref("chats/" + id + "/" + mid)
-          .set({
-            text: msg,
-            time: mid,
-            user: userName,
-            color: chatColor,
-            avatar: chatAvatar,
-            likes: 0,
-            thwacks: 0,
-            sysAdd: str
-          });
-      } else {
-        firebase
-          .database()
-          .ref("chats/" + id + "/" + mid)
-          .set({
-            text: message.replaceAll("/n", "//n"),
-            time: mid,
-            user: userName,
-            color: chatColor,
-            avatar: chatAvatar,
-            likes: 0,
-            thwacks: 0
-          });
-      }
-
+      firebase
+        .database()
+        .ref("chats/" + id + "/" + mid)
+        .set({
+          text: message.replaceAll("/n", "//n"),
+          time: mid,
+          user: userName,
+          color: chatColor,
+          avatar: chatAvatar,
+          likes: 0,
+          thwacks: 0
+        });
     }
 
     setMessageText("");
     setReplyingTo(0);
     setlikeColor([""]);
-    isSelfReply(0)
   }
   function reply(item, isSelf) {
     setReplyingTo(item.time);
@@ -704,7 +682,7 @@ export default function ChatRoom() {
     var rand = qarr[Math.floor(Math.random() * qarr.length)];
     return rand;
   }
-  if (isValid) {
+  if (isValid) { 
     if (userName) {
       return (
         <div style = {{
@@ -751,11 +729,11 @@ export default function ChatRoom() {
 									className=" ui button btnYes"
 									onClick={() => {
 										setUserName("");
+                    joinLeaveNotification("leave")
 										setislEaving(false);
 										document.querySelector(
 											".newRoom"
 										).style.filter = "blur(0px)";
-                    sendMsg("leaveRoom")
 									}}
 								>
 									YES
@@ -844,7 +822,6 @@ export default function ChatRoom() {
               }}
             >
               <ToastContainer position="bottom-right" autoClose={5000} />
-              {/* {() => setCurrMessages(messages.length)} */}
               {messages.map((item) => {
                 return (
                   <div className="chatContainer">
@@ -891,7 +868,7 @@ export default function ChatRoom() {
                           {item.sysAdd ? <><span style={{
                             color: item.color,
                             fontWeight: "600"
-                          }}>{userNameText}</span>{item.text}</>:item.text}
+                          }}>{item.user}</span>{item.text}</>:item.text}
                         </p>
                       </div>
                       {!item.sysAdd?
@@ -965,7 +942,6 @@ export default function ChatRoom() {
                         </div>: null}
                       
                       {/* end */}
-                      {/* <ToastContainer /> */}
                     </div>
                     {item.replies
                       ? Object.values(item.replies).map((itm) => {
@@ -1264,7 +1240,7 @@ export default function ChatRoom() {
                     type="text"
                   />
                   <svg
-                    onClick={() => sendMsg(null)}
+                    onClick={sendMsg}
                     className="enterBtn"
                     width="65"
                     style={{
@@ -1360,26 +1336,12 @@ export default function ChatRoom() {
               </div>
               {/* </textarea> */}
             </div>
-          </div>
+          </div> 
         </div>
       );
     } else {
       return (
         <div>
-          {/* <Helmet titleTemplate="%s">
-            <meta charSet="utf-8" />
-            <title>{title}</title>
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:site" content="LitBub" />
-            <meta
-              name="twitter:title"
-              content={"We are chatting about " + topic}
-            />
-            <meta name="twitter:description" content="Join us on Litbub" />
-            
-            <meta property="og:type" content="website" />
-          </Helmet> */}
-          {/* <PageVisibility onChange={handleChange}></PageVisibility> */}
           <div id = "inChatRoom" className="corner">
 				<h2 className = "header2 btnh" onClick={() => {
             history.push("/")
@@ -1496,7 +1458,7 @@ export default function ChatRoom() {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
-              width: "99%"
+              width: "99%",
               }}
               className="inputName"
             >
@@ -1590,12 +1552,18 @@ export default function ChatRoom() {
                  >
                   {renderAvatar(chatAvatar,'35','35')}
                  </span>
-               {	 userNameText.length > 15
-                ? userNameText.substring(
-                    0,
-                    15
-                  ) + "..."
-                : userNameText} </div>
+                  <span style={{
+                    width:"60%",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis"}}>{
+              //  userNameText.length > 15
+              //   ? userNameText.substring(
+              //       0,
+              //       15
+              //     ) + "..."
+              //   : 
+                userNameText} </span></div>
                 {/* <br /> */}
             <button
             // className = "joinChatBtn"
