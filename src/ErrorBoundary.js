@@ -33,7 +33,7 @@
 							margin: "1.7em 2em",
 							// width: "19%"
 						}}>
-							litebub
+						<a href= "https://litebub.netlify.app" style={{color:"#000"}}>litebub</a>
 						</h2>
 						<div class="container-layout">
 							<div class = "error-msg">

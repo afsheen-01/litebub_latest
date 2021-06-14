@@ -540,10 +540,10 @@ cursor: pointer
   border-radius: 12px;
   background-color: #828282;
   /* color: #fff; */
-  width: 10%;
+  width: 10em;
   /* height: 4%; */
   position:relative;
-  left: 42%;
+  left: 43.5em;
   bottom: 1%;
   padding: 8px;
 }
