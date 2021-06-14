@@ -63,8 +63,8 @@
 							<p class="console-msg">We're lightly, but swiftly sorting this out.</p>
 						<div class="home-button btnh" onClick={this.homePage}>
 								<p>
-									<a href="https://litebub.netlify.app">
-										⬅️ <span style={{margin:"10px"}}>go home</span>
+									<a href="https://litebub.netlify.app" style={{padding: "8px"}}>
+										⬅️ <span style={{margin:"12px 10px"}}>go home</span>
 									</a>
 								</p>
 							</div>
