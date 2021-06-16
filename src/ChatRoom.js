@@ -340,28 +340,104 @@ export default function ChatRoom() {
       }
     }
   }
-  function joinLeaveNotification(str){
-    console.log("function call")
+  function chatAreaNotifications(msg){
+    // console.log(msg);
+    let textMsg = "";
+    switch(msg){
+      case "join":
+        textMsg = " joined chat!";
+        break;
+      case "leave":
+        textMsg = " left"
+        break;
+    }
       let mid = +new Date(Date.now());
       firebase
         .database()
         .ref("chats/" + id + "/" + mid)
         .set({
-          text: str === "join" ? " joined chat!" : " left",
+          text: textMsg ,
           time: mid,
-          user: str === "join" ? userNameText : userName,
+          user: msg === "join" ? userNameText : userName,
           color: chatColor,
           avatar: chatAvatar,
-          likeColor: likeColor,
-          likes: 0,
-          thwacks: 0,
+          // likeColor: likeColor,
+          // likes: 0,
+          // thwacks: 0,
           sysAdd: true
         });
+  }
+  function notificationMsg(notifMsg){
+    console.log(notifMsg);
+    return (
+      <div
+        className="msg-msg"
+        style={{
+          backgroundColor: "#FFF",
+          boxShadow: `0 0 0 1px #000`,
+          alignItems: "center",
+          borderRadius:
+            notifMsg.length > 100
+              ? notifMsg.length / 1.25
+              : 30,
+          height: "17%",
+          padding: notifMsg.text.length > 100 ? 10 : 0,
+          paddingRight: 20,
+          fontSize: ".7em"
+        }}
+      >
+        <span className="icon" style={{
+          backgroundColor:  notifMsg.color,
+          margin: "4px 4px 4px 6px" ,
+          width:  25 ,
+          height: 25,
+          borderRadius: "50%"
+        }}>
+          { renderAvatar(notifMsg.avatar, '25', '25') }
+        </span>
+
+        <p
+          style={{
+            margin: "7px 0",
+            whiteSpace: "pre-wrap",
+          }}
+        >
+          {
+            <>
+              <span style={{
+              color: notifMsg.color,
+              fontWeight: "600"
+              }}>
+                {notifMsg.user}
+              </span>
+              {notifMsg.text === " got thwacked"?
+              <>
+                {notifMsg.text}
+                  <svg
+                    width="25"
+                    height="27"
+                    viewBox="0 0 25 27"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z"
+                      stroke="FF0000"
+                      stroke-width="1.39649"
+                    />
+                  </svg>
+              </>:notifMsg.text
+              }
+            </>
+          }
+        </p>
+      </div>
+    )
   }
   function joinChat() {
     if (userNameText.length) {
       setUserName(userNameText);
-      joinLeaveNotification("join");
+      chatAreaNotifications("join");
       // setIsSystem(true);
       cookies.set("user", userNameText, { path: "/" });
       cookies.set("chatColor", chatColor, { path: "/" });
@@ -593,6 +669,7 @@ export default function ChatRoom() {
         .ref("chats/" + id + "/" + item.time)
         .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
     } else {
+      let mid = +new Date(Date.now());
       firebase
         .database()
         .ref("chats/" + id + "/" + item.time)
@@ -600,6 +677,20 @@ export default function ChatRoom() {
           thwacksCount: { ...prev, userName },
           thwacks: item.thwacks + 1
         });
+      firebase
+        .database()
+        .ref("chats/" + id + "/" + mid)
+        .set({
+          text: " got thwacked",
+          time: mid,
+          user: item.user,
+          color: item.color,
+          avatar: item.avatar,
+          likes: 0,
+          thwacks: 0,
+          sysAdd: true
+        });
+      //  return notificationMsg(item);
     }
   }
   const setMessageInput = (value) => {
@@ -729,7 +820,7 @@ export default function ChatRoom() {
 									className=" ui button btnYes"
 									onClick={() => {
 										setUserName("");
-                    joinLeaveNotification("leave")
+                    chatAreaNotifications("leave")
 										setislEaving(false);
 										document.querySelector(
 											".newRoom"
@@ -829,48 +920,34 @@ export default function ChatRoom() {
                       <p className="msg-user-name" style={{ marginTop: "5px" }}>
                         {item.user}
                       </p>
+                      {item.sysAdd?notificationMsg(item):
                       <div
                         className="msg-msg"
                         style={{
-                          backgroundColor: item.sysAdd? "#FFF":item.color,
-                          boxShadow: item.sysAdd ? `0 0 0 1px #000` : "none",
                           alignItems: "center",
                           borderRadius:
                             item.text.length > 100
                               ? item.text.length / 1.25
                               : 30,
-                          height: item.sysAdd ?"17%": "50%",
                           padding: item.text.length > 100 ? 10 : 0,
                           paddingRight: 20,
-                          fontSize: item.sysAdd ? ".7em": "1em"
+                          backgroundColor: item.color
                         }}
                       >
-                        <span className="icon" style={{
-                          backgroundColor: item.sysAdd? item.color: "none",
-                          margin: item.sysAdd ? "4px 4px 4px 6px" : "none",
-                          width: item.sysAdd ? 25: "inherit",
-                          height: item.sysAdd ? 25 : "inherit",
-                          borderRadius: "50%"
-                        }}>
-                          {item.sysAdd ? renderAvatar(item.avatar, '25', '25'):renderAvatar(item.avatar,'45','45')}
+                        <span className="icon">
+                          {renderAvatar(item.avatar, '45', '45')}
                         </span>
 
-                        <p
-                          style={{
-                            margin: "7px 0",
-                            whiteSpace: "pre-wrap",
-                          }}
-                        >
-                          {/* {item.sysAdd?<span style={{
-                            color: item.color,
-                            fontWeight: "600"
-                            }}>{item.user}</span>: null} */}
-                          {item.sysAdd ? <><span style={{
-                            color: item.color,
-                            fontWeight: "600"
-                          }}>{item.user}</span>{item.text}</>:item.text}
-                        </p>
+                          <p
+                            style={{
+                              margin: "7px 0"
+                            }}
+                          >
+                            {item.text}
+                          </p>
                       </div>
+                      } 
+                      
                       {!item.sysAdd?
                         <div className="msg-btn-container">
                           <div
