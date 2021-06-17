@@ -264,25 +264,24 @@ export default function ChatRoom() {
     }
   }
   function getUpdate() {
+    console.log("in get update")
     var liveMessages = firebase.database().ref("/chats/" + id);
     liveMessages.on("child_changed", (snapshot) => {
       if (snapshot.val()) {
         var item = snapshot.val();
-        // console.log(item);
+        console.log(item);
         if (item.thwacks >= 3) {
           if (userName == item.user) {
             setUserName("");
             cookies.set("user", "", { path: "/" });
-          } else {
-            showToast(item.user + " has been thwacked");
           }
         }
-        if (item.thwacks > 0) {
-          if (userName == item.user) {
-            showToast("You have been thwacked " + item.thwacks + " time(s)");
-          }
-        } else {
-        }
+        // if (item.thwacks > 0) {
+        //   if (userName == item.user) {
+        //     showToast("You have been thwacked " + item.thwacks + " time(s)");
+        //   }
+        // } else {
+        // }
       }
     });
   }
@@ -368,7 +367,7 @@ export default function ChatRoom() {
         });
   }
   function notificationMsg(notifMsg){
-    console.log(notifMsg);
+    // console.log(notifMsg);
     return (
       <div
         className="msg-msg"
@@ -692,6 +691,8 @@ export default function ChatRoom() {
         });
       //  return notificationMsg(item);
     }
+    getUpdate();
+    
   }
   const setMessageInput = (value) => {
     // console.log(value);
