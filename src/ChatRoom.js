@@ -709,7 +709,7 @@ export default function ChatRoom() {
 
   function copyRoomID() {
     // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://2sn0b.csb.app/room/" + id);
+    copyToClipboard("https://hqzon.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
