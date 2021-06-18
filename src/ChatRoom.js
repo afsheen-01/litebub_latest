@@ -53,6 +53,7 @@ export default function ChatRoom() {
   var [selfReply, isSelfReply] = useState(0);
   var [currMessages, setCurrMessages] = useState(0);
   var [newMessageCount, setNewMessageCount] = useState(0);
+  var [thwackNotif, setThwackNotif] = useState(false);
 
   //history for enterNamePage
   const history = useHistory();
@@ -63,8 +64,8 @@ export default function ChatRoom() {
 
   useEffect(() => {
     getValidity();
-    getUpdate();
     getUser();
+    getUpdate();
     setDevice(detectMob());
     getCredentials();
     
@@ -264,24 +265,25 @@ export default function ChatRoom() {
     }
   }
   function getUpdate() {
-    console.log("in get update")
     var liveMessages = firebase.database().ref("/chats/" + id);
     liveMessages.on("child_changed", (snapshot) => {
       if (snapshot.val()) {
         var item = snapshot.val();
-        console.log(item);
         if (item.thwacks >= 3) {
-          if (userName == item.user) {
-            setUserName("");
-            cookies.set("user", "", { path: "/" });
+          // console.log("thwacks >= 3 "+item.user)
+          if (cookies.get("user") === item.user) {
+            console.log(item.user)
+            // console.log("i was thwacked")
+            document.querySelector(".newRoom").style.filter = "blur(10px)";
+            // document.querySelector(".roomContainer").appendChild("div");
+            setThwackNotif(true);
+            setTimeout(()=>{
+              setUserName("");
+              cookies.set("user", "", { path: "/" });
+            },3000)
           }
+          // console.log(thwackNotif)
         }
-        // if (item.thwacks > 0) {
-        //   if (userName == item.user) {
-        //     showToast("You have been thwacked " + item.thwacks + " time(s)");
-        //   }
-        // } else {
-        // }
       }
     });
   }
@@ -437,6 +439,7 @@ export default function ChatRoom() {
     if (userNameText.length) {
       setUserName(userNameText);
       chatAreaNotifications("join");
+      setThwackNotif(false);
       // setIsSystem(true);
       cookies.set("user", userNameText, { path: "/" });
       cookies.set("chatColor", chatColor, { path: "/" });
@@ -592,7 +595,6 @@ export default function ChatRoom() {
           });
 
         var filteredAry = prev.filter((e) => e !== userName);
-        // console.log(filteredAry);
         firebase
           .database()
           .ref("chats/" + id + "/" + item.time)
@@ -653,13 +655,16 @@ export default function ChatRoom() {
   }
 
   function thwackMsg(item) {
+    // console.log(item.thwacks)
     if (item.thwacks) {
       var prevD = Object.values(item.thwacksCount).includes(userName);
       var prev = Object.values(item.thwacksCount);
-    } else {
+      // console.log(prevD)
+      // console.log(prev)
+    }
+     else {
       var prev = [];
     }
-    // console.log(prevD)
     if (prevD) {
       var filteredAry = prev.filter((e) => e !== userName);
       // console.log(filteredAry);
@@ -689,10 +694,8 @@ export default function ChatRoom() {
           thwacks: 0,
           sysAdd: true
         });
-      //  return notificationMsg(item);
     }
     getUpdate();
-    
   }
   const setMessageInput = (value) => {
     // console.log(value);
@@ -777,11 +780,13 @@ export default function ChatRoom() {
   if (isValid) { 
     if (userName) {
       return (
-        <div style = {{
-					display: "flex",
-          justifyContent: "center",
-          width: "100vw"
-				}}>
+        <div 
+          class="roomContainer"
+          style = {{
+					  display: "flex",
+            justifyContent: "center",
+            width: "100vw"
+				  }}>
 					{leavingRoom ? (
             <div>
               <div className = "blackBg" onClick = {() => {
@@ -834,6 +839,61 @@ export default function ChatRoom() {
 						</div>
             </div>
 					) : null}
+          {thwackNotif ? (
+            <div>
+              <div className="blackBg"></div>
+              <div
+                className="solDiv"
+                style={{
+                  filter: "blur(0)",
+                  position: "absolute",
+                  zIndex: 50,
+                  height: "25%",
+                  display: "flex",
+                  flexDirection: "column",
+                  
+                  justifyContent: "center"
+                  // border: "2px solid #fff"
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "1.5em",
+                  // border:"2px solid #000",
+                  // height:"10%"
+                  }}>you've been 
+                  <span style={{
+                    // border:"1px solid #000"
+                    }}>
+                    <svg
+                      width="25"
+                      height="23"
+                      viewBox="0 0 30 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z"
+                        stroke= "#FF2020"
+                        stroke-width="1.39649"
+                      />
+                    </svg>
+                  </span>  
+                  3 times</p>
+                <p style={{
+                  fontSize:"2.5em",
+                  fontWeight:"bold",
+                  // border:"2px solid #000",
+                }}>Be kind in the future.</p>
+                <span style={{ 
+                  color: "#AAA", 
+                  fontWeight: "bold",
+                  fontSize: "1.3em"
+                  // border: "2px solid #000"
+                  }}>goodbye</span>
+              </div>
+            </div>
+          ) : null}
 					<div
 						style={{ backgroundColor: "white", width: "100%" }}
 						className="newRoom"
@@ -1018,6 +1078,7 @@ export default function ChatRoom() {
                             </svg>
                           </div>
                         </div>: null}
+                        {/* {item.thwacks >= 3?thwackComponent():null} */}
                       
                       {/* end */}
                     </div>
