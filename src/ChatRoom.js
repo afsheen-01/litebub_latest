@@ -559,7 +559,6 @@ export default function ChatRoom() {
           });
 
         var filteredAry = prev.filter((e) => e !== userName);
-        // console.log(filteredAry);
         firebase
           .database()
           .ref(
@@ -666,21 +665,80 @@ export default function ChatRoom() {
       var prev = [];
     }
     if (prevD) {
-      var filteredAry = prev.filter((e) => e !== userName);
-      // console.log(filteredAry);
-      firebase
-        .database()
-        .ref("chats/" + id + "/" + item.time)
-        .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
+      if (item.isReply) {
+        var filteredAry = prev.filter((e) => e !== userName);
+        firebase
+          .database()
+          .ref(
+            "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
+          )
+          .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
+      } else if (item.isDeeperReply) {
+
+        var filteredAry = prev.filter((e) => e !== userName);
+        // console.log(filteredAry);
+        firebase
+          .database()
+          .ref(
+            "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
+          )
+          .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
+      } else {
+
+        var filteredAry = prev.filter((e) => e !== userName);
+        firebase
+          .database()
+          .ref("chats/" + id + "/" + item.time)
+          .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
+      }
+      // var filteredAry = prev.filter((e) => e !== userName);
+      // firebase
+      //   .database()
+      //   .ref("chats/" + id + "/" + item.time)
+      //   .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
     } else {
-      let mid = +new Date(Date.now());
-      firebase
-        .database()
-        .ref("chats/" + id + "/" + item.time)
+      if (item.isReply) {
+        var filteredAry = prev.filter((e) => e !== userName);
+        firebase
+          .database()
+          .ref(
+            "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
+        )
         .update({
           thwacksCount: { ...prev, userName },
           thwacks: item.thwacks + 1
         });
+      } else if (item.isDeeperReply) {
+
+        var filteredAry = prev.filter((e) => e !== userName);
+        firebase
+          .database()
+          .ref(
+            "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
+          )
+          .update({
+            thwacksCount: { ...prev, userName },
+            thwacks: item.thwacks + 1
+          });
+      } else {
+
+        var filteredAry = prev.filter((e) => e !== userName);
+        firebase
+          .database()
+          .ref("chats/" + id + "/" + item.time)
+          .update({
+            thwacksCount: { ...prev, userName },
+            thwacks: item.thwacks + 1
+          });
+      }
+      let mid = +new Date(Date.now());
+      // firebase
+      //   .database()
+      //   .ref("chats/" + id + "/" + item.time)
+      //   .update({
+      //     thwacksCount: { ...prev, userName },
+      //     thwacks: item.thwacks + 1
+      //   });
       firebase
         .database()
         .ref("chats/" + id + "/" + mid)
@@ -975,6 +1033,7 @@ export default function ChatRoom() {
             >
               <ToastContainer position="bottom-right" autoClose={5000} />
               {messages.map((item) => {
+                console.log(item.text)
                 return (
                   <div className="chatContainer">
                     <div className="msg-container">
