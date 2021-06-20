@@ -277,18 +277,18 @@ export default function ChatRoom() {
             console.log("i was thwacked")
             document.querySelector(".newRoom").style.filter = "blur(10px)";
             setThwackNotif(true);
-            let mid = new Date(Date.now());
-            firebase
-              .database()
-              .ref("chats/" + id + "/" + mid)
-              .set({
-                text: `${item.user} was kicked 🥾 out of chat`,
-                time: mid,
-                user:  item.user,
-                color: item.color,
-                avatar: item.avatar,
-                sysAdd: true
-              });
+            // let mid = new Date(Date.now());
+            // firebase
+            //   .database()
+            //   .ref("chats/" + id + "/" + mid)
+            //   .set({
+            //     text: `${item.user} was kicked 🥾 out of chat`,
+            //     time: mid,
+            //     user:  item.user,
+            //     color: item.color,
+            //     avatar: item.avatar,
+            //     sysAdd: true
+            //   });
             setTimeout(()=>{
               setUserName("");
               cookies.set("user", "", { path: "/" });
@@ -752,19 +752,19 @@ export default function ChatRoom() {
       //     thwacksCount: { ...prev, userName },
       //     thwacks: item.thwacks + 1
       //   });
-      // firebase
-      //   .database()
-      //   .ref("chats/" + id + "/" + mid)
-      //   .set({
-      //     text: " got thwacked",
-      //     time: mid,
-      //     user: item.user,
-      //     color: item.color,
-      //     avatar: item.avatar,
-      //     likes: 0,
-      //     thwacks: 0,
-      //     sysAdd: true
-      //   });
+      firebase
+        .database()
+        .ref("chats/" + id + "/" + mid)
+        .set({
+          text: " got thwacked",
+          time: mid,
+          user: item.user,
+          color: item.color,
+          avatar: item.avatar,
+          likes: 0,
+          thwacks: 0,
+          sysAdd: true
+        });
     }
     getUpdate();
   }
