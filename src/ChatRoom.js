@@ -265,24 +265,35 @@ export default function ChatRoom() {
     }
   }
   function getUpdate() {
+    console.log("update!")
     var liveMessages = firebase.database().ref("/chats/" + id);
     liveMessages.on("child_changed", (snapshot) => {
       if (snapshot.val()) {
         var item = snapshot.val();
         if (item.thwacks >= 3) {
-          // console.log("thwacks >= 3 "+item.user)
+          console.log("thwacks >= 3 "+item.user)
           if (cookies.get("user") === item.user) {
             console.log(item.user)
-            // console.log("i was thwacked")
+            console.log("i was thwacked")
             document.querySelector(".newRoom").style.filter = "blur(10px)";
-            // document.querySelector(".roomContainer").appendChild("div");
             setThwackNotif(true);
+            let mid = new Date(Date.now());
+            firebase
+              .database()
+              .ref("chats/" + id + "/" + mid)
+              .set({
+                text: `${item.user} was kicked 🥾 out of chat`,
+                time: mid,
+                user:  item.user,
+                color: item.color,
+                avatar: item.avatar,
+                sysAdd: true
+              });
             setTimeout(()=>{
               setUserName("");
               cookies.set("user", "", { path: "/" });
             },3000)
           }
-          // console.log(thwackNotif)
         }
       }
     });
@@ -654,7 +665,7 @@ export default function ChatRoom() {
   }
 
   function thwackMsg(item) {
-    // console.log(item.thwacks)
+    console.log(item)
     if (item.thwacks) {
       var prevD = Object.values(item.thwacksCount).includes(userName);
       var prev = Object.values(item.thwacksCount);
@@ -665,6 +676,7 @@ export default function ChatRoom() {
       var prev = [];
     }
     if (prevD) {
+      console.log("remove thwack")
       if (item.isReply) {
         var filteredAry = prev.filter((e) => e !== userName);
         firebase
@@ -697,6 +709,7 @@ export default function ChatRoom() {
       //   .ref("chats/" + id + "/" + item.time)
       //   .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
     } else {
+      console.log("add thwack")
       if (item.isReply) {
         var filteredAry = prev.filter((e) => e !== userName);
         firebase
@@ -739,19 +752,19 @@ export default function ChatRoom() {
       //     thwacksCount: { ...prev, userName },
       //     thwacks: item.thwacks + 1
       //   });
-      firebase
-        .database()
-        .ref("chats/" + id + "/" + mid)
-        .set({
-          text: " got thwacked",
-          time: mid,
-          user: item.user,
-          color: item.color,
-          avatar: item.avatar,
-          likes: 0,
-          thwacks: 0,
-          sysAdd: true
-        });
+      // firebase
+      //   .database()
+      //   .ref("chats/" + id + "/" + mid)
+      //   .set({
+      //     text: " got thwacked",
+      //     time: mid,
+      //     user: item.user,
+      //     color: item.color,
+      //     avatar: item.avatar,
+      //     likes: 0,
+      //     thwacks: 0,
+      //     sysAdd: true
+      //   });
     }
     getUpdate();
   }
@@ -1033,7 +1046,7 @@ export default function ChatRoom() {
             >
               <ToastContainer position="bottom-right" autoClose={5000} />
               {messages.map((item) => {
-                console.log(item.text)
+                // console.log(item.text)
                 return (
                   <div className="chatContainer">
                     <div className="msg-container">
@@ -1552,7 +1565,7 @@ export default function ChatRoom() {
           >
           </div>
           
-          <div id="new-user">
+          <div id="new-user" style={{filter:"blur(0px)"}}>
             <div className="chatJoinBg" style = {{backgroundImage:"url(" + bgs.url + ")"}}>
               <div className="bubble-chat speech-chat">
                 <svg
