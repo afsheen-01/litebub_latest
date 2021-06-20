@@ -665,108 +665,100 @@ export default function ChatRoom() {
   }
 
   function thwackMsg(item) {
-    console.log(item)
-    if (item.thwacks) {
-      var prevD = Object.values(item.thwacksCount).includes(userName);
-      var prev = Object.values(item.thwacksCount);
-      // console.log(prevD)
-      // console.log(prev)
-    }
-     else {
-      var prev = [];
-    }
-    if (prevD) {
-      console.log("remove thwack")
-      if (item.isReply) {
-        var filteredAry = prev.filter((e) => e !== userName);
-        firebase
-          .database()
-          .ref(
-            "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
-          )
-          .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
-      } else if (item.isDeeperReply) {
-
-        var filteredAry = prev.filter((e) => e !== userName);
-        // console.log(filteredAry);
-        firebase
-          .database()
-          .ref(
-            "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
-          )
-          .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
-      } else {
-
-        var filteredAry = prev.filter((e) => e !== userName);
-        firebase
-          .database()
-          .ref("chats/" + id + "/" + item.time)
-          .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
+    if(userName !== item.user){
+      if (item.thwacks) {
+        var prevD = Object.values(item.thwacksCount).includes(userName);
+        var prev = Object.values(item.thwacksCount);
+        // console.log(prevD)
+        // console.log(prev)
       }
-      // var filteredAry = prev.filter((e) => e !== userName);
-      // firebase
-      //   .database()
-      //   .ref("chats/" + id + "/" + item.time)
-      //   .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
-    } else {
-      console.log("add thwack")
-      if (item.isReply) {
-        var filteredAry = prev.filter((e) => e !== userName);
-        firebase
-          .database()
-          .ref(
-            "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
-        )
-        .update({
-          thwacksCount: { ...prev, userName },
-          thwacks: item.thwacks + 1
-        });
-      } else if (item.isDeeperReply) {
+      else {
+        var prev = [];
+      }
+      if (prevD) {
+        console.log("remove thwack")
+        if (item.isReply) {
+          var filteredAry = prev.filter((e) => e !== userName);
+          firebase
+            .database()
+            .ref(
+              "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
+            )
+            .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
+        } else if (item.isDeeperReply) {
 
-        var filteredAry = prev.filter((e) => e !== userName);
-        firebase
-          .database()
-          .ref(
-            "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
-          )
-          .update({
-            thwacksCount: { ...prev, userName },
-            thwacks: item.thwacks + 1
-          });
+          var filteredAry = prev.filter((e) => e !== userName);
+          // console.log(filteredAry);
+          firebase
+            .database()
+            .ref(
+              "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
+            )
+            .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
+        } else {
+
+          var filteredAry = prev.filter((e) => e !== userName);
+          firebase
+            .database()
+            .ref("chats/" + id + "/" + item.time)
+            .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
+        }
       } else {
+        console.log("add thwack")
+        if (item.isReply) {
+          var filteredAry = prev.filter((e) => e !== userName);
+          firebase
+            .database()
+            .ref(
+              "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
+            )
+            .update({
+              thwacksCount: { ...prev, userName },
+              thwacks: item.thwacks + 1
+            });
+        } else if (item.isDeeperReply) {
 
-        var filteredAry = prev.filter((e) => e !== userName);
+          var filteredAry = prev.filter((e) => e !== userName);
+          firebase
+            .database()
+            .ref(
+              "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
+            )
+            .update({
+              thwacksCount: { ...prev, userName },
+              thwacks: item.thwacks + 1
+            });
+        } else {
+
+          var filteredAry = prev.filter((e) => e !== userName);
+          firebase
+            .database()
+            .ref("chats/" + id + "/" + item.time)
+            .update({
+              thwacksCount: { ...prev, userName },
+              thwacks: item.thwacks + 1
+            });
+        }
+        let mid = +new Date(Date.now());
         firebase
           .database()
-          .ref("chats/" + id + "/" + item.time)
-          .update({
-            thwacksCount: { ...prev, userName },
-            thwacks: item.thwacks + 1
+          .ref("chats/" + id + "/" + mid)
+          .set({
+            text: " got thwacked",
+            time: mid,
+            user: item.user,
+            color: item.color,
+            avatar: item.avatar,
+            likes: 0,
+            thwacks: 0,
+            sysAdd: true
           });
       }
-      let mid = +new Date(Date.now());
-      // firebase
-      //   .database()
-      //   .ref("chats/" + id + "/" + item.time)
-      //   .update({
-      //     thwacksCount: { ...prev, userName },
-      //     thwacks: item.thwacks + 1
-      //   });
-      firebase
-        .database()
-        .ref("chats/" + id + "/" + mid)
-        .set({
-          text: " got thwacked",
-          time: mid,
-          user: item.user,
-          color: item.color,
-          avatar: item.avatar,
-          likes: 0,
-          thwacks: 0,
-          sysAdd: true
-        });
+      getUpdate();
+    } else{
+      return ;
     }
-    getUpdate();
+    
   }
   const setMessageInput = (value) => {
     // console.log(value);
