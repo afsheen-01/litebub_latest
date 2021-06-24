@@ -256,10 +256,7 @@ export default function ChatRoom() {
     .ref("thwacks/" + id + "/")
     .on("value", snap => {
       if(snap.val()){
-        // let allThwacks = snap.val();
         let thwackedUser = Object.entries(snap.val()).find(user => user[0] === cookies.get("user"))
-        // console.log(allThwacks)
-        console.log(thwackedUser)
         if(thwackedUser){
           if (thwackedUser[1].thwacks >= 3) {
             document.querySelector(".newRoom").style.filter = "blur(10px)";
@@ -268,9 +265,9 @@ export default function ChatRoom() {
               setUserName("");
               cookies.set("user", "", { path: "/" });
             }, 3000)
+            chatAreaNotifications("booted", thwackedUser[0]);
           }
-        }
-        
+        } 
       }
     });
   }
@@ -330,8 +327,8 @@ export default function ChatRoom() {
       }
     }
   }
-  function chatAreaNotifications(msg) {
-    // console.log(msg);
+  function chatAreaNotifications(msg, bootedUser) {
+    console.log(msg);
     let textMsg = "";
     switch (msg) {
       case "join":
@@ -340,6 +337,13 @@ export default function ChatRoom() {
       case "leave":
         textMsg = " left"
         break;
+      case "booted":
+        textMsg = "  was kicked 🥾 out of chat"
+        break;
+    }
+    let clr = ""
+    if(bootedUser === userName || bootedUser === userNameText){
+      clr = chatColor
     }
     let mid = +new Date(Date.now());
     firebase
@@ -348,8 +352,8 @@ export default function ChatRoom() {
       .set({
         text: textMsg,
         time: mid,
-        user: msg === "join" ? userNameText : userName,
-        color: chatColor,
+        user: bootedUser?bootedUser : msg === "join" ? userNameText : userName,
+        color: clr !== ""? clr :chatColor,
         avatar: chatAvatar,
         // likeColor: likeColor,
         // likes: 0,
@@ -530,13 +534,8 @@ export default function ChatRoom() {
     setReplyingTo(item.time);
     isSelfReply(isSelf ? isSelf.time : 0)
     document.querySelector(".message-input").focus();
-    // console.log(item);
-    //here i am setting the id of the message
-    //user replying to
-    //we will pass the id from where user clicks
   }
   function likeMsg(item) {
-    // console.log(chatColor);
     console.log(item.isDeeperReply, item.isReply)
     if (item.likeCount) {
       var prevD = Object.values(item.likeCount).includes(userName);
@@ -762,7 +761,7 @@ export default function ChatRoom() {
             sysAdd: true
           });
       }
-      getUpdate();
+      // getUpdate();
     } else {
       return;
     }
