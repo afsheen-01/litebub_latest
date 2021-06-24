@@ -255,18 +255,18 @@ export default function ChatRoom() {
     .database()
     .ref("thwacks/" + id + "/" + cookies.get("user") + "/")
     .on("value", snap => {
-      console.log(snap.val().thwacks)
-      let thwacks = snap.val().thwacks;
-      if (thwacks >= 3) {
-        console.log(thwacks)
-        document.querySelector(".newRoom").style.filter = "blur(10px)";
-        setThwackNotif(true);
-        setTimeout(() => {
-          setUserName("");
-          cookies.set("user", "", { path: "/" });
-        }, 3000)
+      if(snap.val()){
+        let thwacks = snap.val().thwacks;
+        if (thwacks >= 3) {
+          console.log(thwacks)
+          document.querySelector(".newRoom").style.filter = "blur(10px)";
+          setThwackNotif(true);
+          setTimeout(() => {
+            setUserName("");
+            cookies.set("user", "", { path: "/" });
+          }, 3000)
+        }
       }
-
     });
     
   }
