@@ -253,22 +253,26 @@ export default function ChatRoom() {
   function getUpdate() {
     firebase
     .database()
-    .ref("thwacks/" + id + "/" + cookies.get("user") + "/")
+    .ref("thwacks/" + id + "/")
     .on("value", snap => {
       if(snap.val()){
-        let thwacks = snap.val().thwacks;
-        if (thwacks >= 3) {
-          console.log(thwacks)
-          document.querySelector(".newRoom").style.filter = "blur(10px)";
-          setThwackNotif(true);
-          setTimeout(() => {
-            setUserName("");
-            cookies.set("user", "", { path: "/" });
-          }, 3000)
+        // let allThwacks = snap.val();
+        let thwackedUser = Object.entries(snap.val()).find(user => user[0] === cookies.get("user"))
+        // console.log(allThwacks)
+        console.log(thwackedUser)
+        if(thwackedUser){
+          if (thwackedUser[1].thwacks >= 3) {
+            document.querySelector(".newRoom").style.filter = "blur(10px)";
+            setThwackNotif(true);
+            setTimeout(() => {
+              setUserName("");
+              cookies.set("user", "", { path: "/" });
+            }, 3000)
+          }
         }
+        
       }
     });
-    
   }
   function onKeyPress(e) {
     if (!mobileDevice) {
