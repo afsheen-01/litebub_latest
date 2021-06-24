@@ -1,4 +1,4 @@
- import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "semantic-ui-css/semantic.min.css";
 import "./styles.css";
 import "./leaveRoom.css";
@@ -250,53 +250,25 @@ export default function ChatRoom() {
       });
       // console.log(messages.length)
   }
-  function showToast(msg) {
-    // console.log(msg);
-    if (notifications.length > 0) {
-      if (!notifications.includes(msg)) {
-        setNotification((notifications) => [...notifications, msg]);
-        toast(msg);
-      }
-      console.log("new!", notifications);
-    } else {
-      var msgs = [msg];
-      setNotification((notifications) => [msg]);
-      toast(msg);
-    }
-  }
   function getUpdate() {
-    console.log("update!")
-    var liveMessages = firebase.database().ref("/chats/" + id);
-    liveMessages.on("child_changed", (snapshot) => {
-      if (snapshot.val()) {
-        var item = snapshot.val();
-        if (item.thwacks >= 3) {
-          console.log("thwacks >= 3 "+item.user)
-          if (cookies.get("user") === item.user) {
-            console.log(item.user)
-            console.log("i was thwacked")
-            document.querySelector(".newRoom").style.filter = "blur(10px)";
-            setThwackNotif(true);
-            // let mid = new Date(Date.now());
-            // firebase
-            //   .database()
-            //   .ref("chats/" + id + "/" + mid)
-            //   .set({
-            //     text: `${item.user} was kicked 🥾 out of chat`,
-            //     time: mid,
-            //     user:  item.user,
-            //     color: item.color,
-            //     avatar: item.avatar,
-            //     sysAdd: true
-            //   });
-            setTimeout(()=>{
-              setUserName("");
-              cookies.set("user", "", { path: "/" });
-            },3000)
-          }
-        }
+    firebase
+    .database()
+    .ref("thwacks/" + id + "/" + cookies.get("user") + "/")
+    .on("value", snap => {
+      console.log(snap.val().thwacks)
+      let thwacks = snap.val().thwacks;
+      if (thwacks >= 3) {
+        console.log(thwacks)
+        document.querySelector(".newRoom").style.filter = "blur(10px)";
+        setThwackNotif(true);
+        setTimeout(() => {
+          setUserName("");
+          cookies.set("user", "", { path: "/" });
+        }, 3000)
       }
+
     });
+    
   }
   function onKeyPress(e) {
     if (!mobileDevice) {
@@ -325,7 +297,9 @@ export default function ChatRoom() {
               color: chatColor,
               avatar: chatAvatar,
               isReply: true,
+              isDeeperReply: selfReply > 0 ? true : false,
               parent: selfReply > 0 ? selfReply : replyingTo,
+              mainParent: selfReply > 0 ? replyingTo : null,
               likes: 0,
               thwacks: 0
             });
@@ -352,10 +326,10 @@ export default function ChatRoom() {
       }
     }
   }
-  function chatAreaNotifications(msg){
+  function chatAreaNotifications(msg) {
     // console.log(msg);
     let textMsg = "";
-    switch(msg){
+    switch (msg) {
       case "join":
         textMsg = " joined chat!";
         break;
@@ -363,23 +337,23 @@ export default function ChatRoom() {
         textMsg = " left"
         break;
     }
-      let mid = +new Date(Date.now());
-      firebase
-        .database()
-        .ref("chats/" + id + "/" + mid)
-        .set({
-          text: textMsg ,
-          time: mid,
-          user: msg === "join" ? userNameText : userName,
-          color: chatColor,
-          avatar: chatAvatar,
-          // likeColor: likeColor,
-          // likes: 0,
-          // thwacks: 0,
-          sysAdd: true
-        });
+    let mid = +new Date(Date.now());
+    firebase
+      .database()
+      .ref("chats/" + id + "/" + mid)
+      .set({
+        text: textMsg,
+        time: mid,
+        user: msg === "join" ? userNameText : userName,
+        color: chatColor,
+        avatar: chatAvatar,
+        // likeColor: likeColor,
+        // likes: 0,
+        // thwacks: 0,
+        sysAdd: true
+      });
   }
-  function notificationMsg(notifMsg){
+  function notificationMsg(notifMsg) {
     // console.log(notifMsg);
     return (
       <div
@@ -399,13 +373,13 @@ export default function ChatRoom() {
         }}
       >
         <span className="icon" style={{
-          backgroundColor:  notifMsg.color,
-          margin: "4px 4px 4px 6px" ,
-          width:  25 ,
+          backgroundColor: notifMsg.color,
+          margin: "4px 4px 4px 6px",
+          width: 25,
           height: 25,
           borderRadius: "50%"
         }}>
-          { renderAvatar(notifMsg.avatar, '25', '25') }
+          {renderAvatar(notifMsg.avatar, '25', '25')}
         </span>
 
         <p
@@ -417,14 +391,14 @@ export default function ChatRoom() {
           {
             <>
               <span style={{
-              color: notifMsg.color,
-              fontWeight: "600"
+                color: notifMsg.color,
+                fontWeight: "600"
               }}>
                 {notifMsg.user}
               </span>
-              {notifMsg.text === " got thwacked"?
-              <>
-                {notifMsg.text}
+              {notifMsg.text === " got thwacked" ?
+                <>
+                  {notifMsg.text}
                   <svg
                     width="23"
                     height="15"
@@ -438,7 +412,7 @@ export default function ChatRoom() {
                       stroke-width="1.39649"
                     />
                   </svg>
-              </>:notifMsg.text
+                </> : notifMsg.text
               }
             </>
           }
@@ -456,11 +430,11 @@ export default function ChatRoom() {
       cookies.set("chatColor", chatColor, { path: "/" });
       cookies.set("chatAvatar", chatAvatar, { path: "/" });
       // console.log(cookies.cookies)
-      
+
       var updates = {};
       updates["/rooms/" + id + "/participantCount"] = participants + 1;
       firebase.database().ref().update(updates);
-// document.querySelector('.chat-container').style.filter = "blur(0px)"
+      // document.querySelector('.chat-container').style.filter = "blur(0px)"
     } else {
       noNameGiven();
     }
@@ -492,23 +466,28 @@ export default function ChatRoom() {
       return <AvatarTwelve height={height ? height : '45'} width={width ? width : '45'} />;
     }
   }
-  function hideDisplayBtns (val){
+  function hideDisplayBtns(val) {
 
     const clearBtn = document.querySelector('.nameCrossBtn')
-    if(val){
+    if (val) {
       clearBtn.style.visibility = "visible"
-  
-    } else{
+
+    } else {
       clearBtn.style.visibility = "hidden"
+    }
   }
-}
   function sendMsg() {
     let mid = +new Date(Date.now());
     // console.log(mid);
     if (replyingTo > 0) {
+      if (selfReply > 0) {
+        var path = "chats/" + id + "/" + selfReply + "/replies/" + replyingTo + "/replies/" + mid + "/"
+      } else {
+        var path = "chats/" + id + "/" + replyingTo + "/replies/" + mid + "/"
+      }
       firebase
         .database()
-        .ref("chats/" + id + "/" + replyingTo + "/replies/" + mid + "/")
+        .ref(path)
         .set({
           text: message.replaceAll("/n", "//n"),
           time: mid,
@@ -516,7 +495,9 @@ export default function ChatRoom() {
           color: chatColor,
           avatar: chatAvatar,
           isReply: true,
-          parent: replyingTo,
+          isDeeperReply: selfReply > 0 ? true : false,
+          parent: selfReply > 0 ? selfReply : replyingTo,
+          mainParent: selfReply > 0 ? replyingTo : null,
           likes: 0,
           thwacks: 0
         });
@@ -530,6 +511,7 @@ export default function ChatRoom() {
           user: userName,
           color: chatColor,
           avatar: chatAvatar,
+          likeColor: likeColor,
           likes: 0,
           thwacks: 0
         });
@@ -538,6 +520,7 @@ export default function ChatRoom() {
     setMessageText("");
     setReplyingTo(0);
     setlikeColor([""]);
+    isSelfReply(0)
   }
   function reply(item, isSelf) {
     setReplyingTo(item.time);
@@ -550,6 +533,7 @@ export default function ChatRoom() {
   }
   function likeMsg(item) {
     // console.log(chatColor);
+    console.log(item.isDeeperReply, item.isReply)
     if (item.likeCount) {
       var prevD = Object.values(item.likeCount).includes(userName);
       var prev = Object.values(item.likeCount);
@@ -558,7 +542,7 @@ export default function ChatRoom() {
     }
     console.log(prevD)
     if (prevD) {
-      if (item.isReply) {
+      if (item.isReply && !item.isDeeperReply) {
         firebase
           .database()
           .ref(
@@ -611,7 +595,7 @@ export default function ChatRoom() {
           .update({ likeCount: filteredAry });
       }
     } else {
-      if (item.isReply) {
+      if (item.isReply && !item.isDeeperReply) {
         firebase
           .database()
           .ref(
@@ -665,7 +649,7 @@ export default function ChatRoom() {
   }
 
   function thwackMsg(item) {
-    if(userName !== item.user){
+    if (userName !== item.user) {
       if (item.thwacks) {
         var prevD = Object.values(item.thwacksCount).includes(userName);
         var prev = Object.values(item.thwacksCount);
@@ -674,10 +658,16 @@ export default function ChatRoom() {
       }
       else {
         var prev = [];
+        firebase
+          .database()
+          .ref("thwacks/" + id + "/"+ item.user +"/")
+          .set({
+              thwacks: item.thwacks
+          })
       }
       if (prevD) {
         console.log("remove thwack")
-        if (item.isReply) {
+        if (item.isReply && !item.isDeeperReply) {
           var filteredAry = prev.filter((e) => e !== userName);
           firebase
             .database()
@@ -703,9 +693,15 @@ export default function ChatRoom() {
             .ref("chats/" + id + "/" + item.time)
             .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
         }
+        firebase
+          .database()
+          .ref("thwacks/" + id + "/" + item.user + "/")
+          .update({
+            thwacks: item.thwacks - 1
+          })
       } else {
-        console.log("add thwack")
-        if (item.isReply) {
+        // console.log("add thwack")
+        if (item.isReply && !item.isDeeperReply) {
           var filteredAry = prev.filter((e) => e !== userName);
           firebase
             .database()
@@ -738,7 +734,15 @@ export default function ChatRoom() {
               thwacksCount: { ...prev, userName },
               thwacks: item.thwacks + 1
             });
+          
         }
+        firebase
+          .database()
+          .ref("thwacks/" + id + "/" + item.user + "/")
+          .update({
+            thwacks: item.thwacks + 1
+          })
+        
         let mid = +new Date(Date.now());
         firebase
           .database()
@@ -755,12 +759,12 @@ export default function ChatRoom() {
           });
       }
       getUpdate();
-    } else{
-      return ;
+    } else {
+      return;
     }
-    
+
   }
-  const setMessageInput = (value) => {
+   const setMessageInput = (value) => {
     // console.log(value);
     setMessageText(value.target.value);
   };
@@ -775,7 +779,7 @@ export default function ChatRoom() {
 
   function copyRoomID() {
     // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://b76si.csb.app/room/" + id);
+    copyToClipboard("https://dlblk.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
