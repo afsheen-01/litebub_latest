@@ -248,7 +248,6 @@ export default function ChatRoom() {
           });
         }
       });
-      // console.log(messages.length)
   }
   function getUpdate() {
     firebase
@@ -256,6 +255,7 @@ export default function ChatRoom() {
     .ref("thwacks/" + id + "/")
     .on("value", snap => {
       if(snap.val()){
+        // console.log(cookies);
         let thwackedUser = Object.entries(snap.val()).find(user => user[0] === cookies.get("user"))
         if(thwackedUser){
           if (thwackedUser[1].thwacks >= 3) {
@@ -265,7 +265,13 @@ export default function ChatRoom() {
               setUserName("");
               cookies.set("user", "", { path: "/" });
             }, 3000)
-            chatAreaNotifications("booted", thwackedUser[0]);
+            let bootedColor=""
+            let bootedAvatar = null;
+            if(thwackedUser[0] === cookies.get("user")){
+              bootedColor = cookies.get("chatColor")
+              bootedAvatar = cookies.get("chatAvatar")
+            }
+            chatAreaNotifications("booted", thwackedUser[0], bootedColor, bootedAvatar);
           }
         } 
       }
@@ -327,8 +333,8 @@ export default function ChatRoom() {
       }
     }
   }
-  function chatAreaNotifications(msg, bootedUser) {
-    console.log(msg);
+  function chatAreaNotifications(msg, bootedUser, bootedColor, bootedAvatar) {
+    
     let textMsg = "";
     switch (msg) {
       case "join":
@@ -341,10 +347,7 @@ export default function ChatRoom() {
         textMsg = "  was kicked 🥾 out of chat"
         break;
     }
-    let clr = ""
-    if(bootedUser === userName || bootedUser === userNameText){
-      clr = chatColor
-    }
+    console.log(chatColor);
     let mid = +new Date(Date.now());
     firebase
       .database()
@@ -353,16 +356,12 @@ export default function ChatRoom() {
         text: textMsg,
         time: mid,
         user: bootedUser?bootedUser : msg === "join" ? userNameText : userName,
-        color: clr !== ""? clr :chatColor,
-        avatar: chatAvatar,
-        // likeColor: likeColor,
-        // likes: 0,
-        // thwacks: 0,
+        color: bootedColor? bootedColor :chatColor,
+        avatar: bootedAvatar ? bootedAvatar: chatAvatar,
         sysAdd: true
       });
   }
   function notificationMsg(notifMsg) {
-    // console.log(notifMsg);
     return (
       <div
         className="msg-msg"
@@ -486,7 +485,6 @@ export default function ChatRoom() {
   }
   function sendMsg() {
     let mid = +new Date(Date.now());
-    // console.log(mid);
     if (replyingTo > 0) {
       if (selfReply > 0) {
         var path = "chats/" + id + "/" + selfReply + "/replies/" + replyingTo + "/replies/" + mid + "/"
@@ -536,14 +534,14 @@ export default function ChatRoom() {
     document.querySelector(".message-input").focus();
   }
   function likeMsg(item) {
-    console.log(item.isDeeperReply, item.isReply)
+    // console.log(item.isDeeperReply, item.isReply)
     if (item.likeCount) {
       var prevD = Object.values(item.likeCount).includes(userName);
       var prev = Object.values(item.likeCount);
     } else {
       var prev = [];
     }
-    console.log(prevD)
+    // console.log(prevD)
     if (prevD) {
       if (item.isReply && !item.isDeeperReply) {
         firebase
@@ -575,7 +573,6 @@ export default function ChatRoom() {
           });
 
         var filteredAry = prev.filter((e) => e !== userName);
-        // console.log(filteredAry);
         firebase
           .database()
           .ref(
@@ -656,8 +653,6 @@ export default function ChatRoom() {
       if (item.thwacks) {
         var prevD = Object.values(item.thwacksCount).includes(userName);
         var prev = Object.values(item.thwacksCount);
-        // console.log(prevD)
-        // console.log(prev)
       }
       else {
         var prev = [];
@@ -669,7 +664,7 @@ export default function ChatRoom() {
           })
       }
       if (prevD) {
-        console.log("remove thwack")
+        // console.log("remove thwack")
         if (item.isReply && !item.isDeeperReply) {
           var filteredAry = prev.filter((e) => e !== userName);
           firebase
