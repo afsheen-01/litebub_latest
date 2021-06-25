@@ -917,16 +917,17 @@ export default function ChatRoom() {
                   display: "flex",
                   flexDirection: "column",
                   
-                  justifyContent: "center"
-                  // border: "2px solid #fff"
+                  justifyContent: "center",
+                  border: "5px solid #000"
                 }}
               >
                 <p
                   style={{
-                    fontSize: "1.5em",
+                    fontSize: "1.7em",
+                    marginTop: "10px",
                   // border:"2px solid #000",
                   // height:"10%"
-                  }}>you've been 
+                  }}>You got 
                   <span style={{
                     // border:"1px solid #000"
                     }}>
@@ -949,13 +950,19 @@ export default function ChatRoom() {
                   fontSize:"2.5em",
                   fontWeight:"bold",
                   // border:"2px solid #000",
-                }}>Be kind in the future.</p>
+                  position: "relative",
+                  bottom: "0.5em"
+                }}>Be kind in the future</p>
                 <span style={{ 
                   color: "#AAA", 
                   fontWeight: "bold",
-                  fontSize: "1.3em"
+                  fontSize: "1.3em",
+                  position: "absolute",
+                  bottom: "2em",
+                  width: "100%",
+                  // marginBottom: "3em",
                   // border: "2px solid #000"
-                  }}>goodbye</span>
+                  }}>goodbye.</span>
               </div>
             </div>
           ) : null}
