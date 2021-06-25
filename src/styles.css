@@ -438,11 +438,13 @@ button:hover {
 .msg-btn-container {
   display: flex;
   align-items: center;
+  /* border: 1px solid #000; */
 }
 .btnRContainer,
 .btnLContainer,
 .btnTContainer{
   padding: 0 2px;
+  /* border: 1px solid #000; */
 }
 .btnRContainer{
   padding-right: .3em;

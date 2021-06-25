@@ -264,7 +264,7 @@ export default function ChatRoom() {
             setTimeout(() => {
               setUserName("");
               cookies.set("user", "", { path: "/" });
-            }, 3000)
+            }, 8000)
             let bootedColor=""
             let bootedAvatar = null;
             if(thwackedUser[0] === cookies.get("user")){
@@ -1222,7 +1222,7 @@ export default function ChatRoom() {
                           </div>
                                   <div
                                     onClick={() => likeMsg(itm)}
-                                    className="btnL"
+                                    className="btnLContainer"
                                   >
                                     <svg
                                       className="btnL"
@@ -1248,9 +1248,10 @@ export default function ChatRoom() {
                                   </div>
                                   <div
                                     onClick={() => thwackMsg(itm)}
-                                    className="btnT"
+                                    className = "btnTContainer"
                                   >
                                     <svg
+                                      className = "btnT"
                                       width="25"
                                       height="27"
                                       viewBox="0 0 25 27"
@@ -1323,7 +1324,7 @@ export default function ChatRoom() {
                                 >
                                   <div
                                     onClick={() => likeMsg(item)}
-                                    className="btnL"
+                                    className="btnLContainer"
                                   >
                                     <svg
                                       className="btnL"
@@ -1349,9 +1350,10 @@ export default function ChatRoom() {
                                   </div>
                                   <div
                                     onClick={() => thwackMsg(item)}
-                                    className="btnT"
+                                    className="btnTContainer"
                                   >
                                     <svg
+                                      className="btnT"
                                       width="25"
                                       height="27"
                                       viewBox="0 0 25 27"
