@@ -9,8 +9,8 @@ import { animateScroll } from "react-scroll";
 import Cookies from "universal-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import {PageVisibility} from "react-page-visibility";
-// import { Helmet } from "react-helmet";
+import { Grid, ResizeObserver, Carousel } from '@giphy/react-components'
+import { GiphyFetch } from '@giphy/js-fetch-api'
 
 import AvatarOne from "./avatars/avatar-1-smile.js";
 import AvatarTwo from "./avatars/avatar-2.js";
@@ -26,6 +26,7 @@ import AvatarEleven from "./avatars/avatar-11.js";
 import AvatarTwelve from "./avatars/avatar-12.js";
 
 const cookies = new Cookies();
+const giphyFetch = new GiphyFetch('iXge9g3dXJ4kiNcgjGbmb4WvXyQc0hvw')
 
 const noNameGiven = () => {
   toast("Hey! Where is your Name?");
@@ -54,6 +55,8 @@ export default function ChatRoom() {
   var [currMessages, setCurrMessages] = useState(0);
   var [newMessageCount, setNewMessageCount] = useState(0);
   var [thwackNotif, setThwackNotif] = useState(false);
+  const [fetchGifs, setfetchGifs] = useState();
+  const [photo, setPhoto] = useState('');
 
   //history for enterNamePage
   const history = useHistory();
@@ -252,11 +255,12 @@ export default function ChatRoom() {
   function getUpdate() {
     firebase
     .database()
-    .ref("thwacks/" + id + "/")
+    .ref("userList/" + id + "/")
     .on("value", snap => {
       if(snap.val()){
         // console.log(cookies);
         let thwackedUser = Object.entries(snap.val()).find(user => user[0] === cookies.get("user"))
+        console.log(thwackedUser)
         if(thwackedUser){
           if (thwackedUser[1].thwacks >= 3) {
             document.querySelector(".newRoom").style.filter = "blur(10px)";
@@ -264,14 +268,11 @@ export default function ChatRoom() {
             setTimeout(() => {
               setUserName("");
               cookies.set("user", "", { path: "/" });
-            }, 8000)
+            }, 5000)
             let bootedColor=""
             let bootedAvatar = null;
-            if(thwackedUser[0] === cookies.get("user")){
-              bootedColor = cookies.get("chatColor")
-              bootedAvatar = cookies.get("chatAvatar")
-            }
-            chatAreaNotifications("booted", thwackedUser[0], bootedColor, bootedAvatar);
+            
+            chatAreaNotifications("booted", thwackedUser[0], thwackedUser[1].color, thwackedUser[1].avatar);
           }
         } 
       }
@@ -298,7 +299,8 @@ export default function ChatRoom() {
             .database()
             .ref(path)
             .set({
-              text: message.replaceAll("/n", "//n"),
+              text: photo ? photo : message.replaceAll("/n", "//n"),
+              photo: photo ? photo : null,
               time: mid,
               user: userName,
               color: chatColor,
@@ -315,7 +317,8 @@ export default function ChatRoom() {
             .database()
             .ref("chats/" + id + "/" + mid)
             .set({
-              text: message.replaceAll("/n", "//n"),
+              text: photo ? photo : message.replaceAll("/n", "//n"),
+              photo: photo ? photo : null,
               time: mid,
               user: userName,
               color: chatColor,
@@ -330,6 +333,7 @@ export default function ChatRoom() {
         setReplyingTo(0);
         setlikeColor([""]);
         isSelfReply(0)
+        setPhoto("")
       }
     }
   }
@@ -437,7 +441,14 @@ export default function ChatRoom() {
       cookies.set("chatColor", chatColor, { path: "/" });
       cookies.set("chatAvatar", chatAvatar, { path: "/" });
       // console.log(cookies.cookies)
-
+      firebase
+      .database()
+      .ref("userList/"+ id + "/" + userNameText + "/")
+      .set({
+        color: chatColor,
+        avatar: chatAvatar,
+        thwacks: 0
+      })
       var updates = {};
       updates["/rooms/" + id + "/participantCount"] = participants + 1;
       firebase.database().ref().update(updates);
@@ -483,6 +494,17 @@ export default function ChatRoom() {
       clearBtn.style.visibility = "hidden"
     }
   }
+  function GridDemo({ onGifClick }) {
+    const fetchGifs = (offset: number) =>
+      giphyFetch.search("trending", { offset, limit: 10 });
+    return <Grid
+      onGifClick={onGifClick}
+      fetchGifs={fetchGifs}
+      width={500}
+      columns={3}
+      gutter={6}
+    />;
+  }
   function sendMsg() {
     let mid = +new Date(Date.now());
     if (replyingTo > 0) {
@@ -495,7 +517,8 @@ export default function ChatRoom() {
         .database()
         .ref(path)
         .set({
-          text: message.replaceAll("/n", "//n"),
+          text: photo ? photo : message.replaceAll("/n", "//n"),
+          photo: photo ? photo : null,
           time: mid,
           user: userName,
           color: chatColor,
@@ -512,8 +535,9 @@ export default function ChatRoom() {
         .database()
         .ref("chats/" + id + "/" + mid)
         .set({
-          text: message.replaceAll("/n", "//n"),
+          text: photo ? photo : message.replaceAll("/n", "//n"),
           time: mid,
+          photo: photo ? photo : null,
           user: userName,
           color: chatColor,
           avatar: chatAvatar,
@@ -649,98 +673,34 @@ export default function ChatRoom() {
   }
 
   function thwackMsg(item) {
-    if (userName !== item.user) {
+    if(userName === item.user)
+      return;
       if (item.thwacks) {
         var prevD = Object.values(item.thwacksCount).includes(userName);
         var prev = Object.values(item.thwacksCount);
+        console.log(prevD);
+        console.log(prev)
       }
       else {
         var prev = [];
-        firebase
-          .database()
-          .ref("thwacks/" + id + "/"+ item.user +"/")
-          .set({
-              thwacks: item.thwacks
-          })
       }
       if (prevD) {
         // console.log("remove thwack")
-        if (item.isReply && !item.isDeeperReply) {
-          var filteredAry = prev.filter((e) => e !== userName);
-          firebase
-            .database()
-            .ref(
-              "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
-            )
-            .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
-        } else if (item.isDeeperReply) {
-
-          var filteredAry = prev.filter((e) => e !== userName);
-          // console.log(filteredAry);
-          firebase
-            .database()
-            .ref(
-              "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
-            )
-            .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
-        } else {
-
-          var filteredAry = prev.filter((e) => e !== userName);
-          firebase
-            .database()
-            .ref("chats/" + id + "/" + item.time)
-            .update({ thwacksCount: filteredAry, thwacks: item.thwacks - 1 });
-        }
         firebase
           .database()
-          .ref("thwacks/" + id + "/" + item.user + "/")
+          .ref("userList/" + id + "/" + item.user + "/")
           .update({
             thwacks: item.thwacks - 1
           })
-      } else {
-        // console.log("add thwack")
-        if (item.isReply && !item.isDeeperReply) {
-          var filteredAry = prev.filter((e) => e !== userName);
-          firebase
-            .database()
-            .ref(
-              "chats/" + id + "/" + item.parent + "/replies/" + item.time + "/"
-            )
-            .update({
-              thwacksCount: { ...prev, userName },
-              thwacks: item.thwacks + 1
-            });
-        } else if (item.isDeeperReply) {
-
-          var filteredAry = prev.filter((e) => e !== userName);
-          firebase
-            .database()
-            .ref(
-              "chats/" + id + "/" + item.parent + "/replies/" + item.mainParent + "/replies/" + item.time + "/"
-            )
-            .update({
-              thwacksCount: { ...prev, userName },
-              thwacks: item.thwacks + 1
-            });
-        } else {
-
-          var filteredAry = prev.filter((e) => e !== userName);
-          firebase
-            .database()
-            .ref("chats/" + id + "/" + item.time)
-            .update({
-              thwacksCount: { ...prev, userName },
-              thwacks: item.thwacks + 1
-            });
           
-        }
+        } else  {
         firebase
           .database()
-          .ref("thwacks/" + id + "/" + item.user + "/")
+          .ref("userList/" + id + "/" + item.user + "/")
           .update({
             thwacks: item.thwacks + 1
           })
-        
+
         let mid = +new Date(Date.now());
         firebase
           .database()
@@ -755,13 +715,8 @@ export default function ChatRoom() {
             thwacks: 0,
             sysAdd: true
           });
-      }
-      // getUpdate();
-    } else {
-      return;
+        }
     }
-
-  }
    const setMessageInput = (value) => {
     // console.log(value);
     setMessageText(value.target.value);
@@ -777,7 +732,7 @@ export default function ChatRoom() {
 
   function copyRoomID() {
     // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://dlblk.csb.app/room/" + id);
+    copyToClipboard("https://jel4u.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
@@ -827,7 +782,7 @@ export default function ChatRoom() {
     }
   }
   const displayEnterBtn = () => {
-    if (message) {
+    if (message || photo) {
       return "visible";
     } else {
       return "hidden";
@@ -891,6 +846,7 @@ export default function ChatRoom() {
 									className=" ui button btnYes"
 									onClick={() => {
 										setUserName("");
+                    cookies.set("user", "", { path: "/" });
                     chatAreaNotifications("leave")
 										setislEaving(false);
 										document.querySelector(
@@ -1060,7 +1016,7 @@ export default function ChatRoom() {
                         style={{
                           alignItems: "center",
                           borderRadius:
-                            item.text.length > 100
+                            item.photo ? 20 : item.text.length > 100
                               ? item.text.length / 1.25
                               : 30,
                           padding: item.text.length > 100 ? 10 : 0,
@@ -1071,14 +1027,17 @@ export default function ChatRoom() {
                         <span className="icon">
                           {renderAvatar(item.avatar, '45', '45')}
                         </span>
-
-                          <p
-                            style={{
-                              margin: "7px 0"
-                            }}
-                          >
-                            {item.text}
-                          </p>
+                          {item.photo ?
+                            <img src={item.photo}
+                              height={100} width={100}
+                              style={{ marginHorizontal: 80 }} />
+                            : <p
+                              style={{
+                                margin: "7px 0"
+                              }}
+                            >
+                              {item.text}
+                            </p>}
                       </div>
                       } 
                       
@@ -1175,8 +1134,8 @@ export default function ChatRoom() {
                                   style={{
                                     alignItems: "center",
                                     borderRadius:
-                                      itm.text.length > 100
-                                        ? itm.text.length / 1.25
+                                      item.photo ? 20 : item.text.length > 100
+                                        ? item.text.length / 1.25
                                         : 30,
                                     padding: itm.text.length > 100 ? 10 : 0,
                                     paddingRight: 20,
@@ -1187,16 +1146,22 @@ export default function ChatRoom() {
                                     {renderAvatar(itm.avatar,'45','45')}
                                   </span>
 
-                                  {itm.text.split("//n").map((itm) => (
-                                    <p
-                                      style={{
-                                        margin: "7px 0"
-                                      }}
-                                    >
-                                      {itm}
-                                      {/* {console.log(item)} */}
-                                    </p>
-                                  ))}
+                                  {itm.photo ?
+                                    <img src={itm.photo}
+                                      height={100} width={100}
+                                      style={{ marginHorizontal: 80 }} />
+                                    :
+
+                                    itm.text.split("//n").map((itm) => (
+                                      <p
+                                        style={{
+                                          margin: "7px 0"
+                                        }}
+                                      >
+                                        {itm}
+                                        {/* {console.log(item)} */}
+                                      </p>
+                                    ))}
                                 </div>
                                 {/* <button
                                 className="ui circular"
@@ -1298,7 +1263,7 @@ export default function ChatRoom() {
                                   style={{
                                     alignItems: "center",
                                     borderRadius:
-                                      item.text.length > 100
+                                      item.photo ? 20 : item.text.length > 100
                                         ? item.text.length / 1.25
                                         : 30,
                                     padding: item.text.length > 100 ? 10 : 0,
@@ -1310,16 +1275,21 @@ export default function ChatRoom() {
                                     {renderAvatar(item.avatar,'45','45')}
                                   </span>
 
-                                  {item.text.split("//n").map((item) => (
-                                    <p
-                                      style={{
-                                        margin: "7px 0"
-                                      }}
-                                    >
-                                      {item}
-                                      {/* {console.log(item)} */}
-                                    </p>
-                                  ))}
+                                  {item.photo ?
+                                    <img src={item.photo}
+                                      height={100} width={100}
+                                      style={{ marginHorizontal: 80 }} />
+                                    :
+                                    item.text.split("//n").map((item) => (
+                                      <p
+                                        style={{
+                                          margin: "7px 0"
+                                        }}
+                                      >
+                                        {item}
+                                        {/* {console.log(item)} */}
+                                      </p>
+                                    ))}
                                 </div>
                                 {/* <button
                                 className="ui circular"
@@ -1545,6 +1515,24 @@ export default function ChatRoom() {
                       </clipPath>
                     </defs>
                   </svg>
+                    <button onClick={() => setfetchGifs(!fetchGifs)}>
+                      <img src="https://img.icons8.com/windows/32/000000/gif.png" />
+                    </button>
+                    {fetchGifs &&
+                      <div style={{
+                        position: 'absolute', zIndex: 10,
+                        height: 200, width: '80%', backgroundColor: 'black', bottom: 100, overflow: 'auto',
+                        padding: 10
+                      }}>
+                        <GridDemo
+                          onGifClick={(gif, e) => {
+                            console.log("gif", gif);
+                            setPhoto(gif.images.downsized.url)
+                            setfetchGifs(false)
+                            e.preventDefault();
+                          }}
+                        />
+                      </div>}
                 </div>
               </div>
               </div>
