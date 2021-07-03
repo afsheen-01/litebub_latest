@@ -47,7 +47,6 @@ export default function ChatRoom() {
   var [participants, setParticipants] = useState(0);
   var [replyingTo, setReplyingTo] = useState(0);
   var [likeColor, setlikeColor] = useState([""]);
-  var [notifications, setNotification] = useState([]);
   var [leavingRoom, setislEaving] = useState(false);
   var [bgs, setbgs] = useState([]);
   // var [isSystem, setIsSystem] = useState(true);
@@ -57,6 +56,9 @@ export default function ChatRoom() {
   var [thwackNotif, setThwackNotif] = useState(false);
   const [fetchGifs, setfetchGifs] = useState();
   const [photo, setPhoto] = useState('');
+  var [thwackedMsgs, setThwackedMsgs] = useState([]);
+  var [userList, setUserList] = useState([]);
+  var [userListClick, setUserListClick] = useState(false);
 
   //history for enterNamePage
   const history = useHistory();
@@ -73,6 +75,7 @@ export default function ChatRoom() {
     getCredentials();
     
   }, []);
+
   useEffect(() => {
     setInterval(
       animateScroll.scrollToBottom({
@@ -82,6 +85,7 @@ export default function ChatRoom() {
       1000
     );
   });
+
   useEffect(() => {
     document.addEventListener("keydown", escFunction, false);
 
@@ -89,6 +93,7 @@ export default function ChatRoom() {
       document.removeEventListener("keydown", escFunction, false);
     };
   }, []);
+
   useEffect(() => {
     let query = useQuery();
     let bgGifNo = 0
@@ -111,6 +116,15 @@ export default function ChatRoom() {
           setbgs(obj);
         }
       });
+
+    firebase
+    .database()
+    .ref("userList/" + id + "/")
+    .on("value", snap => {
+      if(snap.val()){
+        setUserList(Object.entries(snap.val()))
+      }
+    })
   }, []);
 
   // useEffect(() => {
@@ -140,6 +154,21 @@ export default function ChatRoom() {
   //   }
   }, [currMessages, newMessageCount])
   
+  useEffect(() => {
+    console.log(thwackedMsgs)
+  }, [thwackedMsgs])
+
+  // useEffect(() => {
+  //   firebase
+  //   .database()
+  //   .ref("userList/" + id + "/")
+  //   .on("value", snap => {
+  //     if (snap.val()){
+  //       console.log(Object.keys(snap.val()))
+  //     }
+  //   })
+  // })
+
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       setReplyingTo(0);
@@ -228,14 +257,12 @@ export default function ChatRoom() {
     let avatarIterator = Math.floor(Math.random() * avatars.length);
     let randomAvatar = rootUser.qavatar?avatars[parseInt(rootUser.qavatar,10)]:avatars[avatarIterator];
     if (!chatColor) {
-      
       setColor(color);
     }
     if (!chatAvatar) {
       
       setAvatar(randomAvatar);
     }
-
   }
   function getMessages(id) {
     firebase
@@ -258,9 +285,10 @@ export default function ChatRoom() {
     .ref("userList/" + id + "/")
     .on("value", snap => {
       if(snap.val()){
+        // console.log(snap.val())
         // console.log(cookies);
         let thwackedUser = Object.entries(snap.val()).find(user => user[0] === cookies.get("user"))
-        console.log(thwackedUser)
+        // console.log(thwackedUser)
         if(thwackedUser){
           if (thwackedUser[1].thwacks >= 3) {
             document.querySelector(".newRoom").style.filter = "blur(10px)";
@@ -269,9 +297,6 @@ export default function ChatRoom() {
               setUserName("");
               cookies.set("user", "", { path: "/" });
             }, 5000)
-            let bootedColor=""
-            let bootedAvatar = null;
-            
             chatAreaNotifications("booted", thwackedUser[0], thwackedUser[1].color, thwackedUser[1].avatar);
           }
         } 
@@ -338,7 +363,6 @@ export default function ChatRoom() {
     }
   }
   function chatAreaNotifications(msg, bootedUser, bootedColor, bootedAvatar) {
-    
     let textMsg = "";
     switch (msg) {
       case "join":
@@ -351,7 +375,7 @@ export default function ChatRoom() {
         textMsg = "  was kicked 🥾 out of chat"
         break;
     }
-    console.log(chatColor);
+    // console.log(chatColor);
     let mid = +new Date(Date.now());
     firebase
       .database()
@@ -447,7 +471,6 @@ export default function ChatRoom() {
       .set({
         color: chatColor,
         avatar: chatAvatar,
-        thwacks: 0
       })
       var updates = {};
       updates["/rooms/" + id + "/participantCount"] = participants + 1;
@@ -673,32 +696,28 @@ export default function ChatRoom() {
   }
 
   function thwackMsg(item) {
+    console.log(item.time)
     if(userName === item.user)
-      return;
-      if (item.thwacks) {
-        var prevD = Object.values(item.thwacksCount).includes(userName);
-        var prev = Object.values(item.thwacksCount);
-        console.log(prevD);
-        console.log(prev)
-      }
-      else {
-        var prev = [];
-      }
-      if (prevD) {
-        // console.log("remove thwack")
+      return ;
+      // if(thwackedMsgs.includes(item.time)){
+      //   let filteredAry = thwackedMsgs.splice(thwackedMsgs.indexOf(item.time), 1)
+        // console.log(filteredAry)
+        // setThwackedMsgs(filteredAry)
+        // console.log(thwackedMsgs)
+        // firebase
+        //   .database()
+        //   .ref("userList/" + id + "/" + item.user + "/")
+        //   .update({
+        //     thwackedMsgs: thwackedMsgs
+        //   })
+      // } else {
+        setThwackedMsgs([...thwackedMsgs, item.time]);
+        // console.log(thwackedMsgs)
         firebase
           .database()
           .ref("userList/" + id + "/" + item.user + "/")
           .update({
-            thwacks: item.thwacks - 1
-          })
-          
-        } else  {
-        firebase
-          .database()
-          .ref("userList/" + id + "/" + item.user + "/")
-          .update({
-            thwacks: item.thwacks + 1
+            thwackedMsgs: thwackedMsgs
           })
 
         let mid = +new Date(Date.now());
@@ -715,12 +734,13 @@ export default function ChatRoom() {
             thwacks: 0,
             sysAdd: true
           });
-        }
+      // }
+      // }
     }
    const setMessageInput = (value) => {
     // console.log(value);
     setMessageText(value.target.value);
-  };
+  }
   function copyToClipboard(txt) {
     var textField = document.createElement("textarea");
     textField.innerText = txt;
@@ -787,7 +807,34 @@ export default function ChatRoom() {
     } else {
       return "hidden";
     }
-  };
+  }
+  
+  // function manageUserList() {
+  //   let userList = [];
+  //   firebase
+  //     .database()
+  //     .ref("userList/" + id + "/")
+  //     .on("value", snap => {
+  //       userList = Object.entries(snap.val())
+  //     })
+  //   console.log(userList)
+  //   return userList.map(user => ( 
+  //     <div style={{padding: "1em", border: "2px solid #000"}}>
+  //       {user}
+  //     </div>
+  //   ))
+  // }
+
+  // let users = userList.map((user, index) => {
+  //   return (
+  //     <div key = {index}>
+  //       {user[0]}
+  //     </div>
+  //   )
+  // })
+
+  // console.log(users)
+
   function leaveRoom() {
 		document.querySelector(".newRoom").style.filter = "blur(10px)";
 		setislEaving(true);
@@ -852,6 +899,10 @@ export default function ChatRoom() {
 										document.querySelector(
 											".newRoom"
 										).style.filter = "blur(0px)";
+                    firebase
+                    .database()
+                    .ref("userList/" + id + "/" + userName)
+                    .remove();
 									}}
 								>
 									YES
@@ -922,6 +973,103 @@ export default function ChatRoom() {
               </div>
             </div>
           ) : null}
+          {userListClick ? (
+            <div>
+            <div className="blackBg"></div>
+              <div style={{
+                zIndex: 50,
+                position: "absolute",
+                top: "17%",
+                left: "40%",
+                display: "flex"
+              }}>
+                {userList.map((user, index) => {
+                  return (
+                    <>
+                      <div style={{
+                        // border: "2px solid #fff",
+                        display: "flex"
+                      }}>
+                        <p 
+                          style={{
+                            color: "#fff"
+                        }}>
+                          {user[0]}
+                        </p>
+                        <div 
+                          key={index} 
+                          style={{
+                            backgroundColor: user[1].color,
+                            // border: "1.5px solid #fff",
+                            borderRadius: "50%",
+                            zIndex: 60,
+                            width: "45px",
+                            height: "45px",
+                        }}>
+                            {renderAvatar(user[1].avatar, '45', '45')}
+                        </div>
+                      </div>
+                      
+                      <svg
+                        width="100"
+                        height="100"
+                        viewBox="0 0 100 100"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => {
+                          setUserListClick(false);
+                          document.querySelector(".newRoom").style.filter = "blur(0px)";
+                        } }
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z"
+                          fill="#FFFFFF"
+                        />
+                      </svg>
+                    </> 
+                  )
+                 })
+                }
+              </div>
+
+              {/* <div style={{
+                zIndex: 50,
+                border: "2px solid #fff"
+              }}>
+              </div>     */}
+            </div>
+          ) : null}
+          <div className="userListContainer" onClick={() => {
+            setUserListClick(!userListClick)
+            document.querySelector('.newRoom').style.filter = userListClick?"blur(0px)": "blur(10px)"
+            console.log(userListClick)
+          }}>
+            <span className="stackContainer">
+              {userList.map((user, index) => {
+                let coinOffset = 0
+                coinOffset += 30
+                return (
+                  <div key={index} style={{
+                    backgroundColor: user[1].color,
+                    borderRadius: "50%",
+                    zIndex: `${index + 50}`,
+                    width: "30px",
+                    height: "30px",
+                    marginLeft: "-10"
+                  }}>
+                    <p>
+                      {renderAvatar(user[1].avatar, '30', '30')}
+                    </p>
+                  </div>
+                )
+              })}
+            </span>
+            <span style={{ zIndex: 50, color: "#656565" }} className="userCounter">
+              {userList.length}
+            </span>
+          </div>
 					<div
 						style={{ backgroundColor: "white", width: "100%" }}
 						className="newRoom"
@@ -986,12 +1134,15 @@ export default function ChatRoom() {
           </div>
           {/* end */}
           <div className="chat-container">
-            <h3 className="chat-topic" style={{ padding: "1em 0" }}>
-              litebub
-              <span className="chatting-about" style={{ padding: "0 5px" }}>
-                chatting about <span className="topic">{topic}</span>
-              </span>
-            </h3>
+            <div className="topicAndListContainer">
+                <h3 className="chat-topic">
+                  litebub
+                  <span className="chatting-about" style={{ padding: "0 5px" }}>
+                    chatting about <span className="topic">{topic}</span>
+                  </span>
+                </h3>
+            </div>
+              
             <div
               id="chat-area"
               style={{
