@@ -59,6 +59,7 @@ export default function ChatRoom() {
   var [thwackedMsgs, setThwackedMsgs] = useState([]);
   var [userList, setUserList] = useState([]);
   var [userListClick, setUserListClick] = useState(false);
+  const [giphySearchParam, setGiphySearchParam] = useState('')
 
   //history for enterNamePage
   const history = useHistory();
@@ -509,15 +510,22 @@ export default function ChatRoom() {
     }
   }
   function GridDemo({ onGifClick }) {
-    const fetchGifs = (offset: number) =>
-      giphyFetch.search("trending", { offset, limit: 10 });
-    return <Grid
-      onGifClick={onGifClick}
-      fetchGifs={fetchGifs}
-      width={500}
-      columns={3}
-      gutter={6}
-    />;
+    const fetchGifs = (offset) =>
+      giphyFetch.search(giphySearchParam, { offset, limit: 10 });
+    return (
+      <>
+        <input type="text"
+          value={giphySearchParam}
+          autoFocus
+          onChange={txt => setGiphySearchParam(txt.target.value)} />
+        <Grid
+          onGifClick={onGifClick}
+          fetchGifs={fetchGifs}
+          width={500}
+          columns={3}
+          gutter={6}
+        /></>
+    )
   }
   function sendMsg() {
     let mid = +new Date(Date.now());
@@ -564,7 +572,8 @@ export default function ChatRoom() {
     setMessageText("");
     setReplyingTo(0);
     setlikeColor([""]);
-    isSelfReply(0)
+    isSelfReply(0);
+    setPhoto("");
   }
   function reply(item, isSelf) {
     setReplyingTo(item.time);
