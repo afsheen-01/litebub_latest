@@ -121,8 +121,6 @@ const Address = ({ setForm, formData, navigation }) => {
           {obj.topic.replace(" ", "\n")}
         </div>
         {' '}
-        {/* <br /> */}
-        {/* { i % 3 == 0 ? <br /> : null} */}
         </>) 
   })
   const options = {

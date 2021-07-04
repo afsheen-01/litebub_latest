@@ -940,12 +940,26 @@ export default function ChatRoom() {
           ) : null}
           {userListClick ? (
             <div>
-            <div 
-            className="blackBg" 
-            onClick = {() => {
-              setUserListClick(false)
-              document.querySelector(".newRoom").style.filter = "blur(0px)";
-            }}></div>
+              <div 
+              className="blackBg" 
+              onClick = {() => {
+                // console.log(userList)
+                setUserListClick(false)
+                document.querySelector(".newRoom").style.filter = "blur(0px)";
+              }}></div>
+              <span
+                style={{
+                  position: "relative",
+                  top: 15,
+                  left: 310,
+                  color: "#656565",
+                  zIndex: 50,
+                  fontSize: "1.5em"
+                }}
+               >
+                 {/* ({userList.length}) */}
+                 {userList.length > 6 ? `(${userList.length})` : null}
+                 </span>
               <div style={{
                 zIndex: 50,
                 position: "absolute",
@@ -953,11 +967,11 @@ export default function ChatRoom() {
                 left: "18%",
                 display: "flex",
                 // border: "1px solid #fff",
-                width: "45%"
+                width: "43%"
               }}>
                 <div style={{
                   // border: "1px solid #fff",
-                  width: "100%"
+                  width: "inherit"
                 }}>
                   {userList.map((user, index) => {
                     return (
@@ -971,7 +985,7 @@ export default function ChatRoom() {
                             style={{
                               color: "#fff",
                               // border: "2px solid #fff",
-                              width: "70%",
+                              width: "50%",
                               textAlign: "right",
                               paddingRight: 30,
                               textOverflow: "ellipsis",
@@ -1032,20 +1046,23 @@ export default function ChatRoom() {
           <div className="userListContainer" onClick={() => {
             setUserListClick(!userListClick)
             document.querySelector('.newRoom').style.filter = userListClick?"blur(0px)": "blur(10px)"
-            console.log(userListClick)
           }}>
             <div className="stackContainer">
               {userList.map((user, index) => {
                 let coinOffset = 0
-                coinOffset += 30
+                coinOffset = 30 - (index*10)
+                // console.log(coinOffset)
                 return (
                   <div key={index} style={{
                     backgroundColor: user[1].color,
                     borderRadius: "50%",
                     zIndex: `${index + 50}`,
+                    position: "absoulte",
+                    left: coinOffset,
                     width: "30px",
                     height: "30px",
-                    marginLeft: "-10"
+                    marginLeft: -17,
+                    border: "1.5px solid #fff"
                   }}>
                     <p>
                       {renderAvatar(user[1].avatar, '30', '30')}
@@ -1055,7 +1072,7 @@ export default function ChatRoom() {
               })}
             </div>
             <span style={{ zIndex: 50, color: "#656565" }} className="userCounter">
-              {userList.length}
+              {userList.length > 6 ? "(+5)":userList.length}
             </span>
           </div>
 					<div

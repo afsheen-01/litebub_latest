@@ -393,7 +393,7 @@ button:hover {
    align-items: center;
    position: absolute;
    top: 10px;
-   left: 24em;
+   left: 33vw;
 }
 .stackContainer{
    display: flex;
