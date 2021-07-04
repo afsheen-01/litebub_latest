@@ -101,7 +101,9 @@ export default function ChatRoom() {
       bgGifNo = query.get("chatBg")
     }else{
       firebase.database().ref("rooms/" + id).on("value", snapshot => {
-        bgGifNo = snapshot.val().chatBg
+        if(snapshot.val()){
+          bgGifNo = snapshot.val().chatBg
+        }
       })
     }
     
@@ -157,17 +159,6 @@ export default function ChatRoom() {
   useEffect(() => {
     console.log(thwackedMsgs)
   }, [thwackedMsgs])
-
-  // useEffect(() => {
-  //   firebase
-  //   .database()
-  //   .ref("userList/" + id + "/")
-  //   .on("value", snap => {
-  //     if (snap.val()){
-  //       console.log(Object.keys(snap.val()))
-  //     }
-  //   })
-  // })
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -808,32 +799,6 @@ export default function ChatRoom() {
       return "hidden";
     }
   }
-  
-  // function manageUserList() {
-  //   let userList = [];
-  //   firebase
-  //     .database()
-  //     .ref("userList/" + id + "/")
-  //     .on("value", snap => {
-  //       userList = Object.entries(snap.val())
-  //     })
-  //   console.log(userList)
-  //   return userList.map(user => ( 
-  //     <div style={{padding: "1em", border: "2px solid #000"}}>
-  //       {user}
-  //     </div>
-  //   ))
-  // }
-
-  // let users = userList.map((user, index) => {
-  //   return (
-  //     <div key = {index}>
-  //       {user[0]}
-  //     </div>
-  //   )
-  // })
-
-  // console.log(users)
 
   function leaveRoom() {
 		document.querySelector(".newRoom").style.filter = "blur(10px)";
@@ -979,59 +944,71 @@ export default function ChatRoom() {
               <div style={{
                 zIndex: 50,
                 position: "absolute",
-                top: "17%",
-                left: "40%",
-                display: "flex"
+                top: "8%",
+                left: "12%",
+                display: "flex",
+                // border: "1px solid #fff",
+                width: "45%"
               }}>
-                {userList.map((user, index) => {
-                  return (
-                    <>
-                      <div style={{
-                        // border: "2px solid #fff",
-                        display: "flex"
-                      }}>
-                        <p 
-                          style={{
-                            color: "#fff"
+                <div style={{
+                  // border: "1px solid #fff",
+                  width: "100%"
+                }}>
+                  {userList.map((user, index) => {
+                    return (
+                        <span style={{
+                          // border: "1px solid #fff",
+                          display: "flex",
+                          alignItems: "center",
+                          margin: 15
                         }}>
-                          {user[0]}
-                        </p>
-                        <div 
-                          key={index} 
-                          style={{
-                            backgroundColor: user[1].color,
-                            // border: "1.5px solid #fff",
-                            borderRadius: "50%",
-                            zIndex: 60,
-                            width: "45px",
-                            height: "45px",
-                        }}>
-                            {renderAvatar(user[1].avatar, '45', '45')}
-                        </div>
-                      </div>
-                      
-                      <svg
-                        width="100"
-                        height="100"
-                        viewBox="0 0 100 100"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        onClick={() => {
-                          setUserListClick(false);
-                          document.querySelector(".newRoom").style.filter = "blur(0px)";
-                        } }
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z"
-                          fill="#FFFFFF"
-                        />
-                      </svg>
-                    </> 
-                  )
-                 })
-                }
+                          <p 
+                            style={{
+                              color: "#fff",
+                              // border: "2px solid #fff",
+                              width: "70%",
+                              textAlign: "right",
+                              paddingRight: 30,
+                              textOverflow: "ellipsis",
+                              fontSize : "1.3",
+                          }}>
+                            {user[0]}
+                          </p>
+                          <div 
+                            key={index} 
+                            style={{
+                              backgroundColor: user[1].color,
+                              borderRadius: "50%",
+                              zIndex: 60,
+                              width: "45px",
+                              height: "45px",
+                          }}>
+                              {renderAvatar(user[1].avatar, '45', '45')}
+                          </div>
+                        </span>
+                      )
+                    })
+                  }
+                </div>
+                <svg
+                  // style={{border: "2px solid #fff"}}
+                  width="350"
+                  height="200"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  onClick={() => {
+                    setUserListClick(false);
+                    document.querySelector(".newRoom").style.filter = "blur(0px)";
+                  }}
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z"
+                    fill="#FFFFFF"
+                  />
+                </svg>
               </div>
 
               {/* <div style={{
@@ -1046,7 +1023,7 @@ export default function ChatRoom() {
             document.querySelector('.newRoom').style.filter = userListClick?"blur(0px)": "blur(10px)"
             console.log(userListClick)
           }}>
-            <span className="stackContainer">
+            <div className="stackContainer">
               {userList.map((user, index) => {
                 let coinOffset = 0
                 coinOffset += 30
@@ -1065,7 +1042,7 @@ export default function ChatRoom() {
                   </div>
                 )
               })}
-            </span>
+            </div>
             <span style={{ zIndex: 50, color: "#656565" }} className="userCounter">
               {userList.length}
             </span>
