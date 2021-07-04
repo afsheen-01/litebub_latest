@@ -1691,7 +1691,7 @@ export default function ChatRoom() {
                       }}>
                         <GridDemo
                           onGifClick={(gif, e) => {
-                            console.log("gif", gif);
+                            // console.log("gif", gif);
                             setPhoto(gif.images.downsized.url)
                             setfetchGifs(false)
                             e.preventDefault();
