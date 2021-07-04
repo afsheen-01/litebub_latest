@@ -950,7 +950,7 @@ export default function ChatRoom() {
                 zIndex: 50,
                 position: "absolute",
                 top: "8%",
-                left: "12%",
+                left: "18%",
                 display: "flex",
                 // border: "1px solid #fff",
                 width: "45%"
@@ -995,10 +995,15 @@ export default function ChatRoom() {
                     })
                   }
                 </div>
+                <span 
+                  style={{
+                    // border: "2px solid #fff",
+                    // width: "inherit"
+                }}>
                 <svg
                   // style={{border: "2px solid #fff"}}
-                  width="350"
-                  height="200"
+                  width="400"
+                  height="400"
                   viewBox="0 0 100 100"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -1014,6 +1019,7 @@ export default function ChatRoom() {
                     fill="#FFFFFF"
                   />
                 </svg>
+                </span>
               </div>
 
               {/* <div style={{
