@@ -940,7 +940,12 @@ export default function ChatRoom() {
           ) : null}
           {userListClick ? (
             <div>
-            <div className="blackBg"></div>
+            <div 
+            className="blackBg" 
+            onClick = {() => {
+              setUserListClick(false)
+              document.querySelector(".newRoom").style.filter = "blur(0px)";
+            }}></div>
               <div style={{
                 zIndex: 50,
                 position: "absolute",
