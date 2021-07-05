@@ -811,6 +811,7 @@ export default function ChatRoom() {
 
   function leaveRoom() {
 		document.querySelector(".newRoom").style.filter = "blur(10px)";
+    // document.querySelector(".userListContainer").style.filter = "blur(10px)";
 		setislEaving(true);
 	}
   function leaveQuote(){
@@ -858,6 +859,8 @@ export default function ChatRoom() {
 										document.querySelector(
 											".newRoom"
 										).style.filter = "blur(0px)";
+
+                    // document.querySelector(".userListContainer").style.filter = "blur(0px)";
 									}}
 								>
 									STAY
@@ -1058,30 +1061,35 @@ export default function ChatRoom() {
           }}>
             <div className="stackContainer">
               {userList.map((user, index) => {
-                let coinOffset = 0
-                coinOffset = 30 - (index*10)
-                // console.log(coinOffset)
-                return (
-                  <div key={index} style={{
-                    backgroundColor: user[1].color,
-                    borderRadius: "50%",
-                    zIndex: `${index + 50}`,
-                    position: "absoulte",
-                    left: coinOffset,
-                    width: "30px",
-                    height: "30px",
-                    marginLeft: -17,
-                    border: "1.5px solid #fff"
-                  }}>
-                    <p>
+                if(index <= 5){
+                  let coinOffset = 0
+                  coinOffset = 30 - (index * 10)
+                  // console.log(coinOffset)
+                  return (
+                    <div key={index} style={{
+                      backgroundColor: user[1].color,
+                      borderRadius: "50%",
+                      zIndex: `${index + 30}`,
+                      position: "absoulte",
+                      left: coinOffset,
+                      width: "33px",
+                      height: "33px",
+                      marginLeft: -17,
+                      border: "2px solid #fff"
+                    }}>
+                      {/* <p 
+                      style={{
+                        padding: "-5px"
+                    }}> */}
                       {renderAvatar(user[1].avatar, '30', '30')}
-                    </p>
-                  </div>
-                )
-              })}
+                      {/* </p> */}
+                    </div>
+                  )
+                }
+              })} 
             </div>
             <span style={{ zIndex: 50, color: "#656565" }} className="userCounter">
-              {userList.length > 6 ? "(+5)":userList.length}
+              {userList.length > 6 ? `(+${userList.length - 6})`:userList.length}
             </span>
           </div>
 					<div
