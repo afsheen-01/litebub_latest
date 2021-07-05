@@ -1059,7 +1059,8 @@ export default function ChatRoom() {
           <div 
             className="userListContainer" 
             style = {{
-              zIndex:userListClick && !thwackNotif && !leavingRoom? 50: 40
+              zIndex:userListClick && !thwackNotif && !leavingRoom? 50: 40,
+              filter: thwackNotif || leavingRoom?"blur(10px)": "blur(0px)"
             }}
             onClick={() => {
             setUserListClick(!userListClick)
