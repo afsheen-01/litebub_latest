@@ -394,6 +394,7 @@ button:hover {
    position: absolute;
    top: 10px;
    left: 33vw;
+   z-index: 50;
 }
 .stackContainer{
    display: flex;

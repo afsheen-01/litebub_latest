@@ -963,10 +963,11 @@ export default function ChatRoom() {
                 style={{
                   position: "relative",
                   top: 15,
-                  left: 310,
+                  left: 430,
                   color: "#656565",
                   zIndex: 50,
-                  fontSize: "1.5em"
+                  fontSize: "1.5em",
+                  // border: "2px solid #fff"
                 }}
                >
                  {/* ({userList.length}) */}
@@ -1055,13 +1056,18 @@ export default function ChatRoom() {
               </div>     */}
             </div>
           ) : null}
-          <div className="userListContainer" onClick={() => {
+          <div 
+            className="userListContainer" 
+            style = {{
+              zIndex:userListClick && !thwackNotif && !leavingRoom? 50: 40
+            }}
+            onClick={() => {
             setUserListClick(!userListClick)
-            document.querySelector('.newRoom').style.filter = userListClick?"blur(0px)": "blur(10px)"
+            document.querySelector('.newRoom').style.filter = userListClick ? "blur(0px)" : "blur(10px)"
           }}>
             <div className="stackContainer">
               {userList.map((user, index) => {
-                if(index <= 5){
+                if (index <= 5) {
                   let coinOffset = 0
                   coinOffset = 30 - (index * 10)
                   // console.log(coinOffset)
@@ -1086,10 +1092,10 @@ export default function ChatRoom() {
                     </div>
                   )
                 }
-              })} 
+              })}
             </div>
             <span style={{ zIndex: 50, color: "#656565" }} className="userCounter">
-              {userList.length > 6 ? `(+${userList.length - 6})`:userList.length}
+              {userList.length > 6 ? `(+${userList.length - 6})` : userList.length}
             </span>
           </div>
 					<div
