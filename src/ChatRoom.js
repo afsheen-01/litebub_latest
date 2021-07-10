@@ -156,10 +156,14 @@ export default function ChatRoom() {
       })
   //   }
   }, [currMessages, newMessageCount])
-  
-  useEffect(() => {
-    console.log(thwackedMsgs)
-  }, [thwackedMsgs])
+
+
+  // useEffect(() => {
+    // console.log(thwackedMsgs.values())
+  //   let thwackIterator = thwackedMsgs.values();
+  //   console.log(thwackIterator.next())
+  //   console.log(messages)
+  // }, [messages, thwackedMsgs])
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -694,51 +698,48 @@ export default function ChatRoom() {
       }
     }
   }
-
   function thwackMsg(item) {
-    console.log(item.time)
     if(userName === item.user)
-      return ;
-      // if(thwackedMsgs.includes(item.time)){
-      //   let filteredAry = thwackedMsgs.splice(thwackedMsgs.indexOf(item.time), 1)
-        // console.log(filteredAry)
-        // setThwackedMsgs(filteredAry)
-        // console.log(thwackedMsgs)
-        // firebase
-        //   .database()
-        //   .ref("userList/" + id + "/" + item.user + "/")
-        //   .update({
-        //     thwackedMsgs: thwackedMsgs
-        //   })
-      // } else {
-        setThwackedMsgs([...thwackedMsgs, item.time]);
-        // console.log(thwackedMsgs)
-        firebase
-          .database()
-          .ref("userList/" + id + "/" + item.user + "/")
-          .update({
-            thwackedMsgs: thwackedMsgs
-          })
+      return;
+    // if (thwackedMsgs.length && thwackedMsgs.find(elem => elem.msgId === item.time)) {
+    //   let msg = thwackedMsgs.find(elem => elem.msgId === item.time)
+    //   if(msg.user.includes(userName)){
+    //     console.log(msg)
+    //   }
+      
+    // } else {
+      setThwackedMsgs([...thwackedMsgs,
+        {
+          user: [userName],
+          msgId: item.time
+        }
+      ])
+      console.log(thwackedMsgs)
+      firebase
+        .database()
+        .ref("userList/" + id + "/" + item.user + "/")
+        .update({
+          thwackedMsgs: thwackedMsgs
+        })
 
-        let mid = +new Date(Date.now());
-        firebase
-          .database()
-          .ref("chats/" + id + "/" + mid)
-          .set({
-            text: " got thwacked",
-            time: mid,
-            user: item.user,
-            color: item.color,
-            avatar: item.avatar,
-            likes: 0,
-            thwacks: 0,
-            sysAdd: true
-          });
-      // }
-      // }
-    }
+      // let mid = +new Date(Date.now());
+      // firebase
+      //   .database()
+      //   .ref("chats/" + id + "/" + mid)
+      //   .set({
+      //     text: " got thwacked",
+      //     time: mid,
+      //     user: item.user,
+      //     color: item.color,
+      //     avatar: item.avatar,
+      //     likes: 0,
+      //     thwacks: 0,
+      //     sysAdd: true
+      //   });
+    // }
+    
+  }
    const setMessageInput = (value) => {
-    // console.log(value);
     setMessageText(value.target.value);
   }
   function copyToClipboard(txt) {
@@ -751,8 +752,7 @@ export default function ChatRoom() {
   }
 
   function copyRoomID() {
-    // console.log("https://nz45o.csb.app/room/" + id);
-    copyToClipboard("https://ou5b7.csb.app/room/" + id);
+    copyToClipboard("https://ml1ho.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
@@ -811,7 +811,6 @@ export default function ChatRoom() {
 
   function leaveRoom() {
 		document.querySelector(".newRoom").style.filter = "blur(10px)";
-    // document.querySelector(".userListContainer").style.filter = "blur(10px)";
 		setislEaving(true);
 	}
   function leaveQuote(){
@@ -859,8 +858,6 @@ export default function ChatRoom() {
 										document.querySelector(
 											".newRoom"
 										).style.filter = "blur(0px)";
-
-                    // document.querySelector(".userListContainer").style.filter = "blur(0px)";
 									}}
 								>
 									STAY
@@ -955,7 +952,6 @@ export default function ChatRoom() {
               <div 
               className="blackBg" 
               onClick = {() => {
-                // console.log(userList)
                 setUserListClick(false)
                 document.querySelector(".newRoom").style.filter = "blur(0px)";
               }}></div>
@@ -970,8 +966,9 @@ export default function ChatRoom() {
                   // border: "2px solid #fff"
                 }}
                >
+                 ({userList.length})
                  {/* ({userList.length}) */}
-                 {userList.length > 6 ? `(${userList.length})` : null}
+                 {/* {userList.length > 6 ? `(${userList.length})` : null} */}
                  </span>
               <div style={{
                 zIndex: 50,
@@ -1096,7 +1093,7 @@ export default function ChatRoom() {
               })}
             </div>
             <span style={{ zIndex: 50, color: "#656565" }} className="userCounter">
-              {userList.length > 6 ? `(+${userList.length - 6})` : userList.length}
+              {userList.length > 6 ? `(+${userList.length - 6})` : null}
             </span>
           </div>
 					<div
