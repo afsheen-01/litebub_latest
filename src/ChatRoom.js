@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import "semantic-ui-css/semantic.min.css";
 import "./styles.css";
 import "./leaveRoom.css";
@@ -57,9 +57,11 @@ export default function ChatRoom() {
   const [fetchGifs, setfetchGifs] = useState();
   const [photo, setPhoto] = useState('');
   var [thwackedMsgs, setThwackedMsgs] = useState([]);
+  var [usersthwacked, setUsersThwacked] = useState([]);
   var [userList, setUserList] = useState([]);
   var [userListClick, setUserListClick] = useState(false);
   const [giphySearchParam, setGiphySearchParam] = useState('')
+  const [closeGif, gifsCanbeClosed] = useState(false)
 
   //history for enterNamePage
   const history = useHistory();
@@ -158,18 +160,56 @@ export default function ChatRoom() {
   }, [currMessages, newMessageCount])
 
 
-  // useEffect(() => {
-    // console.log(thwackedMsgs.values())
-  //   let thwackIterator = thwackedMsgs.values();
-  //   console.log(thwackIterator.next())
-  //   console.log(messages)
-  // }, [messages, thwackedMsgs])
+  useEffect(() => {
+    console.log(thwackedMsgs)
+    console.log(usersthwacked)
+    // firebase
+    // .database()
+    // .ref("userList/" + id + "/")
+    // .on("value", snap => {
+    //   let user = ""
+    //   if(snap.val()){
+    //     user = Object.keys(snap.val()).find(usr => usr === userName)
+    //   }
+    //   if (user && thwackedMsgs) {
+    //     // console.log(user)
+    //     // console.log(thwackedMsgs)
+    //     firebase
+    //       .database()
+    //       .ref("userList/" + id + "/" + user + "/")
+    //       .update({
+    //         thwackedMsgs: thwackedMsgs
+    //       })
+    //   }
+    // })
+  }, [thwackedMsgs, usersthwacked])
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       setReplyingTo(0);
     }
   },[])
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setfetchGifs(false)
+        }
+      }
+
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
   function detectMob() {
     const toMatch = [
       /Android/i,
@@ -514,24 +554,49 @@ export default function ChatRoom() {
     }
   }
   function GridDemo({ onGifClick }) {
-    const fetchGifs = (offset) =>
-      giphyFetch.search(giphySearchParam, { offset, limit: 10 });
+    if (giphySearchParam == "") {
+      var fetchGifs = (offset: number) => giphyFetch.trending({ offset, limit: 10 })
+      gifsCanbeClosed(true)
+    } else {
+      var fetchGifs = (offset) =>
+        giphyFetch.search(giphySearchParam, { offset, limit: 10 });
+      gifsCanbeClosed(true)
+    }
     return (
       <>
         <input type="text"
+          style={{
+            width: '100%',
+            padding: 10,
+            paddingLeft: 20,
+            fontSize: 15,
+            borderWidth: 0,
+            marginBottom: 10
+          }}
+          placeholder="search giphy"
           value={giphySearchParam}
           autoFocus
           onChange={txt => setGiphySearchParam(txt.target.value)} />
+        {giphySearchParam &&
+          <span style={{
+            position: 'absolute',
+            top: 15,
+            right: 20,
+            cursor: 'pointer',
+            color: '#cdcdcd'
+          }}
+            onClick={() => setGiphySearchParam("")}>X</span>}
         <Grid
           onGifClick={onGifClick}
           fetchGifs={fetchGifs}
-          width={500}
-          columns={3}
+          width={290}
+          columns={2}
           gutter={6}
         /></>
     )
   }
-  function sendMsg() {
+  function sendMsg(pic) {
+    let photo = photo ? photo : pic
     let mid = +new Date(Date.now());
     if (replyingTo > 0) {
       if (selfReply > 0) {
@@ -697,31 +762,53 @@ export default function ChatRoom() {
           .update({ likeCount: { ...prev, userName } });
       }
     }
-  }
+  } 
+
   function thwackMsg(item) {
     if(userName === item.user)
       return;
+      firebase
+        .database()
+        .ref("userList/" + id + "/" + userName + "/thwackedMsgs/" + item.time + "/")
+        .on("value", snap => {
+          if(snap.val()){
+            setUsersThwacked(snap.val())
+          }
+        })
+
+      firebase
+        .database()
+        .ref("userList/" + id + "/" + userName + "/thwackedMsgs/")
+        .on("value", snap => {
+          if (snap.val()) {
+            setThwackedMsgs(snap.val())
+          }
+        })
     // if (thwackedMsgs.length && thwackedMsgs.find(elem => elem.msgId === item.time)) {
     //   let msg = thwackedMsgs.find(elem => elem.msgId === item.time)
     //   if(msg.user.includes(userName)){
-    //     console.log(msg)
-    //   }
+    //     let removeThwack = msg.user.indexOf(userName)
+    //     console.log(msg.user.splice(removeThwack, 1))
+    //     console.log(msg.user)
+        // setThwackedMsgs([...thwackedMsgs,
+        //   {
+        //     user: [user]
+        //   }
+        // ])
+      // }
       
     // } else {
-      setThwackedMsgs([...thwackedMsgs,
-        {
-          user: [userName],
-          msgId: item.time
-        }
-      ])
-      console.log(thwackedMsgs)
-      firebase
+        // setThwackedMsgs([...thwackedMsgs,
+        //   {
+        //     item.time : [userName]
+        //   }
+        // ])
+        firebase
         .database()
-        .ref("userList/" + id + "/" + item.user + "/")
+        .ref("userList/" + id + "/" + userName + "/thwackedMsgs/" + item.time + "/")
         .update({
-          thwackedMsgs: thwackedMsgs
+          users: [...usersthwacked, userName]
         })
-
       // let mid = +new Date(Date.now());
       // firebase
       //   .database()
@@ -737,9 +824,9 @@ export default function ChatRoom() {
       //     sysAdd: true
       //   });
     // }
-    
   }
-   const setMessageInput = (value) => {
+
+  const setMessageInput = (value) => {
     setMessageText(value.target.value);
   }
   function copyToClipboard(txt) {
@@ -818,6 +905,10 @@ export default function ChatRoom() {
     var rand = qarr[Math.floor(Math.random() * qarr.length)];
     return rand;
   }
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
   if (isValid) { 
     if (userName) {
       return (
@@ -1600,6 +1691,25 @@ export default function ChatRoom() {
                     }}
                     type="text"
                   />
+                    <span
+                      style={{
+                        position: 'absolute',
+                        right: '18%', top: 9,
+                        color: 'white',
+                        padding: 10, borderRadius: 5,
+                        cursor: 'pointer'
+                      }}
+                      className="gifBtn"
+                      onClick={e => {
+                        if (closeGif) {
+                          setfetchGifs(false)
+                          gifsCanbeClosed(false)
+                        } else {
+                          setfetchGifs(true)
+                          gifsCanbeClosed(false)
+                        }
+
+                      }}>GIF</span>
                   <svg
                     onClick={sendMsg}
                     className="enterBtn"
@@ -1692,24 +1802,33 @@ export default function ChatRoom() {
                       </clipPath>
                     </defs>
                   </svg>
-                    <button onClick={() => setfetchGifs(!fetchGifs)}>
+                    {/* <button onClick={() => setfetchGifs(!fetchGifs)}>
                       <img src="https://img.icons8.com/windows/32/000000/gif.png" />
-                    </button>
-                    {fetchGifs &&
+                    </button> */}
+                    {fetchGifs ?
                       <div style={{
                         position: 'absolute', zIndex: 10,
-                        height: 200, width: '80%', backgroundColor: 'black', bottom: 100, overflow: 'auto',
-                        padding: 10
-                      }}>
+                        height: 300, width: 300, backgroundColor: 'black',
+                        bottom: 80, overflow: 'auto',
+                        padding: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        right: '20%',
+                        borderRadius: 10
+                      }}
+                        ref={wrapperRef}>
                         <GridDemo
                           onGifClick={(gif, e) => {
                             // console.log("gif", gif);
                             setPhoto(gif.images.downsized.url)
                             setfetchGifs(false)
+                            setGiphySearchParam("")
                             e.preventDefault();
+                            console.log(photo)
+                            sendMsg(gif.images.downsized.url)
                           }}
                         />
-                      </div>}
+                      </div> : null}
                 </div>
               </div>
               </div>

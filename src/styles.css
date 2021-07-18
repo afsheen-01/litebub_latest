@@ -586,3 +586,10 @@ cursor: pointer
 .home-button a:hover{
   color:#fff;
 }
+.gifBtn {
+  background: rgba(153, 153, 153, 1);
+}
+
+.gifBtn:hover {
+  background-color:#242424;
+}
