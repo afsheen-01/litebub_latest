@@ -1675,22 +1675,22 @@ export default function ChatRoom() {
                     Replying to <b>{replyingWhom(replyingTo)}</b>
                   </p>
                 </div>
-                <div className="in-grid">
-                  <textarea
-                    className="message-input"
-                    placeholder="type a message..."
-                    onKeyDown={onKeyPress}
-                    value={message}
-                    onChange={setMessageInput}
-                    style={{
-                      fontSize: "1.2em",
-                      height: "3.5em",
-                      lineHeight: "1.5em",
-                      borderColor: replyingColor(),
-                      marginBottom: 10
-                    }}
-                    type="text"
-                  />
+                  <div className="in-grid">
+                    <textarea
+                      className="message-input"
+                      placeholder="type a message..."
+                      onKeyDown={onKeyPress}
+                      value={message}
+                      onChange={setMessageInput}
+                      style={{
+                        fontSize: "1.2em",
+                        height: "3.5em",
+                        lineHeight: "1.5em",
+                        borderColor: replyingColor(),
+                        marginBottom: 10,
+                      }}
+                      type="text"
+                    />
                     <span
                       style={{
                         position: 'absolute',
@@ -1710,101 +1710,98 @@ export default function ChatRoom() {
                         }
 
                       }}>GIF</span>
-                  <svg
-                    onClick={sendMsg}
-                    className="enterBtn"
-                    width="65"
-                    style={{
-                      visibility: displayEnterBtn(),
-                      marginLeft: 10,
-                      marginBottom: 5
-                    }}
-                    height="60"
-                    viewBox="0 0 82 82"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g filter="url(#filter0_d)">
-                      <circle cx="41" cy="37" r="37" fill={chatColor} />
-                      <g clip-path="url(#clip0)">
-                        <path
-                          d="M30.3132 34.7004L42.0138 23L53.7142 34.7004"
-                          stroke="white"
-                          stroke-width="4.6751"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M30.3132 34.7004L42.0138 23L53.7142 34.7004"
-                          stroke="black"
-                          stroke-width="4.6751"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M42.3198 23.3065L42.3198 51.7791"
-                          stroke="white"
-                          stroke-width="4.6751"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          d="M42.3198 23.3065L42.3198 51.7791"
-                          stroke="black"
-                          stroke-width="4.6751"
-                          stroke-linecap="round"
-                        />
+                    <svg
+                      onClick={sendMsg}
+                      className="enterBtn"
+                      width="65"
+                      style={{
+                        visibility: displayEnterBtn(),
+                        marginLeft: 10,
+                        marginBottom: 5
+                      }}
+                      height="60"
+                      viewBox="0 0 82 82"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g filter="url(#filter0_d)">
+                        <circle cx="41" cy="37" r="37" fill={chatColor} />
+                        <g clip-path="url(#clip0)">
+                          <path
+                            d="M30.3132 34.7004L42.0138 23L53.7142 34.7004"
+                            stroke="white"
+                            stroke-width="4.6751"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M30.3132 34.7004L42.0138 23L53.7142 34.7004"
+                            stroke="black"
+                            stroke-width="4.6751"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M42.3198 23.3065L42.3198 51.7791"
+                            stroke="white"
+                            stroke-width="4.6751"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M42.3198 23.3065L42.3198 51.7791"
+                            stroke="black"
+                            stroke-width="4.6751"
+                            stroke-linecap="round"
+                          />
+                        </g>
                       </g>
-                    </g>
-                    <defs>
-                      <filter
-                        id="filter0_d"
-                        x="0.390244"
-                        y="0"
-                        width="81.2195"
-                        height="81.2195"
-                        filterUnits="userSpaceOnUse"
-                        color-interpolation-filters="sRGB"
-                      >
-                        <feFlood
-                          flood-opacity="0"
-                          result="BackgroundImageFix"
-                        />
-                        <feColorMatrix
-                          in="SourceAlpha"
-                          type="matrix"
-                          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                        />
-                        <feOffset dy="3.60976" />
-                        <feGaussianBlur stdDeviation="1.80488" />
-                        <feColorMatrix
-                          type="matrix"
-                          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-                        />
-                        <feBlend
-                          mode="normal"
-                          in2="BackgroundImageFix"
-                          result="effect1_dropShadow"
-                        />
-                        <feBlend
-                          mode="normal"
-                          in="SourceGraphic"
-                          in2="effect1_dropShadow"
-                          result="shape"
-                        />
-                      </filter>
-                      <clipPath id="clip0">
-                        <rect
-                          width="44"
-                          height="44"
-                          fill="white"
-                          transform="matrix(-1 0 0 1 63 15)"
-                        />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                    {/* <button onClick={() => setfetchGifs(!fetchGifs)}>
-                      <img src="https://img.icons8.com/windows/32/000000/gif.png" />
-                    </button> */}
+                      <defs>
+                        <filter
+                          id="filter0_d"
+                          x="0.390244"
+                          y="0"
+                          width="81.2195"
+                          height="81.2195"
+                          filterUnits="userSpaceOnUse"
+                          color-interpolation-filters="sRGB"
+                        >
+                          <feFlood
+                            flood-opacity="0"
+                            result="BackgroundImageFix"
+                          />
+                          <feColorMatrix
+                            in="SourceAlpha"
+                            type="matrix"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                          />
+                          <feOffset dy="3.60976" />
+                          <feGaussianBlur stdDeviation="1.80488" />
+                          <feColorMatrix
+                            type="matrix"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
+                          />
+                          <feBlend
+                            mode="normal"
+                            in2="BackgroundImageFix"
+                            result="effect1_dropShadow"
+                          />
+                          <feBlend
+                            mode="normal"
+                            in="SourceGraphic"
+                            in2="effect1_dropShadow"
+                            result="shape"
+                          />
+                        </filter>
+                        <clipPath id="clip0">
+                          <rect
+                            width="44"
+                            height="44"
+                            fill="white"
+                            transform="matrix(-1 0 0 1 63 15)"
+                          />
+                        </clipPath>
+                      </defs>
+                    </svg>
                     {fetchGifs ?
                       <div style={{
                         position: 'absolute', zIndex: 10,
@@ -1829,8 +1826,8 @@ export default function ChatRoom() {
                           }}
                         />
                       </div> : null}
+                  </div>
                 </div>
-              </div>
               </div>
               {/* </textarea> */}
             </div>

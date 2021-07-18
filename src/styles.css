@@ -218,8 +218,10 @@ z-index: 10
 }
 .in-grid {
   /* border: 2px solid #000; */
-  display: grid;
+  align-items: center;
+  position: relative;
   width: 85%;
+  min-width: 400px;
   grid-template-columns: 2fr 0.01fr;
   place-items: center;
   justify-self: end;
