@@ -73,7 +73,7 @@ export default function ChatRoom() {
   useEffect(() => {
     getValidity();
     getUser();
-    getUpdate();
+    // getUpdate();
     setDevice(detectMob());
     getCredentials();
     
@@ -163,25 +163,23 @@ export default function ChatRoom() {
   useEffect(() => {
     console.log(thwackedMsgs)
     console.log(usersthwacked)
-    // firebase
-    // .database()
-    // .ref("userList/" + id + "/")
-    // .on("value", snap => {
-    //   let user = ""
-    //   if(snap.val()){
-    //     user = Object.keys(snap.val()).find(usr => usr === userName)
-    //   }
-    //   if (user && thwackedMsgs) {
-    //     // console.log(user)
-    //     // console.log(thwackedMsgs)
-    //     firebase
-    //       .database()
-    //       .ref("userList/" + id + "/" + user + "/")
-    //       .update({
-    //         thwackedMsgs: thwackedMsgs
-    //       })
-    //   }
-    // })
+    firebase
+    .database()
+    .ref("userList/" + id + "/")
+    .on("value", snap => {
+      if(snap.val()){
+        let allUsers = Object.entries(snap.val())
+        let usersWhoAreThwacked = allUsers.filter(user => user[1].thwackedMsgs)
+        console.log(usersWhoAreThwacked)
+        usersWhoAreThwacked.forEach(user => {
+          console.log(user)
+          if (Object.keys(user[1].thwackedMsgs).length >= 3){
+            getUpdate(user)
+          }
+        })
+        
+      }
+    })
   }, [thwackedMsgs, usersthwacked])
 
   const escFunction = useCallback((event) => {
@@ -315,29 +313,45 @@ export default function ChatRoom() {
         }
       });
   }
-  function getUpdate() {
-    firebase
-    .database()
-    .ref("userList/" + id + "/")
-    .on("value", snap => {
-      if(snap.val()){
-        // console.log(snap.val())
-        // console.log(cookies);
-        let thwackedUser = Object.entries(snap.val()).find(user => user[0] === cookies.get("user"))
-        // console.log(thwackedUser)
-        if(thwackedUser){
-          if (thwackedUser[1].thwacks >= 3) {
-            document.querySelector(".newRoom").style.filter = "blur(10px)";
-            setThwackNotif(true);
-            setTimeout(() => {
-              setUserName("");
-              cookies.set("user", "", { path: "/" });
-            }, 5000)
-            chatAreaNotifications("booted", thwackedUser[0], thwackedUser[1].color, thwackedUser[1].avatar);
-          }
-        } 
-      }
-    });
+  function getUpdate(user) {
+    console.log(user)
+    if (user[0] === userName) {
+      document.querySelector(".newRoom").style.filter = "blur(10px)";
+      setThwackNotif(true);
+      setTimeout(() => {
+        setUserName("");
+        cookies.set("user", "", { path: "/" });
+      }, 8000)
+      let bootedColor = ""
+      let bootedAvatar = null;
+      bootedColor = user[1].color
+      bootedAvatar = user[1].avatar
+
+      chatAreaNotifications("booted", user[0], bootedColor, bootedAvatar);
+    }
+  // }
+    // firebase
+    // .database()
+    // .ref("userList/" + id + "/")
+    // .on("value", snap => {
+    //   if(snap.val()){
+    //     // console.log(snap.val())
+    //     // console.log(cookies);
+    //     let thwackedUser = Object.entries(snap.val()).find(user => user[0] === cookies.get("user"))
+    //     // console.log(thwackedUser)
+    //     if(thwackedUser){
+    //       if (thwackedUser[1].thwacks >= 3) {
+    //         document.querySelector(".newRoom").style.filter = "blur(10px)";
+    //         setThwackNotif(true);
+    //         setTimeout(() => {
+    //           setUserName("");
+    //           cookies.set("user", "", { path: "/" });
+    //         }, 5000)
+    //         chatAreaNotifications("booted", thwackedUser[0], thwackedUser[1].color, thwackedUser[1].avatar);
+    //       }
+    //     } 
+    //   }
+    // });
   }
   function onKeyPress(e) {
     if (!mobileDevice) {
@@ -776,7 +790,7 @@ export default function ChatRoom() {
       return;
       firebase
         .database()
-        .ref("userList/" + id + "/" + userName + "/thwackedMsgs/" + item.time + "/")
+        .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/" + item.time + "/")
         .on("value", snap => {
           if(snap.val()){
             setUsersThwacked(snap.val())
@@ -785,7 +799,7 @@ export default function ChatRoom() {
 
       firebase
         .database()
-        .ref("userList/" + id + "/" + userName + "/thwackedMsgs/")
+        .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/")
         .on("value", snap => {
           if (snap.val()) {
             setThwackedMsgs(snap.val())
@@ -810,26 +824,28 @@ export default function ChatRoom() {
         //     item.time : [userName]
         //   }
         // ])
+        // console.log(item.user)
+        // console.log(userName)
         firebase
         .database()
-        .ref("userList/" + id + "/" + userName + "/thwackedMsgs/" + item.time + "/")
+        .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/" + item.time + "/")
         .update({
           users: [...usersthwacked, userName]
         })
-      // let mid = +new Date(Date.now());
-      // firebase
-      //   .database()
-      //   .ref("chats/" + id + "/" + mid)
-      //   .set({
-      //     text: " got thwacked",
-      //     time: mid,
-      //     user: item.user,
-      //     color: item.color,
-      //     avatar: item.avatar,
-      //     likes: 0,
-      //     thwacks: 0,
-      //     sysAdd: true
-      //   });
+      let mid = +new Date(Date.now());
+      firebase
+        .database()
+        .ref("chats/" + id + "/" + mid)
+        .set({
+          text: " got thwacked",
+          time: mid,
+          user: item.user,
+          color: item.color,
+          avatar: item.avatar,
+          likes: 0,
+          thwacks: 0,
+          sysAdd: true
+        });
     // }
   }
 
