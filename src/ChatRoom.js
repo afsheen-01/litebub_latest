@@ -571,7 +571,11 @@ export default function ChatRoom() {
             paddingLeft: 20,
             fontSize: 15,
             borderWidth: 0,
-            marginBottom: 10
+            marginBottom: 10,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0
           }}
           placeholder="search giphy"
           value={giphySearchParam}
@@ -580,12 +584,15 @@ export default function ChatRoom() {
         {giphySearchParam &&
           <span style={{
             position: 'absolute',
-            top: 15,
-            right: 20,
+            right: 5,
             cursor: 'pointer',
             color: '#cdcdcd'
           }}
-            onClick={() => setGiphySearchParam("")}>X</span>}
+            onClick={() => setGiphySearchParam("")}>
+            <svg width="41" height="41" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M41.3054 19.7115C40.4129 18.8189 38.9657 18.8191 38.0731 19.7117L30.5344 27.2504L23.1405 19.8565C22.248 18.964 20.8008 18.9641 19.9081 19.8567C19.0155 20.7494 19.0153 22.1966 19.9079 23.0891L27.3018 30.483L19.7625 38.0223C18.8699 38.915 18.8698 40.3621 19.7623 41.2547C20.6548 42.1472 22.102 42.1471 22.9946 41.2544L30.5339 33.7151L37.9293 41.1106C38.8218 42.0031 40.269 42.003 41.1617 41.1103C42.0544 40.2177 42.0545 38.7705 41.162 37.878L33.7665 30.4825L41.3052 22.9438C42.1978 22.0512 42.198 20.604 41.3054 19.7115Z" fill="#EDEDED" />
+            </svg>
+          </span>}
         <Grid
           onGifClick={onGifClick}
           fetchGifs={fetchGifs}
@@ -1704,6 +1711,7 @@ export default function ChatRoom() {
                         if (closeGif) {
                           setfetchGifs(false)
                           gifsCanbeClosed(false)
+                          setGiphySearchParam('')
                         } else {
                           setfetchGifs(true)
                           gifsCanbeClosed(false)
