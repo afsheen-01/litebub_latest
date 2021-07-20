@@ -173,7 +173,8 @@ export default function ChatRoom() {
         console.log(usersWhoAreThwacked)
         usersWhoAreThwacked.forEach(user => {
           console.log(user)
-          if (Object.keys(user[1].thwackedMsgs).length >= 3){
+          console.log(Object.keys(user[1].thwackedMsgs).length)
+          if (user[0] === userName && Object.keys(user[1].thwackedMsgs).length >= 3) {
             getUpdate(user)
           }
         })
@@ -314,8 +315,8 @@ export default function ChatRoom() {
       });
   }
   function getUpdate(user) {
-    console.log(user)
-    if (user[0] === userName) {
+    // console.log(user)
+    // if (user[0] === userName) {
       document.querySelector(".newRoom").style.filter = "blur(10px)";
       setThwackNotif(true);
       setTimeout(() => {
@@ -328,7 +329,7 @@ export default function ChatRoom() {
       bootedAvatar = user[1].avatar
 
       chatAreaNotifications("booted", user[0], bootedColor, bootedAvatar);
-    }
+    // }
   // }
     // firebase
     // .database()
