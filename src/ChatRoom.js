@@ -56,8 +56,10 @@ export default function ChatRoom() {
   var [thwackNotif, setThwackNotif] = useState(false);
   const [fetchGifs, setfetchGifs] = useState();
   const [photo, setPhoto] = useState('');
+  var [currThwackMsg, setCurrThwackMsg] = useState(0);
   var [thwackedMsgs, setThwackedMsgs] = useState([]);
   var [usersthwacked, setUsersThwacked] = useState([]);
+  var [thwackCount, setThwackCount] = useState(0);
   var [userList, setUserList] = useState([]);
   var [userListClick, setUserListClick] = useState(false);
   const [giphySearchParam, setGiphySearchParam] = useState('')
@@ -159,29 +161,65 @@ export default function ChatRoom() {
   //   }
   }, [currMessages, newMessageCount])
 
-
   useEffect(() => {
-    console.log(thwackedMsgs)
-    console.log(usersthwacked)
     firebase
-    .database()
-    .ref("userList/" + id + "/")
-    .on("value", snap => {
-      if(snap.val()){
-        let allUsers = Object.entries(snap.val())
-        let usersWhoAreThwacked = allUsers.filter(user => user[1].thwackedMsgs)
-        console.log(usersWhoAreThwacked)
-        usersWhoAreThwacked.forEach(user => {
-          console.log(user)
-          console.log(Object.keys(user[1].thwackedMsgs).length)
-          if (user[0] === userName && Object.keys(user[1].thwackedMsgs).length >= 3) {
-            getUpdate(user)
-          }
-        })
-        
-      }
-    })
-  }, [thwackedMsgs, usersthwacked])
+      .database()
+      .ref("thwackedUsers/" + id + "/" + cookies.get("user") + "/")
+      .on("value", snap => {
+        if(snap.val()){
+          setThwackCount(snap.val().thwackCount)
+        }
+      })
+    if(thwackCount >= 3){
+      getUpdate();
+    }
+
+  }, [thwackCount])
+
+  // useEffect(() => {
+  //   firebase
+  //     .database()
+  //     .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/" + item.time + "/")
+  //     .on("value", snap => {
+  //       if (snap.val()) {
+  //         console.log(snap.val())
+  //         setUsersThwacked(snap.val())
+  //       }
+  //     })
+
+  //   firebase
+  //     .database()
+  //     .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/")
+  //     .on("value", snap => {
+  //       if (snap.val()) {
+  //         console.log(snap.val())
+  //         setThwackedMsgs(snap.val())
+  //       }
+  //     })
+    
+  // }, [thwackedMsgs, usersthwacked])
+
+  const checkThwacks = () => {
+    firebase
+      .database()
+      .ref("userList/" + id + "/")
+      .on("value", snap => {
+        if (snap.val()) {
+          let allUsers = Object.entries(snap.val())
+          let usersWhoAreThwacked = allUsers.filter(user => user[1].thwackedMsgs)
+          // console.log(usersWhoAreThwacked)
+          usersWhoAreThwacked.forEach(user => {
+            console.log(user)
+            console.log(userNameText + "username")
+            console.log(Object.keys(user[1].thwackedMsgs).length)
+            if (user[0] === userName && Object.keys(user[1].thwackedMsgs).length >= 3) {
+              console.log("i am same user and thwacked more than 3 times!")
+              getUpdate(user)
+            }
+          })
+        }
+      })
+  }
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -315,7 +353,7 @@ export default function ChatRoom() {
       });
   }
   function getUpdate(user) {
-    // console.log(user)
+    // console.log(user[0])
     // if (user[0] === userName) {
       document.querySelector(".newRoom").style.filter = "blur(10px)";
       setThwackNotif(true);
@@ -789,65 +827,41 @@ export default function ChatRoom() {
   function thwackMsg(item) {
     if(userName === item.user)
       return;
-      firebase
-        .database()
-        .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/" + item.time + "/")
-        .on("value", snap => {
-          if(snap.val()){
-            setUsersThwacked(snap.val())
-          }
-        })
-
-      firebase
-        .database()
-        .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/")
-        .on("value", snap => {
-          if (snap.val()) {
-            setThwackedMsgs(snap.val())
-          }
-        })
-    // if (thwackedMsgs.length && thwackedMsgs.find(elem => elem.msgId === item.time)) {
-    //   let msg = thwackedMsgs.find(elem => elem.msgId === item.time)
-    //   if(msg.user.includes(userName)){
-    //     let removeThwack = msg.user.indexOf(userName)
-    //     console.log(msg.user.splice(removeThwack, 1))
-    //     console.log(msg.user)
-        // setThwackedMsgs([...thwackedMsgs,
-        //   {
-        //     user: [user]
-        //   }
-        // ])
-      // }
-      
-    // } else {
-        // setThwackedMsgs([...thwackedMsgs,
-        //   {
-        //     item.time : [userName]
-        //   }
-        // ])
-        // console.log(item.user)
-        // console.log(userName)
+        console.log(item.user)
+        console.log(userName)
+        /* userlist thwack object */
         firebase
         .database()
         .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/" + item.time + "/")
         .update({
           users: [...usersthwacked, userName]
         })
-      let mid = +new Date(Date.now());
-      firebase
-        .database()
-        .ref("chats/" + id + "/" + mid)
-        .set({
-          text: " got thwacked",
-          time: mid,
-          user: item.user,
-          color: item.color,
-          avatar: item.avatar,
-          likes: 0,
-          thwacks: 0,
-          sysAdd: true
-        });
-    // }
+
+        /* separate thwack object for count */
+        setThwackCount(thwackCount+1)
+        console.log(thwackCount)
+        firebase
+          .database()
+          .ref("thwackedUsers/" + id + "/" + item.user + "/")
+          .update({
+            thwackCount: thwackCount
+          })
+
+          /* thwack notification */
+        let mid = +new Date(Date.now());
+        firebase
+          .database()
+          .ref("chats/" + id + "/" + mid)
+          .set({
+            text: " got thwacked",
+            time: mid,
+            user: item.user,
+            color: item.color,
+            avatar: item.avatar,
+            likes: 0,
+            thwacks: 0,
+            sysAdd: true
+          });
   }
 
   const setMessageInput = (value) => {
