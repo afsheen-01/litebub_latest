@@ -170,9 +170,10 @@ export default function ChatRoom() {
           setThwackCount(snap.val().thwackCount)
         }
       })
-    if(thwackCount >= 3){
+      console.log(thwackCount)
+    // if(thwackCount >= 3){
       getUpdate();
-    }
+    // }
 
   }, [thwackCount])
 
@@ -355,42 +356,41 @@ export default function ChatRoom() {
   function getUpdate(user) {
     // console.log(user[0])
     // if (user[0] === userName) {
-      document.querySelector(".newRoom").style.filter = "blur(10px)";
-      setThwackNotif(true);
-      setTimeout(() => {
-        setUserName("");
-        cookies.set("user", "", { path: "/" });
-      }, 8000)
-      let bootedColor = ""
-      let bootedAvatar = null;
-      bootedColor = user[1].color
-      bootedAvatar = user[1].avatar
+      // document.querySelector(".newRoom").style.filter = "blur(10px)";
+      // setThwackNotif(true);
+      // setTimeout(() => {
+      //   setUserName("");
+      //   cookies.set("user", "", { path: "/" });
+      // }, 8000)
+      // let bootedColor = ""
+      // let bootedAvatar = null;
+      // bootedColor = user[1].color
+      // bootedAvatar = user[1].avatar
 
-      chatAreaNotifications("booted", user[0], bootedColor, bootedAvatar);
+      // chatAreaNotifications("booted", user[0], bootedColor, bootedAvatar);
     // }
   // }
-    // firebase
-    // .database()
-    // .ref("userList/" + id + "/")
-    // .on("value", snap => {
-    //   if(snap.val()){
-    //     // console.log(snap.val())
-    //     // console.log(cookies);
-    //     let thwackedUser = Object.entries(snap.val()).find(user => user[0] === cookies.get("user"))
-    //     // console.log(thwackedUser)
-    //     if(thwackedUser){
-    //       if (thwackedUser[1].thwacks >= 3) {
-    //         document.querySelector(".newRoom").style.filter = "blur(10px)";
-    //         setThwackNotif(true);
-    //         setTimeout(() => {
-    //           setUserName("");
-    //           cookies.set("user", "", { path: "/" });
-    //         }, 5000)
-    //         chatAreaNotifications("booted", thwackedUser[0], thwackedUser[1].color, thwackedUser[1].avatar);
-    //       }
-    //     } 
-    //   }
-    // });
+    firebase
+    .database()
+    .ref("thwackedUsers/" + id + "/" +userName +"/")
+    .on("value", snap => {
+      if(snap.val()){
+        console.log(snap.val())
+        // console.log(cookies);
+        let thisUserThwacks = snap.val().thwackCount
+        // if(thwackedUser){
+        if (thisUserThwacks >= 3) {
+            document.querySelector(".newRoom").style.filter = "blur(10px)";
+            setThwackNotif(true);
+            setTimeout(() => {
+              setUserName("");
+              cookies.set("user", "", { path: "/" });
+            }, 5000)
+            chatAreaNotifications("booted", userName, chatColor, chatAvatar);
+          }
+        // } 
+      }
+    });
   }
   function onKeyPress(e) {
     if (!mobileDevice) {
