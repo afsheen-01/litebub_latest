@@ -56,10 +56,6 @@ export default function ChatRoom() {
   var [thwackNotif, setThwackNotif] = useState(false);
   const [fetchGifs, setfetchGifs] = useState();
   const [photo, setPhoto] = useState('');
-  var [currThwackMsg, setCurrThwackMsg] = useState(0);
-  var [thwackedMsgs, setThwackedMsgs] = useState([]);
-  var [usersthwacked, setUsersThwacked] = useState([]);
-  var [thwackCount, setThwackCount] = useState(0);
   var [userList, setUserList] = useState([]);
   var [userListClick, setUserListClick] = useState(false);
   const [giphySearchParam, setGiphySearchParam] = useState('')
@@ -75,7 +71,7 @@ export default function ChatRoom() {
   useEffect(() => {
     getValidity();
     getUser();
-    // getUpdate();
+    getUpdate();
     setDevice(detectMob());
     getCredentials();
     
@@ -161,21 +157,6 @@ export default function ChatRoom() {
   //   }
   }, [currMessages, newMessageCount])
 
-  useEffect(() => {
-    firebase
-      .database()
-      .ref("thwackedUsers/" + id + "/" + cookies.get("user") + "/")
-      .on("value", snap => {
-        if(snap.val()){
-          setThwackCount(snap.val().thwackCount)
-        }
-      })
-      console.log(thwackCount)
-    // if(thwackCount >= 3){
-      getUpdate();
-    // }
-
-  }, [thwackCount])
 
   // useEffect(() => {
   //   firebase
@@ -200,27 +181,7 @@ export default function ChatRoom() {
     
   // }, [thwackedMsgs, usersthwacked])
 
-  const checkThwacks = () => {
-    firebase
-      .database()
-      .ref("userList/" + id + "/")
-      .on("value", snap => {
-        if (snap.val()) {
-          let allUsers = Object.entries(snap.val())
-          let usersWhoAreThwacked = allUsers.filter(user => user[1].thwackedMsgs)
-          // console.log(usersWhoAreThwacked)
-          usersWhoAreThwacked.forEach(user => {
-            console.log(user)
-            console.log(userNameText + "username")
-            console.log(Object.keys(user[1].thwackedMsgs).length)
-            if (user[0] === userName && Object.keys(user[1].thwackedMsgs).length >= 3) {
-              console.log("i am same user and thwacked more than 3 times!")
-              getUpdate(user)
-            }
-          })
-        }
-      })
-  }
+  
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -353,41 +314,28 @@ export default function ChatRoom() {
         }
       });
   }
-  function getUpdate(user) {
-    // console.log(user[0])
-    // if (user[0] === userName) {
-      // document.querySelector(".newRoom").style.filter = "blur(10px)";
-      // setThwackNotif(true);
-      // setTimeout(() => {
-      //   setUserName("");
-      //   cookies.set("user", "", { path: "/" });
-      // }, 8000)
-      // let bootedColor = ""
-      // let bootedAvatar = null;
-      // bootedColor = user[1].color
-      // bootedAvatar = user[1].avatar
-
-      // chatAreaNotifications("booted", user[0], bootedColor, bootedAvatar);
-    // }
-  // }
+  function getUpdate() {
+    console.log(cookies.get("user"));
     firebase
     .database()
-    .ref("thwackedUsers/" + id + "/" +userName +"/")
+    .ref("userList/" + id + "/" + cookies.get("user") + "/thwackedMsgs/")
     .on("value", snap => {
       if(snap.val()){
         console.log(snap.val())
+        console.log(Object.keys(snap.val()));
+        console.log(Object.values(snap.val()));
         // console.log(cookies);
-        let thisUserThwacks = snap.val().thwackCount
+        // let thisUserThwacks = snap.val().thwackCount
         // if(thwackedUser){
-        if (thisUserThwacks >= 3) {
-            document.querySelector(".newRoom").style.filter = "blur(10px)";
-            setThwackNotif(true);
-            setTimeout(() => {
-              setUserName("");
-              cookies.set("user", "", { path: "/" });
-            }, 5000)
-            chatAreaNotifications("booted", userName, chatColor, chatAvatar);
-          }
+        // if (thisUserThwacks >= 3) {
+        //     document.querySelector(".newRoom").style.filter = "blur(10px)";
+        //     setThwackNotif(true);
+        //     setTimeout(() => {
+        //       setUserName("");
+        //       cookies.set("user", "", { path: "/" });
+        //     }, 5000)
+        //     chatAreaNotifications("booted", userName, chatColor, chatAvatar);
+        //   }
         // } 
       }
     });
@@ -827,25 +775,24 @@ export default function ChatRoom() {
   function thwackMsg(item) {
     if(userName === item.user)
       return;
-        console.log(item.user)
-        console.log(userName)
+      let thwackCount = 0;
+      firebase
+        .database()
+        .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/" + item.time + "/")
+        .on("value", snap => {
+          if(snap.val()){
+            console.log(snap.val());
+            thwackCount = snap.val().count;
+            console.log(thwackCount);
+          }
+        })
         /* userlist thwack object */
         firebase
         .database()
         .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/" + item.time + "/")
         .update({
-          users: [...usersthwacked, userName]
+          count: thwackCount+=1
         })
-
-        /* separate thwack object for count */
-        setThwackCount(thwackCount+1)
-        console.log(thwackCount)
-        firebase
-          .database()
-          .ref("thwackedUsers/" + id + "/" + item.user + "/")
-          .update({
-            thwackCount: thwackCount
-          })
 
           /* thwack notification */
         let mid = +new Date(Date.now());
@@ -1395,7 +1342,6 @@ export default function ChatRoom() {
                               />
                             </svg>
                           </div>
-                          {/* {console.log(item.thwacks)} */}
                           <div
                             onClick={() => thwackMsg(item)}
                             className="btnTContainer"
