@@ -314,6 +314,7 @@ export default function ChatRoom() {
         }
       });
   }
+
   function getUpdate() {
     console.log(cookies.get("user"));
     firebase
@@ -321,25 +322,22 @@ export default function ChatRoom() {
     .ref("userList/" + id + "/" + cookies.get("user") + "/thwackedMsgs/")
     .on("value", snap => {
       if(snap.val()){
-        console.log(snap.val())
-        console.log(Object.keys(snap.val()));
-        console.log(Object.values(snap.val()));
-        // console.log(cookies);
-        // let thisUserThwacks = snap.val().thwackCount
-        // if(thwackedUser){
-        // if (thisUserThwacks >= 3) {
-        //     document.querySelector(".newRoom").style.filter = "blur(10px)";
-        //     setThwackNotif(true);
-        //     setTimeout(() => {
-        //       setUserName("");
-        //       cookies.set("user", "", { path: "/" });
-        //     }, 5000)
-        //     chatAreaNotifications("booted", userName, chatColor, chatAvatar);
-        //   }
-        // } 
+        const allThwacks = Object.entries(snap.val())
+        allThwacks.find(elem => console.log(elem[1].count))
+        if(allThwacks.length >= 3 || allThwacks.find(elem => elem[1].count >= 3)){
+            document.querySelector(".newRoom").style.filter = "blur(10px)";
+            setThwackNotif(true);
+            setTimeout(() => {
+              setUserName("");
+              cookies.set("user", "", { path: "/" });
+            }, 5000)
+            chatAreaNotifications("booted", cookies.get("user"), cookies.get("chatColor"), cookies.get("chatAvatar"));
+
+        }
       }
     });
   }
+
   function onKeyPress(e) {
     if (!mobileDevice) {
       if (e.keyCode === 13 && e.shiftKey) {
@@ -824,7 +822,7 @@ export default function ChatRoom() {
   }
 
   function copyRoomID() {
-    copyToClipboard("https://r2y7l.csb.app/room/" + id);
+    copyToClipboard("https://lolto.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
