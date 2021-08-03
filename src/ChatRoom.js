@@ -71,7 +71,6 @@ export default function ChatRoom() {
   useEffect(() => {
     getValidity();
     getUser();
-    getUpdate();
     setDevice(detectMob());
     getCredentials();
     
@@ -129,6 +128,8 @@ export default function ChatRoom() {
       }
     })
   }, []);
+
+  useEffect(getUpdate, [userName])
 
   // useEffect(() => {
   //   document.addEventListener("visibilitychange",() => {
@@ -316,10 +317,10 @@ export default function ChatRoom() {
   }
 
   function getUpdate() {
-    console.log(cookies.get("user"));
+    // console.log(userName);
     firebase
     .database()
-    .ref("userList/" + id + "/" + cookies.get("user") + "/thwackedMsgs/")
+    .ref("userList/" + id + "/" + userName + "/thwackedMsgs/")
     .on("value", snap => {
       if(snap.val()){
         const allThwacks = Object.entries(snap.val())
