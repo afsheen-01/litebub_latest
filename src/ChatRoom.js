@@ -331,6 +331,10 @@ export default function ChatRoom() {
             setTimeout(() => {
               setUserName("");
               cookies.set("user", "", { path: "/" });
+              firebase
+                    .database()
+                    .ref("userList/" + id + "/" + userName)
+                    .remove();
             }, 5000)
             chatAreaNotifications("booted", cookies.get("user"), cookies.get("chatColor"), cookies.get("chatAvatar"));
 
