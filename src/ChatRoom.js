@@ -607,7 +607,9 @@ export default function ChatRoom() {
     )
   }
   function sendMsg(pic) {
+    // console.log(pic);
     let photo = photo ? photo : pic
+    // console.log(photo);
     let mid = +new Date(Date.now());
     if (replyingTo > 0) {
       if (selfReply > 0) {
@@ -1699,7 +1701,7 @@ export default function ChatRoom() {
 
                       }}>GIF</span>
                     <svg
-                      onClick={sendMsg}
+                      onClick={() => sendMsg()}
                       className="enterBtn"
                       width="65"
                       style={{
@@ -1810,7 +1812,7 @@ export default function ChatRoom() {
                             setGiphySearchParam("")
                             e.preventDefault();
                             console.log(photo)
-                            sendMsg(gif.images.downsized.url)
+                            sendMsg(gif.images.downsized.url);
                           }}
                         />
                       </div> : null}
