@@ -815,9 +815,8 @@ export default function ChatRoom() {
           });
   }
 
-  const thwackColor = (msg, thwackingUser) => {
+  const thwackColor = (msg) => {
     let thwackCountForMsg = 0
-    let thwackedUser = "";
     firebase
       .database()
       .ref("userList/" + id + "/" + msg.user + "/thwackedMsgs/" + msg.time + "/")
@@ -827,15 +826,7 @@ export default function ChatRoom() {
         }
       })
 
-      firebase
-      .database()
-      .ref("userList/" + id + "/")
-      .on("value", snap => {
-        if(snap.val()){
-          thwackedUser = Object.keys(snap.val()).find(user => user === msg.user);
-        }
-      })
-      return (thwackCountForMsg > 0 && (thwackingUser === userName || thwackedUser ))? "#FF2020" : "#DBDBDB"
+      return (thwackCountForMsg > 0)? "#FF2020" : "#DBDBDB"
   }
 
   const setMessageInput = (value) => {
@@ -1383,7 +1374,7 @@ export default function ChatRoom() {
                             >
                               <path
                                 d="M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z"
-                                stroke = {thwackColor(item, userName)}
+                                stroke = {thwackColor(item)}
                                 stroke-width="1.39649"
                               />
                             </svg>
@@ -1510,7 +1501,7 @@ export default function ChatRoom() {
                                     >
                                       <path
                                         d="M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z"
-                                        stroke={thwackColor(itm, userName)}
+                                        stroke={thwackColor(itm)}
                                         stroke-width="1.39649"
                                       />
                                     </svg>
@@ -1613,7 +1604,7 @@ export default function ChatRoom() {
                                     >
                                       <path
                                         d="M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z"
-                                        stroke={thwackColor(item, userName)}
+                                        stroke={thwackColor(item)}
                                         stroke-width="1.39649"
                                       />
                                     </svg>
