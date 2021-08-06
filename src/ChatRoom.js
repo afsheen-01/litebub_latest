@@ -851,7 +851,7 @@ export default function ChatRoom() {
   }
 
   function copyRoomID() {
-    copyToClipboard("https://lolto.csb.app/room/" + id);
+    copyToClipboard("https://0hqho.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
