@@ -1,9 +1,12 @@
 @media only screen 
-  and (min-width: 768) 
-  and (max-width: 1030) {
+  and (min-width: 768px) 
+  and (max-width: 1030px) {
 	  /* start.js */
+	  .app{
+		  overflow:hidden;
+	  }
 	  .center-it{
-		  border: 2px solid #000;
-		  transform: translate(7%, 150%) scale(120%);
+		  /* border: 2px solid #000; */
+		  transform: translate(6%,200%) scale(120%);
 	  }
 }
