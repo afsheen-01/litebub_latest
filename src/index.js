@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 // import { Container } from "semantic-ui-react";
 // import "semantic-ui-css/semantic.min.css";
 import "./styles.css";
+import "./mobileRes.css";
+import "./tabletRes.css";
 import firebase from "firebase/app";
 
 import App from "./App";

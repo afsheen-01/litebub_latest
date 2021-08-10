@@ -3,6 +3,8 @@ import "semantic-ui-css/semantic.min.css";
 import "./styles.css";
 import "./leaveRoom.css";
 import "./diffRes.css";
+import "./mobileRes.css";
+import "./tabletRes.css";
 import { useParams, useHistory } from "react-router-dom";
 import firebase from "firebase/app";
 import { animateScroll } from "react-scroll";

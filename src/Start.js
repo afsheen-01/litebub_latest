@@ -1,4 +1,6 @@
 import React from "react";
+import "./mobileRes.css";
+import "./tabletRes.css";
 
 const Names = ({ setForm, formData, navigation, currentImage, sideBubb }) => {
   const { next } = navigation;

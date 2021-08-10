@@ -1,5 +1,9 @@
 @media only screen 
   and (min-width: 768) 
-  and (max-width: 1024) {
-	  
+  and (max-width: 1030) {
+	  /* start.js */
+	  .center-it{
+		  border: 2px solid #000;
+		  transform: translate(7%, 150%) scale(120%);
+	  }
 }

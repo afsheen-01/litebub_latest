@@ -3,6 +3,7 @@ import { Container } from "semantic-ui-react";
 // import "semantic-ui-css/semantic.min.css";
 import "./styles.css";
 import "./mobileRes.css";
+import "./tabletRes.css";
 import firebase from "firebase/app";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import MultiStepForm from "./MultiStepForm";

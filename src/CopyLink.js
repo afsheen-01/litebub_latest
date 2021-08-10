@@ -3,6 +3,8 @@ import html2canvas from "html2canvas";
 import firebase from "firebase/app";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.css";
+import "./mobileRes.css";
+import "./tabletRes.css";
 import { useHistory } from "react-router-dom";
 
 //setting avatar and background

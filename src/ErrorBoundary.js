@@ -1,5 +1,7 @@
  import React from 'react';
  import './styles.css';
+ import "./mobileRes.css";
+ import "./tabletRes.css";
  
  export default class ErrorBoundary extends React.Component {
 	constructor(props) {

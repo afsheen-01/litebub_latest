@@ -7,6 +7,8 @@ import CopyLink from "./CopyLink";
 
 
 import "./styles.css";
+import "./mobileRes.css";
+import "./tabletRes.css";
 
 const steps = [
   { id: "start" },
