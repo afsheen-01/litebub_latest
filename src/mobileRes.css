@@ -1,8 +1,22 @@
+/*more than 400px width of phone*/
 @media only screen 
-  and (min-width: 320px) 
+  and (min-width: 400px) 
   and (max-width: 667px) {
 	  .app{
 		  border: 1px solid #000;
-		  /* display: none; */
+		  width:100vw;
+	  }
+}
+
+/*less than 400px width of phone*/
+@media only screen 
+  and (min-width: 280px) 
+  and (max-width: 400px) {
+	  .app{
+		  width:100vw;
+		  overflow:hidden;
+	  }
+	  .artistLink{
+		  margin-right: 2.5em;
 	  }
 }

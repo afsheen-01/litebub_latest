@@ -12,7 +12,7 @@
   transform: translate(4%, 115%);
   /* border: 1px solid #fff */
 }
-.artistLink{
+.artistLink, .artistLink:hover{
   /* border: 1px solid #fff; */
 /* position:absolute; */
   /* transform: translate(40vw, 70vh); */
@@ -21,9 +21,6 @@
   align-self:end;
   justify-self:end;
   padding: 1.5em;
-}
-.artistLink:hover{
-  color: #fff;
 }
 /* App.js */
 .wrapper{

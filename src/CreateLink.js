@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-
-import ItemForm from "./ItemForm";
 import firebase from "firebase/app";
 import "@firebase/database";
 import './bubbles.css';

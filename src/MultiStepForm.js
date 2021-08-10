@@ -4,7 +4,6 @@ import { useForm, useStep } from "react-hooks-helper";
 import Start from "./Start";
 import CreateLink from "./CreateLink";
 import CopyLink from "./CopyLink";
-import { ComponentTransition, AnimationTypes } from "react-component-transition"
 
 
 import "./styles.css";
@@ -47,8 +46,6 @@ const MultiStepForm = ({ images }) => {
       return <CreateLink {...props} />;
     case "copy":
       return <CopyLink {...props} />;
-    // case "chat":
-    // return <ChatRoom {...props} />;
     default:
       return null;
   }
