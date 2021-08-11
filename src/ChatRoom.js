@@ -11,7 +11,7 @@ import { animateScroll } from "react-scroll";
 import Cookies from "universal-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Grid, ResizeObserver, Carousel } from '@giphy/react-components'
+import { Grid } from '@giphy/react-components'
 import { GiphyFetch } from '@giphy/js-fetch-api'
 
 import AvatarOne from "./avatars/avatar-1-smile.js";

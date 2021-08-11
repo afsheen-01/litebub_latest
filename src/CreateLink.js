@@ -113,8 +113,8 @@ const Address = ({ setForm, formData, navigation }) => {
             alignItems: "center",
             justifyContent: "center",
             boxShadow: currentTopic === obj.topic ? "0 0 0 4px #fff" : "none",
-            height: obj.size == "big" ? 150 : obj.size == "medium" ? 120 : 90,
-            width: obj.size == "big" ? 150 : obj.size == "medium" ?  120: 90,
+            height: obj.size == "big" ? "12.5vw" : obj.size == "medium" ? "10vw" : "7.5vw",
+            width: obj.size == "big" ? "12.5vw" : obj.size == "medium" ?  "10vw": "7.5vw",
             fontSize: obj.size == "big" ? "1.1em" : obj.size == "medium" ? "0.95em" : "0.8em",
             margin: "0 10px"
           }} key={i} id={i}>
@@ -123,22 +123,7 @@ const Address = ({ setForm, formData, navigation }) => {
         {' '}
         </>) 
   })
-  const options = {
-    size: 0, 
-    //block size
-    minSize: 0,
-    provideProps: true,
-    numCols: 6, //number of columns
-    gutter: 0, //used to set margin
-    fringeWidth: 0,
-    yRadius: 50,
-    xRadius: 400,
-    cornerRadius: 40,
-    showGuides: true,
-    compact: false,
-    gravitation: 5
-  }
-  
+ 
   return (
     <div 
     // id = "main"
@@ -222,12 +207,9 @@ const Address = ({ setForm, formData, navigation }) => {
             >Create Link</span>
           </button>
         </div>
-        {/* <BubbleUI className = "bubbleUI"> */}
-        <div class = "bubbleUI">
+        <div className="bubbleUI">
           {bubbles}
-          {/* {console.log(bubbles)} */}
           </div>
-        {/* </BubbleUI> */}
       </div>
     </div>
   );

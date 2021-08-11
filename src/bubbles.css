@@ -26,7 +26,7 @@
 }
 @media screen and (min-device-height:1000px){
 	.bubbleUI{
-	padding-top: 2em
+	margin-top: 2em
 	/* margin-top: 5px; */
 	}
 }

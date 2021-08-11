@@ -2,17 +2,32 @@
 @media only screen 
   and (min-width: 400px) 
   and (max-width: 667px) {
-	  /* app.js */
+	  /*App.js */
 	  .app{
 		  /* border: 1px solid #000; */
 		  width:100vw;
 	  }
 
-	  /* start.js */
+	  /* Start.js */
 	  .center-it{
 		  /* border: 2px solid #000; */
 		  transform: translate(12%, 125%) scale(80%);
 	  }
+
+	  /* CreateLink.js */
+	  .bubbleUI{
+		width: 300px;
+		/* height: 390px; */
+		overflow-y: scroll;
+		font-size: 1.7em;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid #000;
+		padding-top: .45em;
+		/* margin-top: 5px; */
+	}
 }
 
 /*less than 400px width of phone*/
@@ -33,4 +48,13 @@
 		  /* border: 2px solid #000; */
 		  transform: translate(7%, 115%) scale(73%);
 	  }
+
+	  /* CreateLink.js */
+	  .bubbleUI{
+		width: 300px;
+		/* height: 390px; */
+		overflow: scroll;
+		/* margin-top: 5px; */
+	}
+
 }
