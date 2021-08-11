@@ -115,7 +115,7 @@ const Address = ({ setForm, formData, navigation }) => {
             boxShadow: currentTopic === obj.topic ? "0 0 0 4px #fff" : "none",
             height: obj.size == "big" ? "12.5vw" : obj.size == "medium" ? "10vw" : "7.5vw",
             width: obj.size == "big" ? "12.5vw" : obj.size == "medium" ?  "10vw": "7.5vw",
-            fontSize: obj.size == "big" ? "1.1em" : obj.size == "medium" ? "0.95em" : "0.8em",
+            fontSize: obj.size == "big" ? "2vw" : obj.size == "medium" ? "1.7vw" : "1.5vw",
             margin: "0 10px"
           }} key={i} id={i}>
           {obj.topic.replace(" ", "\n")}
