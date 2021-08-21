@@ -879,7 +879,6 @@ export default function ChatRoom() {
           for (var n in messages[i].replies) {
             if (messages[i].replies[n].time === replyingTo) {
               return messages[i].replies[n].color;
-              break;
             }
           }
         }
@@ -888,7 +887,6 @@ export default function ChatRoom() {
       for (var i in messages) {
         if (messages[i].time == id) {
           return messages[i].color;
-          break;
         }
       }
     }

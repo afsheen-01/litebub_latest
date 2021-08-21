@@ -79,6 +79,107 @@ const Address = ({ setForm, formData, navigation }) => {
     let cBtn = document.querySelector('.cl-crossBtn');
     transparentBtn(btn, cBtn)
   }
+
+  const bubbleSize = obj => {
+    // console.log(obj)
+    // console.log(window.innerWidth)
+    let width = window.innerWidth;
+    let defaultStyle = {
+		backgroundColor: obj.color,
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		boxShadow: currentTopic === obj.topic ? "0 0 0 4px #fff" : "none",
+		height:
+			obj.size == "big"
+				? "9.5vw"
+				: obj.size == "medium"
+				? "7.5vw"
+				: "5.5vw",
+		width:
+			obj.size == "big"
+				? "9.5vw"
+				: obj.size == "medium"
+				? "7.5vw"
+				: "5.5vw",
+		fontSize:
+			obj.size == "big"
+				? "1.5vw"
+				: obj.size == "medium"
+				? "1.4vw"
+				: "1.1vw",
+		margin: "5px .7vw",
+	};
+    if (width <= 1180) {
+		return {
+			...defaultStyle,
+			height:
+				obj.size == "big"
+					? "11vw"
+					: obj.size == "medium"
+					? "9vw"
+					: "7vw",
+			width:
+				obj.size == "big"
+					? "11vw"
+					: obj.size == "medium"
+					? "9vw"
+					: "7vw",
+			fontSize:
+				obj.size == "big"
+					? "1.7vw"
+					: obj.size == "medium"
+					? "1.6vw"
+					: "1.3vw",
+		};
+	} else if (width <= 880) {
+		return {
+			...defaultStyle,
+			height:
+				obj.size == "big"
+					? "16vw"
+					: obj.size == "medium"
+					? "14vw"
+					: "12vw",
+			width:
+				obj.size == "big"
+					? "16vw"
+					: obj.size == "medium"
+					? "14vw"
+					: "12vw",
+			fontSize:
+				obj.size == "big"
+					? "1.7vw"
+					: obj.size == "medium"
+					? "1.6vw"
+					: "1.3vw",
+		};
+	} else if (width <= 540) {
+		return {
+			...defaultStyle,
+			height:
+				obj.size == "big"
+					? "25vw"
+					: obj.size == "medium"
+					? "23vw"
+					: "21vw",
+			width:
+				obj.size == "big"
+					? "25vw"
+					: obj.size == "medium"
+					? "23vw"
+					: "21vw",
+			fontSize:
+				obj.size == "big"
+					? "1.7vw"
+					: obj.size == "medium"
+					? "1.6vw"
+					: "1.3vw",
+		};
+	}
+    return defaultStyle;
+  }
+
   const bubbles = bubbleTopics.map((obj, i) => {
 
     return (
@@ -107,17 +208,7 @@ const Address = ({ setForm, formData, navigation }) => {
               btn.style.border = "2px solid #48A7FF"
             }
           }}
-          style={{
-            backgroundColor: obj.color,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: currentTopic === obj.topic ? "0 0 0 4px #fff" : "none",
-            height: obj.size == "big" ? "12.5vw" : obj.size == "medium" ? "10vw" : "7.5vw",
-            width: obj.size == "big" ? "12.5vw" : obj.size == "medium" ?  "10vw": "7.5vw",
-            fontSize: obj.size == "big" ? "2vw" : obj.size == "medium" ? "1.7vw" : "1.5vw",
-            margin: "0 10px"
-          }} key={i} id={i}>
+          style={bubbleSize(obj)} key={i} id={i}>
           {obj.topic.replace(" ", "\n")}
         </div>
         {' '}
@@ -164,7 +255,6 @@ const Address = ({ setForm, formData, navigation }) => {
                 border: "none",
                 borderRadius: "10px" ,
                 height: "2.7em",
-                // width: "30%",
                 paddingLeft: "23px",
                 margin: "14px 0 0 2em",
                 paddingTop: 0,

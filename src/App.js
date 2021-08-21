@@ -47,6 +47,7 @@ export default function App() {
                 opacity: 1,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
+                objectFit: "cover",
                 height: "100vh"
               }}
             >
