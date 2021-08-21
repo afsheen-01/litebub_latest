@@ -82,7 +82,7 @@ const Address = ({ setForm, formData, navigation }) => {
 
   const bubbleSize = obj => {
     // console.log(obj)
-    // console.log(window.innerWidth)
+    console.log(window.innerWidth)
     let width = window.innerWidth;
     let defaultStyle = {
 		backgroundColor: obj.color,
@@ -109,22 +109,24 @@ const Address = ({ setForm, formData, navigation }) => {
 				? "1.4vw"
 				: "1.1vw",
 		margin: "5px .7vw",
-	};
-    if (width <= 1180) {
+    };
+    console.log(defaultStyle);
+    if (width <= 540) {
+		console.log("width less than 540");
 		return {
 			...defaultStyle,
 			height:
 				obj.size == "big"
-					? "11vw"
+					? "25vw"
 					: obj.size == "medium"
-					? "9vw"
-					: "7vw",
+					? "23vw"
+					: "21vw",
 			width:
 				obj.size == "big"
-					? "11vw"
+					? "25vw"
 					: obj.size == "medium"
-					? "9vw"
-					: "7vw",
+					? "23vw"
+					: "21vw",
 			fontSize:
 				obj.size == "big"
 					? "1.7vw"
@@ -133,6 +135,7 @@ const Address = ({ setForm, formData, navigation }) => {
 					: "1.3vw",
 		};
 	} else if (width <= 880) {
+		console.log("width less than 880");
 		return {
 			...defaultStyle,
 			height:
@@ -154,21 +157,22 @@ const Address = ({ setForm, formData, navigation }) => {
 					? "1.6vw"
 					: "1.3vw",
 		};
-	} else if (width <= 540) {
+	} else if (width <= 1180) {
+		console.log("width less than 1180");
 		return {
 			...defaultStyle,
 			height:
 				obj.size == "big"
-					? "25vw"
+					? "11vw"
 					: obj.size == "medium"
-					? "23vw"
-					: "21vw",
+					? "9vw"
+					: "7vw",
 			width:
 				obj.size == "big"
-					? "25vw"
+					? "11vw"
 					: obj.size == "medium"
-					? "23vw"
-					: "21vw",
+					? "9vw"
+					: "7vw",
 			fontSize:
 				obj.size == "big"
 					? "1.7vw"
@@ -177,9 +181,9 @@ const Address = ({ setForm, formData, navigation }) => {
 					: "1.3vw",
 		};
 	}
+    console.log(defaultStyle);
     return defaultStyle;
   }
-
   const bubbles = bubbleTopics.map((obj, i) => {
 
     return (

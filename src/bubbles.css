@@ -36,9 +36,10 @@
 
 @media screen and (max-width:880px){
 	.bubbleUI{
-		width: 50vw;
+		width: 70vw;
 		height: auto;
-		overflow: scroll
+		overflow: scroll;
+		left: 3em;
 	}
 }
 
