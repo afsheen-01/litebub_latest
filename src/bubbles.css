@@ -3,9 +3,9 @@
 	width: 65vw;
 	/* height: 380px; */
 	font-size: 1.7em;
-	position: absolute;
-	top: 14em;
-	left: 5.5em;
+	/* position: relative; */
+	/* top: 14em;
+	left: 5.5em; */
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;

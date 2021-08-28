@@ -4,9 +4,10 @@
 	  /* start.js */
 	  .app{
 		  overflow:hidden;
+
 	  }
-	  .center-it{
-		  /* border: 2px solid #000; */
+	  /* .center-it{
+		  border: 2px solid #000;
 		  transform: translate(6%,200%) scale(120%);
-	  }
+	  } */
 }

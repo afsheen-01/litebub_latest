@@ -321,9 +321,6 @@ const Contact = ({ formData, navigation }) => {
 							</svg>
 						</div>
 						<div
-							// wrapped
-							// ui={false}
-							// crossorigin="anonymous"
 							style={{
 								background:colorArr[chatColor],
 								position: "absolute",
@@ -333,9 +330,7 @@ const Contact = ({ formData, navigation }) => {
 								left: "15%",
 								border: "3px solid #fff",
 								borderRadius: "30px",
-								// elevation: 5
 							}} >
-						{/* <AvatarOne/> */}
 						{fnAvatar()}
 						</div>
 						<div
