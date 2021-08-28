@@ -21,6 +21,7 @@
 display:table-cell;
 width: inherit;
 height: inherit;
+color: #fff;
 }
 .artistLink, .artistLink:hover{
   /* border: 1px solid #fff; */
@@ -42,6 +43,7 @@ height: inherit;
 
 /* createLink.js */
 #createLink-div {
+  width: inherit;
   /* border: 2px solid #000 */
 }
 .prevIcon {
@@ -51,23 +53,35 @@ height: inherit;
   color: #fff;
   font-weight: 200;
   font-size: 2em;
+  margin-left:2vw;
   /* border: 3px solid #000; */
 }
 .center-it-cl {
   /* border: 2px solid #000; */
   align-self: center;
   justify-self: center;
-  color: #fff;
-  /* margin-bottom: 6em; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: cente; */
 }
 .center-it-cl div {
   /* border: 3px solid #000 */
+}
+.form{
+display: grid;
+/* width: inherit; */
+place-items: center;
+/* border: 2px solid #fff; */
 }
 .cbtn {
 /* height: 2.3em; */
 box-sizing: border-box;
 color: #fff !important;
 font-size: 1.7em !important;
+width: 80%;
+position: relative;
+left:10%;
 /* display: table-cell;
 vertical-align: middle; */
 }
@@ -75,6 +89,7 @@ vertical-align: middle; */
 .chatAbout {
   font-size: 2em;
   margin-top: 85px;
+  text-align: center;
   /* border: 2px solid #000; */
 }
 .cl-inputSec{
@@ -117,10 +132,6 @@ width: 100%;
   right: 3em;
 } */
 /* copyLink.js */
-.copyLink-div{
-  /* border: 1px solid #000; */
-  transform: translateX(4.1%);
-}
 .corner{
   display: flex;
   align-items: flex-end;
@@ -149,11 +160,7 @@ background-color: transparent;
 /* border: 1px solid #fff; */
 }
 
-.form{
-display: grid;
-place-items: center;
-/* border: 2px solid #fff; */
-}
+
 #url-preview{
   display: flex;
   flex-direction: row;
