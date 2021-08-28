@@ -44,32 +44,31 @@ export default function App() {
 									opacity: 1,
 									backgroundPosition: "center",
 									backgroundSize: "cover",
-                  					objectFit: "cover",
+									objectFit: "cover",
 								}}>
 								{/* <Grid verticalAlign='middle' textAlign='center'> */}
-									{/* <Grid.Row stretched> */}
-										{/* <Grid.Column> */}
-											<MultiStepForm />
-                  					{/* </Grid.Column> */}
-                  {/* </Grid.Row> */}
+								{/* <Grid.Row stretched> */}
+								{/* <Grid.Column> */}
+								<MultiStepForm />
+								{/* </Grid.Column> */}
+								{/* </Grid.Row> */}
 								{/* </Grid> */}
 								{/* <Container>
                 <MultiStepForm />
               </Container> */}
-
-								<a
-									href={bgs.artistURL}
-									target='_blank'
-									className='artistLink'>
-									<span
-										role='img'
-										aria-label='camera to define artist who made the background gif'>
-										📷
-									</span>{" "}
-									{bgs.artist}
-								</a>
 							</div>
 						</div>
+						<a
+							href={bgs.artistURL}
+							target='_blank'
+							className='artistLink'>
+							<span
+								role='img'
+								aria-label='camera to define artist who made the background gif'>
+								📷
+							</span>{" "}
+							{bgs.artist}
+						</a>
 					</div>
 				</Route>
 				<ErrorBoundary>

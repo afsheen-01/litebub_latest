@@ -29,7 +29,7 @@ height: inherit;
   position: absolute;
   bottom: 0;
   right: 0;
-  padding: 1.5em;
+  padding: 1.5vw;
 }
 /* Start.js */
 .cl-btn-wrapper{
@@ -40,15 +40,11 @@ height: inherit;
   align-items: center;
 }
 
-
-
 /* createLink.js */
-#createLink-div{
-  /* margin-top: 1em; */
+#createLink-div {
   /* border: 2px solid #000 */
 }
 .prevIcon {
-  /* align-self: end; */
   /* border: 3px solid #000; */
 }
 .header2 {
@@ -57,18 +53,17 @@ height: inherit;
   font-size: 2em;
   /* border: 3px solid #000; */
 }
-.center-it-cl{
+.center-it-cl {
   /* border: 2px solid #000; */
-  /* width: 100%;
-  height: 100%; */
   align-self: center;
   justify-self: center;
+  color: #fff;
   /* margin-bottom: 6em; */
 }
-.center-it-cl div{
+.center-it-cl div {
   /* border: 3px solid #000 */
 }
-.cbtn{
+.cbtn {
 /* height: 2.3em; */
 box-sizing: border-box;
 color: #fff !important;
@@ -116,25 +111,19 @@ width: 100%;
   position: relative;
   bottom: 10vw;
 } */
-.ui.center.aligned {
+/* .ui.center.aligned {
   color: #fff;
   position: relative;
   right: 3em;
-}
+} */
 /* copyLink.js */
 .copyLink-div{
-  /* width: 100%;
-  height: 100%; */
-  /* margin-top: 2em; */
   /* border: 1px solid #000; */
   transform: translateX(4.1%);
-  /* justify-self: center;
-  align-self: center; */
 }
 .corner{
   display: flex;
   align-items: flex-end;
-  /* position: absolute; */
   /* border: 2px solid #000;  */
 }
 .header{
@@ -153,8 +142,7 @@ width: 100%;
   align-items: center;
   justify-content: space-around;
   /* border: 1px solid #fff */
-  /* text-align:center;
-  vertical-align: middle; */
+
 }
 .avatarBtn{
 background-color: transparent;
@@ -164,8 +152,6 @@ background-color: transparent;
 .form{
 display: grid;
 place-items: center;
-/* height: 99%;
-width: 99%; */
 /* border: 2px solid #fff; */
 }
 #url-preview{
