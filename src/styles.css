@@ -27,7 +27,7 @@ color: #fff;
   /* border: 1px solid #fff; */
   color: #fff;
   font-size: 1.15em;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   padding: 1.5vw;
@@ -79,9 +79,9 @@ place-items: center;
 box-sizing: border-box;
 color: #fff !important;
 font-size: 1.7em !important;
-width: 80%;
+width: 65% !important;
 position: relative;
-left:10%;
+left:17%;
 /* display: table-cell;
 vertical-align: middle; */
 }
