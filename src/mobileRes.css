@@ -31,11 +31,17 @@
 	  .topic-input{
 		border: none;
 		border-radius: 10px;
-		height: 2em;
+		height: 2.7em;
 		width: 55vw;
-		padding-left: 40px;
-		font-size: 1.6em !important;
+		padding-left: 47px;
+		font-size: 1.2em !important;
 		}
+		.cbtn {
+			/* font-size: 1.7em !important; */
+			position: relative;
+			left: 15%;
+			/* height: 2.3em; */
+	}
 		/* .topic-input ::placeholder{
 			
 		} */
