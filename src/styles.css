@@ -46,14 +46,19 @@ color: #fff;
   width: inherit;
   /* border: 2px solid #000 */
 }
-.prevIcon {
-  /* border: 3px solid #000; */
+/* .prevIcon {
+  border: 3px solid #000;
+} */
+.cl-corner{
+  /* border:1px solid #000; */
+  margin: 1.7em 0 0 4.55em;
+  width: 19%;
 }
 .header2 {
   color: #fff;
   font-weight: 200;
   font-size: 2em;
-  margin-left:2vw;
+  /* margin-left:2vw; */
   /* border: 3px solid #000; */
 }
 .center-it-cl {
@@ -92,21 +97,39 @@ vertical-align: middle; */
   text-align: center;
   /* border: 2px solid #000; */
 }
-.cl-inputSec{
-/* border: 2px solid #000; */
-width: 100%;
+.cl-inputDiv{
+  /* border: 2px solid #000; */
+  width: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   justify-self:center;
+  /* border: 1px solid #000; */
   /* flex-direction: row */
 }
-.inlineBlock {
-  display: inline-block;
+/* .litebub-input{
+  border: none !important;
+  border-radius: 50px !important;
+  height: 2.7em !important;
+  width: auto !important;
+  padding: 0 0 auto 23px !important;
+  margin: 14px 0 0 !important;
+
+} */
+.topic-input{
+  border: none;
+  border-radius: 10px;
+  height: 2.7em;
+  padding-left: 23px;
+  margin: 14px 0 0 2em;
+  padding-top: 0;
+  padding-right:0;
 }
+
 .bubb {
   font-family: "Courier New", Courier, monospace;
   opacity: 0.7;
+  border: 2px solid #000;
 }
 
 .bg {
@@ -140,7 +163,8 @@ width: 100%;
 .header{
   font-size: 2em;
   display: block;
-}.circular-btns{
+}
+.circular-btns{
   display: flex;
   justify-content: space-around;
   /* border: 1px solid #fff; */
@@ -523,20 +547,19 @@ button, .cl-joinRoom {
 .blur-bg{
   filter: blur(10px);
   -webkit-filter: blur(10px);
-
   position: absolute;
-height: 75%;
-width: 50%;
-border-radius: 50%;
-z-index: 1;
-left: 30%;
-background: rgba(0,0,0,0.3);
+  width: 50%;
+  border-radius: 50%;
+  z-index: 1;
+  left: 30%;
+  background: rgba(0,0,0,0.3);
+  height: 75%;
 
 }
 
 /*hover states for buttons*/
 .btnh:hover{
-cursor: pointer
+  cursor: pointer
 }
 .noSelect {
   -webkit-touch-callout: none;

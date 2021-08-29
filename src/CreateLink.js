@@ -110,7 +110,6 @@ const Address = ({ setForm, formData, navigation }) => {
 				: "1.1vw",
 		margin: "5px .7vw",
     };
-    console.log(defaultStyle);
     if (width <= 540) {
 		return {
 			...defaultStyle,
@@ -178,7 +177,6 @@ const Address = ({ setForm, formData, navigation }) => {
 					: "1.3vw",
 		};
 	}
-    console.log(defaultStyle);
     return defaultStyle;
   }
   const bubbles = bubbleTopics.map((obj, i) => {
@@ -221,11 +219,10 @@ const Address = ({ setForm, formData, navigation }) => {
     // id = "main"
       class="copyLink-div" id="createLink-div">
       <div 
-        // className="corner"
-        style={{
-          marginTop: "1.7em",
-          width: "19%"
-        }}
+        className="cl-corner"
+        // style={{
+         
+        // }}
         
       >
         {/*icon here */}
@@ -243,24 +240,14 @@ const Address = ({ setForm, formData, navigation }) => {
           <div className="chatAbout">what's the chat about?
           </div>
           <div
-            className = "cl-inputSec"
+            className = "cl-inputDiv"
           >
             <input
               className = "ui input massive topic-input"
               name="topic"
               //value={topic}
               placeholder="type a topic" 
-        
-              onKeyUp = {changeBtnState}
-              style={{
-                border: "none",
-                borderRadius: "10px" ,
-                height: "2.7em",
-                paddingLeft: "23px",
-                margin: "14px 0 0 2em",
-                paddingTop: 0,
-                paddingRight:0
-              }}       
+              onKeyUp = {changeBtnState}      
             />
             <svg
               onClick = {emptyInp}
