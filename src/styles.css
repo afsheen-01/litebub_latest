@@ -107,15 +107,6 @@ vertical-align: middle; */
   /* border: 1px solid #000; */
   /* flex-direction: row */
 }
-/* .litebub-input{
-  border: none !important;
-  border-radius: 50px !important;
-  height: 2.7em !important;
-  width: auto !important;
-  padding: 0 0 auto 23px !important;
-  margin: 14px 0 0 !important;
-
-} */
 .topic-input{
   border: none;
   border-radius: 10px;
@@ -183,8 +174,6 @@ vertical-align: middle; */
 background-color: transparent;
 /* border: 1px solid #fff; */
 }
-
-
 #url-preview{
   display: flex;
   flex-direction: row;
@@ -244,7 +233,6 @@ z-index: 10
   scrollbar-width: 0px;
 }
 .in-grid {
-  /* border: 2px solid #000; */
   align-items: center;
   position: relative;
   width: 85%;
@@ -271,6 +259,7 @@ z-index: 10
   border: 1px solid;
   justify-self: end;
   margin-bottom: 50px;
+  /* border: 1px solid #000; */
 }
 .message-input::-webkit-input-placeholder {
   color: #d9d9d9;
@@ -295,6 +284,7 @@ z-index: 10
   align-content: center;
   filter: blur(8px);
   -webkit-filter: blur(8px);
+  /* border: 1px solid #000; */
 }
 #inChatRoom{
   z-index: 20;
@@ -324,7 +314,8 @@ z-index: 10
   bottom: 0;
   z-index: 10;
   text-align: center;
-  font-family: 'Roboto'
+  font-family: 'Roboto';
+  /* border: 1px solid #000; */
 }
 .name{
 		margin-top: 1.2em;
@@ -358,6 +349,9 @@ button:focus {
 button:hover {
   padding: 5px;
 }
+/* #inChatRoom{
+  border: 1px solid #000;
+} */
 .inputTextBox {
   display: flex;
   align-content: center;
@@ -366,6 +360,52 @@ button:hover {
   margin: 0 auto;
   margin-top: 10px;
   visibility: hidden;
+}
+.inputInfo-div{
+ height: 37%;
+}
+.span-joiningAs{
+  font-weight:400;
+  font-size: 1.1em;
+  color: #757575;
+  text-align: center;
+  width: 70%;
+  display: block;
+  margin-top: 10;
+  margin-bottom: 10;
+}
+.avatarAndUName{
+  color: #000;
+  /* border: 1px solid #000; */
+  text-align: left;
+  font-size: 1.35em;
+  width: 13em;
+  float:right;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.avatarSpace{
+  margin-right: .5em;
+  padding: 1px 2px;
+  border-radius: 60%;
+}
+.joinChatBtn{
+  background-color: #48A7FF;
+  border-width: 0;
+  padding: 20px;
+  margin-left: 45px;
+  font-size: 25px;
+  font-weight:700;
+  color: white;
+  border-radius: 50px;
+  width: 70%;
+  height: 35%;
+  font-family: 'Roboto';
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .newRoom {
   height: 100vh;
@@ -376,6 +416,7 @@ button:hover {
 .rBtns {
   height: inherit;
   justify-content: center;
+  /* border: 1px solid #000; */
 }
 .copySvg {
   display: flex;
@@ -394,7 +435,6 @@ button:hover {
   grid-gap: 0;
   place-items: center;
   height: 94%;
-  /* border: 1px solid #000; */
   width: 100%;
   justify-self: center;
 }
@@ -404,7 +444,10 @@ button:hover {
   display: flex;
   width: 60%;
   justify-content: space-around;
-  align-items: flex-end;
+  /* align-items: flex-end; */
+}
+.hamburger-menu{
+  display: none;
 }
 .chat-topic {
   width: inherit;
@@ -417,7 +460,6 @@ button:hover {
 }
 .userListContainer{
    padding: 0 1em;
-   /* border: 1px solid #000; */
    display: flex;
    align-items: center;
    position: absolute;
@@ -428,10 +470,8 @@ button:hover {
 .stackContainer{
    display: flex;
    flex-direction: row;
-   /* border: 2px solid #000 */
 }
 .userCounter{
-  /* border: 1px solid #000; */
   padding: 0 5px;
 }
 .chatting-about {
@@ -497,7 +537,6 @@ button:hover {
 .msg-btn-container {
   display: flex;
   align-items: center;
-  /* border: 1px solid #000; */
 }
 .btnRContainer,
 .btnLContainer,
@@ -510,14 +549,14 @@ button:hover {
 }
 
 .divLr {
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
   justify-content: center;
 }
 .divLrBtns {
   width: inherit;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border: 2px solid #000;
+  /* border: 2px solid #000; */
 }
 #replyBox {
   display: flex;

@@ -1,6 +1,6 @@
 /*more than 400px width of phone*/
 @media only screen 
-  and (min-width: 400px) 
+  and (min-width: 300px) 
   and (max-width: 667px) {
 	  /*App.js */
 	  .app{
@@ -35,17 +35,162 @@
 		width: 55vw;
 		padding-left: 47px;
 		font-size: 1.2em !important;
-		}
+	}
+
 		.cbtn {
-			/* font-size: 1.7em !important; */
+			font-size: 1.46em !important;
 			position: relative;
 			left: 15%;
 			/* height: 2.3em; */
-	}
-		/* .topic-input ::placeholder{
-			
+		}
+		.corner{
+			justify-content: center;
+			/* border:1px solid #fff; */
+		}
+		.prevIcon{
+			display: none;
+		}
+		.form{
+			/* border:2px solid #fff; */
+			height: 90%;
+		}
+		/* ChatRoom.js */
+		#inChatRoom {
+			width: 100%;
+			height: 7%;
+		}
+		.newRoom {
+			grid-template-columns: 1fr;
+			/* border: 1px solid #000; */
+		}
+		.rBtns {
+			display: none;
+		}
+		/* .chat-container {
+			border: 1px solid #000;
 		} */
+		.chat-topic {
+			/* border: 1px solid #000; */
+			font-size:2em;
+			font-weight: 500;
+			font-family: 'Roboto';
+			padding-left: 10vw;
+		}
+		.topicAndListContainer {
+			/* border: 1px solid #000; */
+			margin: 1em;
+			width: 100%;
+			box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+			z-index: 30;
+			padding: 1.5em 0 0 0;
+		}
+		.hamburger-menu{
+			display: inline-block;
+			margin: 0 5vw;
+		}
+		.chatting-about{
+			/* border: 1px solid #000; */
+			/* display: none; */
+			width: 100%;
+			position: absolute;
+			left: 0;
+			top: 20vw;
+			font-weight:300;
+			font-size:.7em;
 
+		}
+		
+		/* .topic{
+			border: 1px solid #000;
+		} */
+		.userListContainer {
+			/* border: 1px solid #000; */
+			top: 7vw;
+			left: 23vw;
+		}
+		/* .stackContainer {
+			border: 2px solid #000;
+		}
+		.userCounter {
+			border: 1px solid #000;
+		} */
+		#input-area{
+			width: auto;
+		}
+		.in-grid {
+			/* border: 2px solid #000;  */
+			width: 70%;
+		}
+		/* .enterBtn {
+			border: 1px solid #000;
+		} */
+		 #chat-area{
+			/* border: 1px solid #000; */
+			height: 60vh !important;
+			/* align-self: center; */
+		}
+		/*
+		.chatContainer{
+			border: 1px solid #000;
+		}
+		.msg-container{
+			border: 1px solid #000;
+		}
+		.msg-user-name{
+			border: 1px solid #000;
+		}
+		.msg-msg{
+			border: 1px solid #000;
+		}
+		.icon{
+			border: 1px solid #000;
+		}
+		.msg-btn-container{
+			border: 1px solid #000;
+		}
+		.btnRContainer,
+		.btnLContainer,
+		.btnTContainer{
+			border: 1px solid #000;
+		}
+		.divLr{
+			border: 1px solid #000;
+		}
+		.divLrBtns{
+			border: 1px solid #000;
+		}
+		#replyBox{
+			border: 1px solid #000;
+		}
+		.replyTo{
+			border: 1px solid #000;
+		}
+		.stayBtn{
+			border: 1px solid #000;
+		}
+		.leaveBtn{
+			bordeR: 1px solid #000;
+		}
+		.blur-bg{
+			border: 1px solid #fff;
+		} */
+		/* error container - same container for the app, feels like a different app */
+		/* .errorContainer{
+			border: 1px solid #000;
+		}
+		.console-msg{
+			border: 1px solid #000;
+		}
+		.home-button{
+			border: 1px solid #000;
+		}*/
+		.gifBtn{
+			/* border: 1px solid #000; */
+			right: 30% !important;
+		} 
+		
+
+		
 }
 
 /* less than 400px width of phone */

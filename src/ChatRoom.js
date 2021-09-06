@@ -62,6 +62,7 @@ export default function ChatRoom() {
   var [userListClick, setUserListClick] = useState(false);
   const [giphySearchParam, setGiphySearchParam] = useState('')
   const [closeGif, gifsCanbeClosed] = useState(false)
+  const [openMenu, setOpenMenu] = useState(false);
 
   //history for enterNamePage
   const history = useHistory();
@@ -908,6 +909,16 @@ export default function ChatRoom() {
     var rand = qarr[Math.floor(Math.random() * qarr.length)];
     return rand;
   }
+  //responsive styles based on events
+  const rBtnsMobileStyle = {
+    display: 'block',
+    height: '100vh',
+    width: '100vw',
+    backgroundColor: '#000',
+    opacity: '0.83',
+    position: 'absolute',
+    zIndex: '45'
+  }
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
@@ -915,919 +926,1217 @@ export default function ChatRoom() {
   if (isValid) { 
     if (userName) {
       return (
-        <div 
-          class="roomContainer"
-          style = {{
-					  display: "flex",
-            justifyContent: "center",
-            width: "100vw"
-				  }}>
-					{leavingRoom ? (
-            <div>
-              <div className = "blackBg" onClick = {() => {
-                setislEaving(false);
-                document.querySelector(".newRoom").style.filter = "blur(0px)";
-              }}></div>
+			<div
+				class='roomContainer'
+				style={{
+					display: "flex",
+					justifyContent: "center",
+					width: "100vw",
+				}}>
+				{leavingRoom ? (
+					<div>
 						<div
-							className="solDiv"
+							className='blackBg'
+							onClick={() => {
+								setislEaving(false);
+								document.querySelector(
+									".newRoom"
+								).style.filter = "blur(0px)";
+							}}></div>
+						<div
+							className='solDiv'
 							style={{
 								filter: "blur(0)",
 								position: "absolute",
-                zIndex: 50,
-                // border: "2px solid #fff"
-							}}
-						>
+								zIndex: 50,
+								// border: "2px solid #fff"
+							}}>
 							<h1>{leaveQuote()}</h1>
-							<div className="btnsHolder">
+							<div className='btnsHolder'>
 								<button
 									style={{
 										fontSize: 20,
 										margin: 0,
 										borderTopLeftRadius: 0,
-										borderBottomLeftRadius: 0
+										borderBottomLeftRadius: 0,
 									}}
-									className=" ui button btnStay"
+									className=' ui button btnStay'
 									onClick={() => {
 										setislEaving(false);
 										document.querySelector(
 											".newRoom"
 										).style.filter = "blur(0px)";
-									}}
-								>
+									}}>
 									STAY
 								</button>
 								<button
 									style={{ fontSize: 20, margin: 0 }}
-									className=" ui button btnYes"
+									className=' ui button btnYes'
 									onClick={() => {
 										setUserName("");
-                    cookies.set("user", "", { path: "/" });
-                    chatAreaNotifications("leave")
+										cookies.set("user", "", { path: "/" });
+										chatAreaNotifications("leave");
 										setislEaving(false);
 										document.querySelector(
 											".newRoom"
 										).style.filter = "blur(0px)";
-                    firebase
-                    .database()
-                    .ref("userList/" + id + "/" + userName)
-                    .remove();
-									}}
-								>
+										firebase
+											.database()
+											.ref(
+												"userList/" +
+													id +
+													"/" +
+													userName
+											)
+											.remove();
+									}}>
 									YES
 								</button>
 							</div>
 						</div>
-            </div>
-					) : null}
-          {thwackNotif ? (
-            <div>
-              <div className="blackBg"></div>
-              <div
-                className="solDiv"
-                style={{
-                  filter: "blur(0)",
-                  position: "absolute",
-                  zIndex: 50,
-                  height: "25%",
-                  display: "flex",
-                  flexDirection: "column",
-                  
-                  justifyContent: "center",
-                  border: "5px solid #000"
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: "1.7em",
-                    marginTop: "10px",
-                  // border:"2px solid #000",
-                  // height:"10%"
-                  }}>You got 
-                  <span style={{
-                    // border:"1px solid #000"
-                    }}>
-                    <svg
-                      width="25"
-                      height="23"
-                      viewBox="0 0 30 17"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z"
-                        stroke= "#FF2020"
-                        stroke-width="1.39649"
-                      />
-                    </svg>
-                  </span>  
-                  3 times</p>
-                <p style={{
-                  fontSize:"2.5em",
-                  fontWeight:"bold",
-                  // border:"2px solid #000",
-                  position: "relative",
-                  bottom: "0.5em"
-                }}>Be kind in the future</p>
-                <span style={{ 
-                  color: "#AAA", 
-                  fontWeight: "bold",
-                  fontSize: "1.3em",
-                  position: "absolute",
-                  bottom: "2em",
-                  width: "100%",
-                  // marginBottom: "3em",
-                  // border: "2px solid #000"
-                  }}>goodbye.</span>
-              </div>
-            </div>
-          ) : null}
-          {userListClick ? (
-            <div>
-              <div 
-              className="blackBg" 
-              onClick = {() => {
-                setUserListClick(false)
-                document.querySelector(".newRoom").style.filter = "blur(0px)";
-              }}></div>
-              <span
-                style={{
-                  position: "relative",
-                  top: 15,
-                  left: 430,
-                  color: "#656565",
-                  zIndex: 50,
-                  fontSize: "1.5em",
-                  // border: "2px solid #fff"
-                }}
-               >
-                 ({userList.length})
-                 {/* ({userList.length}) */}
-                 {/* {userList.length > 6 ? `(${userList.length})` : null} */}
-                 </span>
-              <div style={{
-                zIndex: 50,
-                position: "absolute",
-                top: "8%",
-                left: "18%",
-                display: "flex",
-                // border: "1px solid #fff",
-                width: "43%"
-              }}>
-                <div style={{
-                  // border: "1px solid #fff",
-                  width: "inherit"
-                }}>
-                  {userList.map((user, index) => {
-                    return (
-                        <span style={{
-                          // border: "1px solid #fff",
-                          display: "flex",
-                          alignItems: "center",
-                          margin: 15
-                        }}>
-                          <p 
-                            style={{
-                              color: "#fff",
-                              // border: "2px solid #fff",
-                              width: "50%",
-                              textAlign: "right",
-                              paddingRight: 30,
-                              textOverflow: "ellipsis",
-                              fontSize : "1.3",
-                          }}>
-                            {user[0]}
-                          </p>
-                          <div 
-                            key={index} 
-                            style={{
-                              backgroundColor: user[1].color,
-                              borderRadius: "50%",
-                              zIndex: 60,
-                              width: "45px",
-                              height: "45px",
-                          }}>
-                              {renderAvatar(user[1].avatar, '45', '45')}
-                          </div>
-                        </span>
-                      )
-                    })
-                  }
-                </div>
-                <span 
-                  style={{
-                    // border: "2px solid #fff",
-                    // width: "inherit"
-                }}>
-                <svg
-                  // style={{border: "2px solid #fff"}}
-                  width="400"
-                  height="400"
-                  viewBox="0 0 100 100"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  onClick={() => {
-                    setUserListClick(false);
-                    document.querySelector(".newRoom").style.filter = "blur(0px)";
-                  }}
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z"
-                    fill="#FFFFFF"
-                  />
-                </svg>
-                </span>
-              </div>
+					</div>
+				) : null}
+				{thwackNotif ? (
+					<div>
+						<div className='blackBg'></div>
+						<div
+							className='solDiv'
+							style={{
+								filter: "blur(0)",
+								position: "absolute",
+								zIndex: 50,
+								height: "25%",
+								display: "flex",
+								flexDirection: "column",
 
-              {/* <div style={{
+								justifyContent: "center",
+								border: "5px solid #000",
+							}}>
+							<p
+								style={{
+									fontSize: "1.7em",
+									marginTop: "10px",
+									// border:"2px solid #000",
+									// height:"10%"
+								}}>
+								You got
+								<span
+									style={
+										{
+											// border:"1px solid #000"
+										}
+									}>
+									<svg
+										width='25'
+										height='23'
+										viewBox='0 0 30 17'
+										fill='none'
+										xmlns='http://www.w3.org/2000/svg'>
+										<path
+											d='M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z'
+											stroke='#FF2020'
+											stroke-width='1.39649'
+										/>
+									</svg>
+								</span>
+								3 times
+							</p>
+							<p
+								style={{
+									fontSize: "2.5em",
+									fontWeight: "bold",
+									// border:"2px solid #000",
+									position: "relative",
+									bottom: "0.5em",
+								}}>
+								Be kind in the future
+							</p>
+							<span
+								style={{
+									color: "#AAA",
+									fontWeight: "bold",
+									fontSize: "1.3em",
+									position: "absolute",
+									bottom: "2em",
+									width: "100%",
+									// marginBottom: "3em",
+									// border: "2px solid #000"
+								}}>
+								goodbye.
+							</span>
+						</div>
+					</div>
+				) : null}
+				{userListClick ? (
+					<div>
+						<div
+							className='blackBg'
+							onClick={() => {
+								setUserListClick(false);
+								document.querySelector(
+									".newRoom"
+								).style.filter = "blur(0px)";
+							}}></div>
+						<span
+							style={{
+								position: "relative",
+								top: 15,
+								left: 430,
+								color: "#656565",
+								zIndex: 50,
+								fontSize: "1.5em",
+								// border: "2px solid #fff"
+							}}>
+							({userList.length}){/* ({userList.length}) */}
+							{/* {userList.length > 6 ? `(${userList.length})` : null} */}
+						</span>
+						<div
+							style={{
+								zIndex: 50,
+								position: "absolute",
+								top: "8%",
+								left: "18%",
+								display: "flex",
+								// border: "1px solid #fff",
+								width: "43%",
+							}}>
+							<div
+								style={{
+									// border: "1px solid #fff",
+									width: "inherit",
+								}}>
+								{userList.map((user, index) => {
+									return (
+										<span
+											style={{
+												// border: "1px solid #fff",
+												display: "flex",
+												alignItems: "center",
+												margin: 15,
+											}}>
+											<p
+												style={{
+													color: "#fff",
+													// border: "2px solid #fff",
+													width: "50%",
+													textAlign: "right",
+													paddingRight: 30,
+													textOverflow: "ellipsis",
+													fontSize: "1.3",
+												}}>
+												{user[0]}
+											</p>
+											<div
+												key={index}
+												style={{
+													backgroundColor:
+														user[1].color,
+													borderRadius: "50%",
+													zIndex: 60,
+													width: "45px",
+													height: "45px",
+												}}>
+												{renderAvatar(
+													user[1].avatar,
+													"45",
+													"45"
+												)}
+											</div>
+										</span>
+									);
+								})}
+							</div>
+							<span
+								style={
+									{
+										// border: "2px solid #fff",
+										// width: "inherit"
+									}
+								}>
+								<svg
+									// style={{border: "2px solid #fff"}}
+									width='400'
+									height='400'
+									viewBox='0 0 100 100'
+									fill='none'
+									xmlns='http://www.w3.org/2000/svg'
+									onClick={() => {
+										setUserListClick(false);
+										document.querySelector(
+											".newRoom"
+										).style.filter = "blur(0px)";
+									}}>
+									<path
+										fill-rule='evenodd'
+										clip-rule='evenodd'
+										d='M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z'
+										fill='#FFFFFF'
+									/>
+								</svg>
+							</span>
+						</div>
+
+						{/* <div style={{
                 zIndex: 50,
                 border: "2px solid #fff"
               }}>
               </div>     */}
-            </div>
-          ) : null}
-          <div 
-            className="userListContainer" 
-            style = {{
-              zIndex:userListClick && !thwackNotif && !leavingRoom? 50: 40,
-              filter: thwackNotif || leavingRoom?"blur(10px)": "blur(0px)"
-            }}
-            onClick={() => {
-            setUserListClick(!userListClick)
-            document.querySelector('.newRoom').style.filter = userListClick ? "blur(0px)" : "blur(10px)"
-          }}>
-            <div className="stackContainer">
-              {userList.map((user, index) => {
-                if (index <= 5) {
-                  let coinOffset = 0
-                  coinOffset = 30 - (index * 10)
-                  // console.log(coinOffset)
-                  return (
-                    <div key={index} style={{
-                      backgroundColor: user[1].color,
-                      borderRadius: "50%",
-                      zIndex: `${index + 30}`,
-                      position: "absoulte",
-                      left: coinOffset,
-                      width: "33px",
-                      height: "33px",
-                      marginLeft: -17,
-                      border: "2px solid #fff"
-                    }}>
-                      {/* <p 
+					</div>
+				) : null}
+				<div
+					className='userListContainer'
+					style={{
+						zIndex:
+							userListClick && !thwackNotif && !leavingRoom
+								? 50
+								: 40,
+						filter:
+							thwackNotif || leavingRoom
+								? "blur(10px)"
+								: "blur(0px)",
+					}}
+					onClick={() => {
+						setUserListClick(!userListClick);
+						document.querySelector(
+							".newRoom"
+						).style.filter = userListClick
+							? "blur(0px)"
+							: "blur(10px)";
+					}}>
+					<div className='stackContainer'>
+						{userList.map((user, index) => {
+							if (index <= 5) {
+								let coinOffset = 0;
+								coinOffset = 30 - index * 10;
+								// console.log(coinOffset)
+								return (
+									<div
+										key={index}
+										style={{
+											backgroundColor: user[1].color,
+											borderRadius: "50%",
+											zIndex: `${index + 30}`,
+											position: "absoulte",
+											left: coinOffset,
+											width: "33px",
+											height: "33px",
+											marginLeft: -17,
+											border: "2px solid #fff",
+										}}>
+										{/* <p 
                       style={{
                         padding: "-5px"
                     }}> */}
-                      {renderAvatar(user[1].avatar, '30', '30')}
-                      {/* </p> */}
-                    </div>
-                  )
-                }
-              })}
-            </div>
-            <span style={{ zIndex: 50, color: "#656565" }} className="userCounter">
-              {userList.length > 6 ? `(+${userList.length - 6})` : null}
-            </span>
-          </div>
+										{renderAvatar(
+											user[1].avatar,
+											"30",
+											"30"
+										)}
+										{/* </p> */}
+									</div>
+								);
+							}
+						})}
+					</div>
+					<span
+						style={{ zIndex: 50, color: "#656565" }}
+						className='userCounter'>
+						{userList.length > 6
+							? `(+${userList.length - 6})`
+							: null}
+					</span>
+				</div>
+				<div
+					style={{ backgroundColor: "white", width: "100%" }}
+					className='newRoom'>
+					{/* start */}
 					<div
-						style={{ backgroundColor: "white", width: "100%" }}
-						className="newRoom"
-					>
-						{/* start */}
-						<div className="rBtns">
-							<div
+						className='rBtns'
+						style={openMenu ? rBtnsMobileStyle : null}>
+						{openMenu ? (
+							<svg
+								width='100'
+								height='100'
+                viewBox='0 0 119 119'
+                style={{ position: 'absolute', right: '2vw' }}
+                onClick={() => {setOpenMenu(false)}}  
+								fill='none'
+								xmlns='http://www.w3.org/2000/svg'
+								className='copy'>
+								<path
+									fill-rule='evenodd'
+									clip-rule='evenodd'
+									d='M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z'
+									fill='#fff'
+								/>
+							</svg>
+						) : (
+							<></>
+						)}
+						<div
+							onClick={() => {
+								leaveRoom();
+							}}
+							className='crossSvg'>
+							<svg
+								width='100'
+								height='100'
+								viewBox='0 0 119 119'
+								fill='none'
+								xmlns='http://www.w3.org/2000/svg'
+								className='copy'>
+								<path
+									fill-rule='evenodd'
+									clip-rule='evenodd'
+									d='M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z'
+									fill='#EDEDED'
+								/>
+							</svg>
+							{openMenu ? (
+								<span style={{ color: "#fff" }}>
+									Leave Chat
+								</span>
+							) : (
+								<></>
+							)}
+						</div>
+
+						<div
+							style={{
+								position: "absolute",
+								height: 100,
+								left: 15,
+							}}
+							className='copySvg'>
+							<svg
+								width='75'
+								height='75'
+								viewBox='0 0 47 94'
+								fill='none'
+								xmlns='http://www.w3.org/2000/svg'
+								className='copy'
 								onClick={() => {
-									leaveRoom();
+									copyRoomID();
+								}}>
+								<path
+									d='M23.5 8.93C31.537 8.93 38.07 15.463 38.07 23.5L38.07 42.3L47 42.3L47 23.5C47 10.528 36.472 -4.60193e-07 23.5 -1.02722e-06C10.528 -1.59424e-06 -4.60193e-07 10.528 -1.02722e-06 23.5L-1.84899e-06 42.3L8.93 42.3L8.93 23.5C8.93 15.463 15.463 8.93 23.5 8.93ZM18.8 28.2L18.8 65.8L28.2 65.8L28.2 28.2L18.8 28.2ZM47 70.5L47 51.7L38.07 51.7L38.07 70.5C38.07 78.537 31.537 85.07 23.5 85.07C15.463 85.07 8.93 78.537 8.93 70.5L8.93 51.7L-2.25988e-06 51.7L-3.08165e-06 70.5C-3.64868e-06 83.472 10.528 94 23.5 94C36.472 94 47 83.472 47 70.5Z'
+									fill='#EDEDED'
+								/>
+							</svg>
+							{openMenu ? (
+								<span style={{ color: "#fff" }}>Copy Link</span>
+							) : (
+								<></>
+							)}
+						</div>
+						<h3
+							className='ui header linkCopied lcChatRoom'
+							style={{
+								padding: "10px 18px",
+								border: "2px solid #000",
+							}}>
+							link copied!
+						</h3>
+					</div>
+					{/* end */}
+					<div className='chat-container'>
+						<div className='topicAndListContainer'>
+							<h3 className='chat-topic'>
+								litebub
+								<span
+									className='chatting-about'
+									style={{ padding: "0 5px" }}>
+									chatting about{" "}
+									<span className='topic'>{topic}</span>
+								</span>
+							</h3>
+							<svg
+								width='43'
+								height='26'
+								class='hamburger-menu'
+								onClick={() => {
+									setOpenMenu(!openMenu);
 								}}
-								className="crossSvg"
-							>
-								<svg
-									width="100"
-									height="100"
-									viewBox="0 0 119 119"
-									fill="none"
-									xmlns="http://www.w3.org/2000/svg"
-									className="copy"
-								>
-									<path
-										fill-rule="evenodd"
-										clip-rule="evenodd"
-										d="M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z"
-										fill="#EDEDED"
+								// style={{display=openMenu?}}
+								viewBox='0 0 43 26'
+								fill='none'
+								xmlns='http://www.w3.org/2000/svg'>
+								<rect
+									width='43'
+									height='4'
+									rx='2'
+									fill='black'
+								/>
+								<rect
+									y='11'
+									width='43'
+									height='4'
+									rx='2'
+									fill='black'
+								/>
+								<rect
+									y='22'
+									width='43'
+									height='4'
+									rx='2'
+									fill='black'
+								/>
+							</svg>
+						</div>
+
+						<div
+							id='chat-area'
+							style={{
+								height: (window.innerHeight * 72) / 100,
+								alignContent: "center",
+								alignItems: "center",
+								alignSelf: "center",
+							}}>
+							<ToastContainer
+								position='bottom-right'
+								autoClose={5000}
+							/>
+							{messages.map((item) => {
+								// console.log(item.text)
+								return (
+									<div className='chatContainer'>
+										<div className='msg-container'>
+											<p
+												className='msg-user-name'
+												style={{ marginTop: "5px" }}>
+												{item.user}
+											</p>
+											{item.sysAdd ? (
+												notificationMsg(item)
+											) : (
+												<div
+													className='msg-msg'
+													style={{
+														alignItems: "center",
+														borderRadius: item.photo
+															? 20
+															: item.text.length >
+															  100
+															? item.text.length /
+															  1.25
+															: 30,
+														padding:
+															item.text.length >
+															100
+																? 10
+																: 0,
+														paddingRight: 20,
+														backgroundColor:
+															item.color,
+													}}>
+													<span className='icon'>
+														{renderAvatar(
+															item.avatar,
+															"45",
+															"45"
+														)}
+													</span>
+													{item.photo ? (
+														<img
+															src={item.photo}
+															height={100}
+															width={100}
+															style={{
+																marginHorizontal: 80,
+															}}
+														/>
+													) : (
+														<p
+															style={{
+																margin: "7px 0",
+															}}>
+															{item.text}
+														</p>
+													)}
+												</div>
+											)}
+
+											{!item.sysAdd ? (
+												<div className='msg-btn-container'>
+													<div
+														onClick={() =>
+															reply(item)
+														}
+														className='btnRContainer'
+														style={{
+															marginLeft: ".3vw",
+														}}>
+														<svg
+															className='btnR'
+															width='27'
+															height='14'
+															viewBox='0 0 29 14'
+															fill='none'
+															xmlns='http://www.w3.org/2000/svg'>
+															<g
+																style={{
+																	mixBlendMode:
+																		"multiply",
+																}}>
+																<path
+																	d='M24.5734 6.88871L22.2171 4.58349C21.7831 4.15885 21.7831 3.47034 22.2171 3.04569C22.6512 2.62105 23.3549 2.62105 23.789 3.04569L28.9047 8.05064C28.9651 8.14161 29 8.24868 29 8.36328C29 8.47867 28.9647 8.58642 28.9035 8.67778L23.789 13.6815C23.3549 14.1062 22.6512 14.1062 22.2171 13.6815C21.7831 13.2569 21.7831 12.5684 22.2171 12.1437L25.0315 9.39032H18.1522C17.367 9.4461 16.5845 9.30985 15.8045 8.98157C14.5491 8.43948 13.5316 7.37688 12.7518 5.7937L12.2018 4.5865C11.7512 3.64586 11.1939 3.04117 10.5299 2.7724C10.203 2.63189 9.88274 2.55001 9.56921 2.52677C9.56831 2.52671 9.56754 2.5274 9.56754 2.52828C9.56754 2.52913 9.56685 2.52981 9.56598 2.52981H1.29291C0.578857 2.52981 0 1.96349 0 1.2649C0 0.566324 0.578857 0 1.29291 0H9.56754C10.2632 0.00304185 10.9572 0.155922 11.6498 0.458577C12.8347 0.97214 13.7805 1.89816 14.487 3.23665L15.3214 4.98336C15.7562 5.84973 16.2906 6.41119 16.9244 6.66773C17.1436 6.75643 17.3625 6.8188 17.5811 6.85476L17.5823 6.85524C17.5831 6.85576 17.5836 6.85663 17.5836 6.8576C17.5836 6.85919 17.5849 6.86049 17.5865 6.86049H17.6151C17.6167 6.86049 17.6183 6.86061 17.6199 6.86084C17.78 6.8849 17.94 6.89481 18.0998 6.89057L18.1003 6.89041L18.1008 6.88964C18.1008 6.88913 18.1012 6.88871 18.1017 6.88871H24.5734Z'
+																	fill='#DDDDDD'
+																/>
+															</g>
+														</svg>
+													</div>
+													<div
+														onClick={() =>
+															likeMsg(item)
+														}
+														className='btnLContainer'>
+														<svg
+															className='btnL'
+															width='18'
+															height='17'
+															viewBox='0 0 20 19'
+															fill={
+																item.likeColor ==
+																	"" ||
+																!item.likeColor
+																	? "none"
+																	: item.likeColor
+															}
+															xmlns='http://www.w3.org/2000/svg'>
+															<path
+																d='M7.87348 2.61469C8.73638 1.35561 10.5945 1.35562 11.4574 2.61469L12.8734 4.68075C13.1558 5.09292 13.5718 5.39511 14.0511 5.5364L16.4536 6.24461C17.9177 6.6762 18.4919 8.44339 17.5611 9.65312L16.0337 11.6382C15.729 12.0343 15.5701 12.5232 15.5838 13.0227L15.6527 15.5265C15.6947 17.0523 14.1914 18.1445 12.7532 17.633L10.3933 16.7938C9.9225 16.6264 9.40838 16.6264 8.93758 16.7938L6.57764 17.633C5.13948 18.1445 3.63622 17.0523 3.67819 15.5265L3.74705 13.0227C3.76079 12.5232 3.60192 12.0343 3.29721 11.6382L1.76982 9.65312C0.839026 8.44338 1.41322 6.6762 2.87732 6.24461L5.27981 5.5364C5.7591 5.39511 6.17504 5.09292 6.45752 4.68075L7.87348 2.61469Z'
+																stroke={
+																	item.likeColor ==
+																		"" ||
+																	!item.likeColor
+																		? "#DBDBDB"
+																		: item.likeColor
+																}
+																stroke-width='2'
+															/>
+														</svg>
+													</div>
+													<div
+														onClick={() =>
+															thwackMsg(item)
+														}
+														className='btnTContainer'>
+														<svg
+															className='btnT'
+															width='25'
+															height='27'
+															viewBox='0 0 25 27'
+															fill='none'
+															xmlns='http://www.w3.org/2000/svg'>
+															<path
+																d='M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z'
+																stroke={thwackColor(
+																	item
+																)}
+																stroke-width='1.39649'
+															/>
+														</svg>
+													</div>
+												</div>
+											) : null}
+
+											{/* end */}
+										</div>
+										{item.replies
+											? Object.values(item.replies).map(
+													(itm) => {
+														return (
+															<div>
+																<div
+																	className='msg-container'
+																	style={{
+																		marginLeft: 50,
+																	}}>
+																	<p
+																		className='msg-user-name'
+																		style={{
+																			marginTop:
+																				"5px",
+																		}}>
+																		{
+																			itm.user
+																		}
+																	</p>
+																	{/* start */}
+																	<div
+																		className='msg-msg'
+																		style={{
+																			alignItems:
+																				"center",
+																			borderRadius: item.photo
+																				? 20
+																				: item
+																						.text
+																						.length >
+																				  100
+																				? item
+																						.text
+																						.length /
+																				  1.25
+																				: 30,
+																			padding:
+																				itm
+																					.text
+																					.length >
+																				100
+																					? 10
+																					: 0,
+																			paddingRight: 20,
+																			backgroundColor:
+																				itm.color,
+																		}}>
+																		<span className='icon'>
+																			{renderAvatar(
+																				itm.avatar,
+																				"45",
+																				"45"
+																			)}
+																		</span>
+
+																		{itm.photo ? (
+																			<img
+																				src={
+																					itm.photo
+																				}
+																				height={
+																					100
+																				}
+																				width={
+																					100
+																				}
+																				style={{
+																					marginHorizontal: 80,
+																				}}
+																			/>
+																		) : (
+																			itm.text
+																				.split(
+																					"//n"
+																				)
+																				.map(
+																					(
+																						itm
+																					) => (
+																						<p
+																							style={{
+																								margin:
+																									"7px 0",
+																							}}>
+																							{
+																								itm
+																							}
+																							{/* {console.log(item)} */}
+																						</p>
+																					)
+																				)
+																		)}
+																	</div>
+																	{/* <button
+                                className="ui circular"
+                                onClick={() => reply(item)}
+                              ></button> */}
+																	<div
+																		className='msg-btn-container'
+																		style={{
+																			marginLeft:
+																				".4vw",
+																		}}>
+																		<div
+																			onClick={() =>
+																				reply(
+																					itm,
+																					item
+																				)
+																			}
+																			className='btnRContainer'
+																			style={{
+																				marginLeft:
+																					".3vw",
+																			}}>
+																			<svg
+																				className='btnR'
+																				width='27'
+																				height='14'
+																				viewBox='0 0 29 14'
+																				fill='none'
+																				xmlns='http://www.w3.org/2000/svg'>
+																				<g
+																					style={{
+																						mixBlendMode:
+																							"multiply",
+																					}}>
+																					<path
+																						d='M24.5734 6.88871L22.2171 4.58349C21.7831 4.15885 21.7831 3.47034 22.2171 3.04569C22.6512 2.62105 23.3549 2.62105 23.789 3.04569L28.9047 8.05064C28.9651 8.14161 29 8.24868 29 8.36328C29 8.47867 28.9647 8.58642 28.9035 8.67778L23.789 13.6815C23.3549 14.1062 22.6512 14.1062 22.2171 13.6815C21.7831 13.2569 21.7831 12.5684 22.2171 12.1437L25.0315 9.39032H18.1522C17.367 9.4461 16.5845 9.30985 15.8045 8.98157C14.5491 8.43948 13.5316 7.37688 12.7518 5.7937L12.2018 4.5865C11.7512 3.64586 11.1939 3.04117 10.5299 2.7724C10.203 2.63189 9.88274 2.55001 9.56921 2.52677C9.56831 2.52671 9.56754 2.5274 9.56754 2.52828C9.56754 2.52913 9.56685 2.52981 9.56598 2.52981H1.29291C0.578857 2.52981 0 1.96349 0 1.2649C0 0.566324 0.578857 0 1.29291 0H9.56754C10.2632 0.00304185 10.9572 0.155922 11.6498 0.458577C12.8347 0.97214 13.7805 1.89816 14.487 3.23665L15.3214 4.98336C15.7562 5.84973 16.2906 6.41119 16.9244 6.66773C17.1436 6.75643 17.3625 6.8188 17.5811 6.85476L17.5823 6.85524C17.5831 6.85576 17.5836 6.85663 17.5836 6.8576C17.5836 6.85919 17.5849 6.86049 17.5865 6.86049H17.6151C17.6167 6.86049 17.6183 6.86061 17.6199 6.86084C17.78 6.8849 17.94 6.89481 18.0998 6.89057L18.1003 6.89041L18.1008 6.88964C18.1008 6.88913 18.1012 6.88871 18.1017 6.88871H24.5734Z'
+																						fill='#DDDDDD'
+																					/>
+																				</g>
+																			</svg>
+																		</div>
+																		<div
+																			onClick={() =>
+																				likeMsg(
+																					itm
+																				)
+																			}
+																			className='btnLContainer'>
+																			<svg
+																				className='btnL'
+																				width='18'
+																				height='17'
+																				viewBox='0 0 20 19'
+																				style={{
+																					fill:
+																						itm.likeColor ==
+																							"" ||
+																						!itm.likeColor
+																							? "none"
+																							: itm.likeColor,
+																				}}
+																				xmlns='http://www.w3.org/2000/svg'>
+																				<path
+																					d='M7.87348 2.61469C8.73638 1.35561 10.5945 1.35562 11.4574 2.61469L12.8734 4.68075C13.1558 5.09292 13.5718 5.39511 14.0511 5.5364L16.4536 6.24461C17.9177 6.6762 18.4919 8.44339 17.5611 9.65312L16.0337 11.6382C15.729 12.0343 15.5701 12.5232 15.5838 13.0227L15.6527 15.5265C15.6947 17.0523 14.1914 18.1445 12.7532 17.633L10.3933 16.7938C9.9225 16.6264 9.40838 16.6264 8.93758 16.7938L6.57764 17.633C5.13948 18.1445 3.63622 17.0523 3.67819 15.5265L3.74705 13.0227C3.76079 12.5232 3.60192 12.0343 3.29721 11.6382L1.76982 9.65312C0.839026 8.44338 1.41322 6.6762 2.87732 6.24461L5.27981 5.5364C5.7591 5.39511 6.17504 5.09292 6.45752 4.68075L7.87348 2.61469Z'
+																					stroke={
+																						itm.likeColor ==
+																							"" ||
+																						!itm.likeColor
+																							? "#DBDBDB"
+																							: itm.likeColor
+																					}
+																					stroke-width='2'
+																				/>
+																			</svg>
+																		</div>
+																		<div
+																			onClick={() =>
+																				thwackMsg(
+																					itm
+																				)
+																			}
+																			className='btnTContainer'>
+																			<svg
+																				className='btnT'
+																				width='25'
+																				height='27'
+																				viewBox='0 0 25 27'
+																				fill='none'
+																				xmlns='http://www.w3.org/2000/svg'>
+																				<path
+																					d='M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z'
+																					stroke={thwackColor(
+																						itm
+																					)}
+																					stroke-width='1.39649'
+																				/>
+																			</svg>
+																		</div>
+																	</div>
+																</div>
+																{itm.replies
+																	? Object.values(
+																			itm.replies
+																	  ).map(
+																			(
+																				item
+																			) => {
+																				return (
+																					<div>
+																						<div
+																							className='msg-container'
+																							style={{
+																								marginLeft: 80,
+																							}}>
+																							<p
+																								className='msg-user-name'
+																								style={{
+																									marginTop:
+																										"5px",
+																								}}>
+																								{
+																									item.user
+																								}
+																							</p>
+																							{/* start */}
+																							<div
+																								className='msg-msg'
+																								style={{
+																									alignItems:
+																										"center",
+																									borderRadius: item.photo
+																										? 20
+																										: item
+																												.text
+																												.length >
+																										  100
+																										? item
+																												.text
+																												.length /
+																										  1.25
+																										: 30,
+																									padding:
+																										item
+																											.text
+																											.length >
+																										100
+																											? 10
+																											: 0,
+																									paddingRight: 20,
+																									backgroundColor:
+																										item.color,
+																								}}>
+																								<span className='icon'>
+																									{renderAvatar(
+																										item.avatar,
+																										"45",
+																										"45"
+																									)}
+																								</span>
+
+																								{item.photo ? (
+																									<img
+																										src={
+																											item.photo
+																										}
+																										height={
+																											100
+																										}
+																										width={
+																											100
+																										}
+																										style={{
+																											marginHorizontal: 80,
+																										}}
+																									/>
+																								) : (
+																									item.text
+																										.split(
+																											"//n"
+																										)
+																										.map(
+																											(
+																												item
+																											) => (
+																												<p
+																													style={{
+																														margin:
+																															"7px 0",
+																													}}>
+																													{
+																														item
+																													}
+																													{/* {console.log(item)} */}
+																												</p>
+																											)
+																										)
+																								)}
+																							</div>
+																							{/* <button
+                                className="ui circular"
+                                onClick={() => reply(item)}
+                              ></button> */}
+																							<div
+																								className='msg-btn-container'
+																								style={{
+																									marginLeft:
+																										".4vw",
+																								}}>
+																								<div
+																									onClick={() =>
+																										likeMsg(
+																											item
+																										)
+																									}
+																									className='btnLContainer'>
+																									<svg
+																										className='btnL'
+																										width='18'
+																										height='17'
+																										viewBox='0 0 20 19'
+																										style={{
+																											fill:
+																												item.likeColor ==
+																													"" ||
+																												!item.likeColor
+																													? "none"
+																													: item.likeColor,
+																										}}
+																										xmlns='http://www.w3.org/2000/svg'>
+																										<path
+																											d='M7.87348 2.61469C8.73638 1.35561 10.5945 1.35562 11.4574 2.61469L12.8734 4.68075C13.1558 5.09292 13.5718 5.39511 14.0511 5.5364L16.4536 6.24461C17.9177 6.6762 18.4919 8.44339 17.5611 9.65312L16.0337 11.6382C15.729 12.0343 15.5701 12.5232 15.5838 13.0227L15.6527 15.5265C15.6947 17.0523 14.1914 18.1445 12.7532 17.633L10.3933 16.7938C9.9225 16.6264 9.40838 16.6264 8.93758 16.7938L6.57764 17.633C5.13948 18.1445 3.63622 17.0523 3.67819 15.5265L3.74705 13.0227C3.76079 12.5232 3.60192 12.0343 3.29721 11.6382L1.76982 9.65312C0.839026 8.44338 1.41322 6.6762 2.87732 6.24461L5.27981 5.5364C5.7591 5.39511 6.17504 5.09292 6.45752 4.68075L7.87348 2.61469Z'
+																											stroke={
+																												item.likeColor ==
+																													"" ||
+																												!item.likeColor
+																													? "#DBDBDB"
+																													: item.likeColor
+																											}
+																											stroke-width='2'
+																										/>
+																									</svg>
+																								</div>
+																								<div
+																									onClick={() =>
+																										thwackMsg(
+																											item
+																										)
+																									}
+																									className='btnTContainer'>
+																									<svg
+																										className='btnT'
+																										width='25'
+																										height='27'
+																										viewBox='0 0 25 27'
+																										fill='none'
+																										xmlns='http://www.w3.org/2000/svg'>
+																										<path
+																											d='M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z'
+																											stroke={thwackColor(
+																												item
+																											)}
+																											stroke-width='1.39649'
+																										/>
+																									</svg>
+																								</div>
+																							</div>
+																						</div>
+																					</div>
+																				);
+																			}
+																	  )
+																	: null}{" "}
+															</div>
+														);
+													}
+											  )
+											: null}
+									</div>
+								);
+							})}
+						</div>
+
+						<div id='input-area'>
+							<div
+								style={{
+									width: "100%",
+									backgroundColor: "rgba(255, 255, 255, 0)",
+								}}>
+								<div
+									id='replyBox'
+									style={{
+										opacity: replyingTo > 0 ? 1 : 0,
+										marginLeft: "15%",
+										marginBottom: 10,
+										backgroundColor:
+											replyingTo > 0
+												? "white"
+												: "rgba(255, 255, 255, 0)",
+									}}
+									className='replyEl'>
+									<svg
+										width='23'
+										height='23'
+										viewBox='0 0 23 23'
+										fill='none'
+										xmlns='http://www.w3.org/2000/svg'
+										onClick={() => setReplyingTo(0)}>
+										<path
+											fill-rule='evenodd'
+											clip-rule='evenodd'
+											d='M22.8626 11.4313C22.8626 17.7447 17.7447 22.8626 11.4313 22.8626C5.11798 22.8626 0 17.7447 0 11.4313C0 5.11798 5.11798 0 11.4313 0C17.7447 0 22.8626 5.11798 22.8626 11.4313ZM14.3809 7.07583C14.741 6.7157 15.3249 6.71565 15.6849 7.07573C16.045 7.4358 16.0449 8.01964 15.6848 8.37977L12.6434 11.4212L15.6268 14.4046C15.9869 14.7647 15.9868 15.3486 15.6267 15.7087C15.2666 16.0688 14.6828 16.0689 14.3227 15.7088L11.3392 12.7254L8.29776 15.7668C7.93763 16.127 7.35379 16.127 6.99372 15.7669C6.63365 15.4069 6.6337 14.823 6.99383 14.4629L10.0353 11.4214L7.05225 8.43836C6.69218 8.07829 6.69223 7.49445 7.05236 7.13432C7.41249 6.77419 7.99633 6.77414 8.3564 7.13421L11.3395 10.1173L14.3809 7.07583Z'
+											fill={replyingColor()}
+										/>
+									</svg>
+									<p
+										style={{
+											alignSelf: "flex-end",
+											color: replyingColor(replyingTo),
+											marginHorizontal: 20,
+										}}
+										className='replyTo'>
+										Replying to{" "}
+										<b>{replyingWhom(replyingTo)}</b>
+									</p>
+								</div>
+								<div className='in-grid'>
+									<textarea
+										className='message-input'
+										placeholder='type a message...'
+										onKeyDown={onKeyPress}
+										value={message}
+										onChange={setMessageInput}
+										style={{
+											fontSize: "1.2em",
+											height: "3.5em",
+											lineHeight: "1.5em",
+											borderColor: replyingColor(),
+											marginBottom: 10,
+										}}
+										type='text'
 									/>
-								</svg>
+									<span
+										style={{
+											position: "absolute",
+											right: "18%",
+											top: 9,
+											color: "white",
+											padding: 10,
+											borderRadius: 5,
+											cursor: "pointer",
+										}}
+										className='gifBtn'
+										onClick={(e) => {
+											if (closeGif) {
+												setfetchGifs(false);
+												gifsCanbeClosed(false);
+												setGiphySearchParam("");
+											} else {
+												setfetchGifs(true);
+												gifsCanbeClosed(false);
+											}
+										}}>
+										GIF
+									</span>
+									<svg
+										onClick={() => sendMsg()}
+										className='enterBtn'
+										width='65'
+										style={{
+											visibility: displayEnterBtn(),
+											marginLeft: 10,
+											marginBottom: 5,
+										}}
+										height='60'
+										viewBox='0 0 82 82'
+										fill='none'
+										xmlns='http://www.w3.org/2000/svg'>
+										<g filter='url(#filter0_d)'>
+											<circle
+												cx='41'
+												cy='37'
+												r='37'
+												fill={chatColor}
+											/>
+											<g clip-path='url(#clip0)'>
+												<path
+													d='M30.3132 34.7004L42.0138 23L53.7142 34.7004'
+													stroke='white'
+													stroke-width='4.6751'
+													stroke-linecap='round'
+													stroke-linejoin='round'
+												/>
+												<path
+													d='M30.3132 34.7004L42.0138 23L53.7142 34.7004'
+													stroke='black'
+													stroke-width='4.6751'
+													stroke-linecap='round'
+													stroke-linejoin='round'
+												/>
+												<path
+													d='M42.3198 23.3065L42.3198 51.7791'
+													stroke='white'
+													stroke-width='4.6751'
+													stroke-linecap='round'
+												/>
+												<path
+													d='M42.3198 23.3065L42.3198 51.7791'
+													stroke='black'
+													stroke-width='4.6751'
+													stroke-linecap='round'
+												/>
+											</g>
+										</g>
+										<defs>
+											<filter
+												id='filter0_d'
+												x='0.390244'
+												y='0'
+												width='81.2195'
+												height='81.2195'
+												filterUnits='userSpaceOnUse'
+												color-interpolation-filters='sRGB'>
+												<feFlood
+													flood-opacity='0'
+													result='BackgroundImageFix'
+												/>
+												<feColorMatrix
+													in='SourceAlpha'
+													type='matrix'
+													values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+												/>
+												<feOffset dy='3.60976' />
+												<feGaussianBlur stdDeviation='1.80488' />
+												<feColorMatrix
+													type='matrix'
+													values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'
+												/>
+												<feBlend
+													mode='normal'
+													in2='BackgroundImageFix'
+													result='effect1_dropShadow'
+												/>
+												<feBlend
+													mode='normal'
+													in='SourceGraphic'
+													in2='effect1_dropShadow'
+													result='shape'
+												/>
+											</filter>
+											<clipPath id='clip0'>
+												<rect
+													width='44'
+													height='44'
+													fill='white'
+													transform='matrix(-1 0 0 1 63 15)'
+												/>
+											</clipPath>
+										</defs>
+									</svg>
+									{fetchGifs ? (
+										<div
+											style={{
+												position: "absolute",
+												zIndex: 10,
+												height: 300,
+												width: 300,
+												backgroundColor: "black",
+												bottom: 80,
+												overflow: "auto",
+												padding: 5,
+												justifyContent: "center",
+												alignItems: "center",
+												right: "20%",
+												borderRadius: 10,
+											}}
+											ref={wrapperRef}>
+											<GridDemo
+												onGifClick={(gif, e) => {
+													// console.log("gif", gif);
+													setPhoto(
+														gif.images.downsized.url
+													);
+													setfetchGifs(false);
+													setGiphySearchParam("");
+													e.preventDefault();
+													console.log(photo);
+													sendMsg(
+														gif.images.downsized.url
+													);
+												}}
+											/>
+										</div>
+									) : null}
+								</div>
 							</div>
-
-            <div
-              style={{ position: "absolute", height: 100, left: 15 }}
-              
-              className="copySvg"
-            >
-              <svg
-                width="75"
-                height="75"
-                viewBox="0 0 47 94"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="copy"
-                onClick={() => {
-                  copyRoomID();
-                }}
-              >
-                <path
-                  d="M23.5 8.93C31.537 8.93 38.07 15.463 38.07 23.5L38.07 42.3L47 42.3L47 23.5C47 10.528 36.472 -4.60193e-07 23.5 -1.02722e-06C10.528 -1.59424e-06 -4.60193e-07 10.528 -1.02722e-06 23.5L-1.84899e-06 42.3L8.93 42.3L8.93 23.5C8.93 15.463 15.463 8.93 23.5 8.93ZM18.8 28.2L18.8 65.8L28.2 65.8L28.2 28.2L18.8 28.2ZM47 70.5L47 51.7L38.07 51.7L38.07 70.5C38.07 78.537 31.537 85.07 23.5 85.07C15.463 85.07 8.93 78.537 8.93 70.5L8.93 51.7L-2.25988e-06 51.7L-3.08165e-06 70.5C-3.64868e-06 83.472 10.528 94 23.5 94C36.472 94 47 83.472 47 70.5Z"
-                  fill="#EDEDED"
-                />
-              </svg>
-              
-            </div>
-              <h3
-          className="ui header linkCopied lcChatRoom"
-          style = {{
-            padding: "10px 18px",
-            border: "2px solid #000"
-          }}
-				>
-					link copied!
-				</h3>
-          </div>
-          {/* end */}
-          <div className="chat-container">
-            <div className="topicAndListContainer">
-                <h3 className="chat-topic">
-                  litebub
-                  <span className="chatting-about" style={{ padding: "0 5px" }}>
-                    chatting about <span className="topic">{topic}</span>
-                  </span>
-                </h3>
-            </div>
-              
-            <div
-              id="chat-area"
-              style={{
-                height: (window.innerHeight * 72) / 100,
-                alignContent: "center",
-                alignItems: "center",
-                alignSelf: "center"
-              }}
-            >
-              <ToastContainer position="bottom-right" autoClose={5000} />
-              {messages.map((item) => {
-                // console.log(item.text)
-                return (
-                  <div className="chatContainer">
-                    <div className="msg-container">
-                      <p className="msg-user-name" style={{ marginTop: "5px" }}>
-                        {item.user}
-                      </p>
-                      {item.sysAdd?notificationMsg(item):
-                      <div
-                        className="msg-msg"
-                        style={{
-                          alignItems: "center",
-                          borderRadius:
-                            item.photo ? 20 : item.text.length > 100
-                              ? item.text.length / 1.25
-                              : 30,
-                          padding: item.text.length > 100 ? 10 : 0,
-                          paddingRight: 20,
-                          backgroundColor: item.color
-                        }}
-                      >
-                        <span className="icon">
-                          {renderAvatar(item.avatar, '45', '45')}
-                        </span>
-                          {item.photo ?
-                            <img src={item.photo}
-                              height={100} width={100}
-                              style={{ marginHorizontal: 80 }} />
-                            : <p
-                              style={{
-                                margin: "7px 0"
-                              }}
-                            >
-                              {item.text}
-                            </p>}
-                      </div>
-                      } 
-                      
-                      {!item.sysAdd?
-                        <div className="msg-btn-container">
-                          <div
-                            onClick={() => reply(item)}
-                            className="btnRContainer"
-                            style={{ marginLeft: ".3vw" }}
-                          >
-                            <svg
-                              className="btnR"
-                              width="27"
-                              height="14"
-                              viewBox="0 0 29 14"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g style={{ mixBlendMode: "multiply" }}>
-                                <path
-                                  d="M24.5734 6.88871L22.2171 4.58349C21.7831 4.15885 21.7831 3.47034 22.2171 3.04569C22.6512 2.62105 23.3549 2.62105 23.789 3.04569L28.9047 8.05064C28.9651 8.14161 29 8.24868 29 8.36328C29 8.47867 28.9647 8.58642 28.9035 8.67778L23.789 13.6815C23.3549 14.1062 22.6512 14.1062 22.2171 13.6815C21.7831 13.2569 21.7831 12.5684 22.2171 12.1437L25.0315 9.39032H18.1522C17.367 9.4461 16.5845 9.30985 15.8045 8.98157C14.5491 8.43948 13.5316 7.37688 12.7518 5.7937L12.2018 4.5865C11.7512 3.64586 11.1939 3.04117 10.5299 2.7724C10.203 2.63189 9.88274 2.55001 9.56921 2.52677C9.56831 2.52671 9.56754 2.5274 9.56754 2.52828C9.56754 2.52913 9.56685 2.52981 9.56598 2.52981H1.29291C0.578857 2.52981 0 1.96349 0 1.2649C0 0.566324 0.578857 0 1.29291 0H9.56754C10.2632 0.00304185 10.9572 0.155922 11.6498 0.458577C12.8347 0.97214 13.7805 1.89816 14.487 3.23665L15.3214 4.98336C15.7562 5.84973 16.2906 6.41119 16.9244 6.66773C17.1436 6.75643 17.3625 6.8188 17.5811 6.85476L17.5823 6.85524C17.5831 6.85576 17.5836 6.85663 17.5836 6.8576C17.5836 6.85919 17.5849 6.86049 17.5865 6.86049H17.6151C17.6167 6.86049 17.6183 6.86061 17.6199 6.86084C17.78 6.8849 17.94 6.89481 18.0998 6.89057L18.1003 6.89041L18.1008 6.88964C18.1008 6.88913 18.1012 6.88871 18.1017 6.88871H24.5734Z"
-                                  fill="#DDDDDD"
-                                />
-                              </g>
-                            </svg>
-                          </div>
-                          <div
-                            onClick={() => likeMsg(item)}
-                            className="btnLContainer"
-                          >
-                            <svg
-                              className="btnL"
-                              width="18"
-                              height="17"
-                              viewBox="0 0 20 19"
-                              fill={
-                                item.likeColor == "" || !item.likeColor ? "none" : item.likeColor
-                              }
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M7.87348 2.61469C8.73638 1.35561 10.5945 1.35562 11.4574 2.61469L12.8734 4.68075C13.1558 5.09292 13.5718 5.39511 14.0511 5.5364L16.4536 6.24461C17.9177 6.6762 18.4919 8.44339 17.5611 9.65312L16.0337 11.6382C15.729 12.0343 15.5701 12.5232 15.5838 13.0227L15.6527 15.5265C15.6947 17.0523 14.1914 18.1445 12.7532 17.633L10.3933 16.7938C9.9225 16.6264 9.40838 16.6264 8.93758 16.7938L6.57764 17.633C5.13948 18.1445 3.63622 17.0523 3.67819 15.5265L3.74705 13.0227C3.76079 12.5232 3.60192 12.0343 3.29721 11.6382L1.76982 9.65312C0.839026 8.44338 1.41322 6.6762 2.87732 6.24461L5.27981 5.5364C5.7591 5.39511 6.17504 5.09292 6.45752 4.68075L7.87348 2.61469Z"
-                                stroke={
-                                  item.likeColor == "" || !item.likeColor
-                                    ? "#DBDBDB"
-                                    : item.likeColor
-                                }
-                                stroke-width="2"
-                              />
-                            </svg>
-                          </div>
-                          <div
-                            onClick={() => thwackMsg(item)}
-                            className="btnTContainer"
-                          >
-                            <svg
-                              className="btnT"
-                              width="25"
-                              height="27"
-                              viewBox="0 0 25 27"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z"
-                                stroke = {thwackColor(item)}
-                                stroke-width="1.39649"
-                              />
-                            </svg>
-                          </div>
-                        </div>: null}
-                      
-                      {/* end */}
-                    </div>
-                    {item.replies
-                      ? Object.values(item.replies).map((itm) => {
-                          return (
-                            <div>
-                              <div
-                                className="msg-container"
-                                style={{ marginLeft: 50 }}
-                              >
-                                <p
-                                  className="msg-user-name"
-                                  style={{ marginTop: "5px" }}
-                                >
-                                  {itm.user}
-                                </p>
-                                {/* start */}
-                                <div
-                                  className="msg-msg"
-                                  style={{
-                                    alignItems: "center",
-                                    borderRadius:
-                                      item.photo ? 20 : item.text.length > 100
-                                        ? item.text.length / 1.25
-                                        : 30,
-                                    padding: itm.text.length > 100 ? 10 : 0,
-                                    paddingRight: 20,
-                                    backgroundColor: itm.color
-                                  }}
-                                >
-                                  <span className="icon">
-                                    {renderAvatar(itm.avatar,'45','45')}
-                                  </span>
-
-                                  {itm.photo ?
-                                    <img src={itm.photo}
-                                      height={100} width={100}
-                                      style={{ marginHorizontal: 80 }} />
-                                    :
-
-                                    itm.text.split("//n").map((itm) => (
-                                      <p
-                                        style={{
-                                          margin: "7px 0"
-                                        }}
-                                      >
-                                        {itm}
-                                        {/* {console.log(item)} */}
-                                      </p>
-                                    ))}
-                                </div>
-                                {/* <button
-                                className="ui circular"
-                                onClick={() => reply(item)}
-                              ></button> */}
-                                <div
-                                  className="msg-btn-container"
-                                  style={{ marginLeft: ".4vw" }}
-                                >
-                                  <div
-                            onClick={() => reply(itm, item)}
-                            className="btnRContainer"
-                            style={{ marginLeft: ".3vw" }}
-                          >
-                            <svg
-                              className="btnR"
-                              width="27"
-                              height="14"
-                              viewBox="0 0 29 14"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g style={{ mixBlendMode: "multiply" }}>
-                                <path
-                                  d="M24.5734 6.88871L22.2171 4.58349C21.7831 4.15885 21.7831 3.47034 22.2171 3.04569C22.6512 2.62105 23.3549 2.62105 23.789 3.04569L28.9047 8.05064C28.9651 8.14161 29 8.24868 29 8.36328C29 8.47867 28.9647 8.58642 28.9035 8.67778L23.789 13.6815C23.3549 14.1062 22.6512 14.1062 22.2171 13.6815C21.7831 13.2569 21.7831 12.5684 22.2171 12.1437L25.0315 9.39032H18.1522C17.367 9.4461 16.5845 9.30985 15.8045 8.98157C14.5491 8.43948 13.5316 7.37688 12.7518 5.7937L12.2018 4.5865C11.7512 3.64586 11.1939 3.04117 10.5299 2.7724C10.203 2.63189 9.88274 2.55001 9.56921 2.52677C9.56831 2.52671 9.56754 2.5274 9.56754 2.52828C9.56754 2.52913 9.56685 2.52981 9.56598 2.52981H1.29291C0.578857 2.52981 0 1.96349 0 1.2649C0 0.566324 0.578857 0 1.29291 0H9.56754C10.2632 0.00304185 10.9572 0.155922 11.6498 0.458577C12.8347 0.97214 13.7805 1.89816 14.487 3.23665L15.3214 4.98336C15.7562 5.84973 16.2906 6.41119 16.9244 6.66773C17.1436 6.75643 17.3625 6.8188 17.5811 6.85476L17.5823 6.85524C17.5831 6.85576 17.5836 6.85663 17.5836 6.8576C17.5836 6.85919 17.5849 6.86049 17.5865 6.86049H17.6151C17.6167 6.86049 17.6183 6.86061 17.6199 6.86084C17.78 6.8849 17.94 6.89481 18.0998 6.89057L18.1003 6.89041L18.1008 6.88964C18.1008 6.88913 18.1012 6.88871 18.1017 6.88871H24.5734Z"
-                                  fill="#DDDDDD"
-                                />
-                              </g>
-                            </svg>
-                          </div>
-                                  <div
-                                    onClick={() => likeMsg(itm)}
-                                    className="btnLContainer"
-                                  >
-                                    <svg
-                                      className="btnL"
-                                      width="18"
-                                      height="17"
-                                      viewBox="0 0 20 19"
-                                      style={{
-                                        fill: itm.likeColor == "" || !itm.likeColor ? "none" : itm.likeColor
-                                        
-                                      }}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M7.87348 2.61469C8.73638 1.35561 10.5945 1.35562 11.4574 2.61469L12.8734 4.68075C13.1558 5.09292 13.5718 5.39511 14.0511 5.5364L16.4536 6.24461C17.9177 6.6762 18.4919 8.44339 17.5611 9.65312L16.0337 11.6382C15.729 12.0343 15.5701 12.5232 15.5838 13.0227L15.6527 15.5265C15.6947 17.0523 14.1914 18.1445 12.7532 17.633L10.3933 16.7938C9.9225 16.6264 9.40838 16.6264 8.93758 16.7938L6.57764 17.633C5.13948 18.1445 3.63622 17.0523 3.67819 15.5265L3.74705 13.0227C3.76079 12.5232 3.60192 12.0343 3.29721 11.6382L1.76982 9.65312C0.839026 8.44338 1.41322 6.6762 2.87732 6.24461L5.27981 5.5364C5.7591 5.39511 6.17504 5.09292 6.45752 4.68075L7.87348 2.61469Z"
-                                        stroke={
-                                          itm.likeColor == "" || !itm.likeColor
-                                            ? "#DBDBDB"
-                                            : itm.likeColor
-                                        }
-                                        stroke-width="2"
-                                      />
-                                    </svg>
-                                  </div>
-                                  <div
-                                    onClick={() => thwackMsg(itm)}
-                                    className = "btnTContainer"
-                                  >
-                                    <svg
-                                      className = "btnT"
-                                      width="25"
-                                      height="27"
-                                      viewBox="0 0 25 27"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z"
-                                        stroke={thwackColor(itm)}
-                                        stroke-width="1.39649"
-                                      />
-                                    </svg>
-                                  </div>
-                                </div>
-                              </div>
-                              {itm.replies
-                      ? Object.values(itm.replies).map((item) => {
-                          return (
-                            <div>
-                              <div
-                                className="msg-container"
-                                style={{ marginLeft: 80 }}
-                              >
-                                <p
-                                  className="msg-user-name"
-                                  style={{ marginTop: "5px" }}
-                                >
-                                  {item.user}
-                                </p>
-                                {/* start */}
-                                <div
-                                  className="msg-msg"
-                                  style={{
-                                    alignItems: "center",
-                                    borderRadius:
-                                      item.photo ? 20 : item.text.length > 100
-                                        ? item.text.length / 1.25
-                                        : 30,
-                                    padding: item.text.length > 100 ? 10 : 0,
-                                    paddingRight: 20,
-                                    backgroundColor: item.color
-                                  }}
-                                >
-                                  <span className="icon">
-                                    {renderAvatar(item.avatar,'45','45')}
-                                  </span>
-
-                                  {item.photo ?
-                                    <img src={item.photo}
-                                      height={100} width={100}
-                                      style={{ marginHorizontal: 80 }} />
-                                    :
-                                    item.text.split("//n").map((item) => (
-                                      <p
-                                        style={{
-                                          margin: "7px 0"
-                                        }}
-                                      >
-                                        {item}
-                                        {/* {console.log(item)} */}
-                                      </p>
-                                    ))}
-                                </div>
-                                {/* <button
-                                className="ui circular"
-                                onClick={() => reply(item)}
-                              ></button> */}
-                                <div
-                                  className="msg-btn-container"
-                                  style={{ marginLeft: ".4vw" }}
-                                >
-                                  <div
-                                    onClick={() => likeMsg(item)}
-                                    className="btnLContainer"
-                                  >
-                                    <svg
-                                      className="btnL"
-                                      width="18"
-                                      height="17"
-                                      viewBox="0 0 20 19"
-                                      style={{
-                                        fill: item.likeColor == "" || !item.likeColor ? "none" : item.likeColor
-                                        
-                                      }}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M7.87348 2.61469C8.73638 1.35561 10.5945 1.35562 11.4574 2.61469L12.8734 4.68075C13.1558 5.09292 13.5718 5.39511 14.0511 5.5364L16.4536 6.24461C17.9177 6.6762 18.4919 8.44339 17.5611 9.65312L16.0337 11.6382C15.729 12.0343 15.5701 12.5232 15.5838 13.0227L15.6527 15.5265C15.6947 17.0523 14.1914 18.1445 12.7532 17.633L10.3933 16.7938C9.9225 16.6264 9.40838 16.6264 8.93758 16.7938L6.57764 17.633C5.13948 18.1445 3.63622 17.0523 3.67819 15.5265L3.74705 13.0227C3.76079 12.5232 3.60192 12.0343 3.29721 11.6382L1.76982 9.65312C0.839026 8.44338 1.41322 6.6762 2.87732 6.24461L5.27981 5.5364C5.7591 5.39511 6.17504 5.09292 6.45752 4.68075L7.87348 2.61469Z"
-                                        stroke={
-                                          item.likeColor == "" || !item.likeColor
-                                            ? "#DBDBDB"
-                                            : item.likeColor
-                                        }
-                                        stroke-width="2"
-                                      />
-                                    </svg>
-                                  </div>
-                                  <div
-                                    onClick={() => thwackMsg(item)}
-                                    className="btnTContainer"
-                                  >
-                                    <svg
-                                      className="btnT"
-                                      width="25"
-                                      height="27"
-                                      viewBox="0 0 25 27"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M16.8839 21.8431L12.573 16.7947L6.81582 21.398L10.4378 14.223L4.05593 8.17166L11.1602 11.4466L15.5149 2.45204L14.1079 12.2025L19.5464 9.7748L17.6357 14.0075L24.8635 19.4327L15.8225 16.0409L16.8839 21.8431Z"
-                                        stroke={thwackColor(item)}
-                                        stroke-width="1.39649"
-                                      />
-                                    </svg>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })
-                              : null} </div>
-                        );
-                      })
-                      : null}
-
-                  </div>
-                );
-              })}
-              </div>
-
-            <div id="input-area">
-              <div
-                style={{
-                  width: "100%",
-                  backgroundColor: "rgba(255, 255, 255, 0)"
-                }}
-              >
-                <div
-                  id="replyBox"
-                  style={{
-                    opacity: replyingTo > 0 ? 1 : 0,
-                    marginLeft: "15%",
-                    marginBottom: 10,
-                    backgroundColor:
-                      replyingTo > 0 ? "white" : "rgba(255, 255, 255, 0)"
-                  }}
-                  className="replyEl"
-                >
-                  <svg
-                    width="23"
-                    height="23"
-                    viewBox="0 0 23 23"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    onClick={() => setReplyingTo(0)}
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M22.8626 11.4313C22.8626 17.7447 17.7447 22.8626 11.4313 22.8626C5.11798 22.8626 0 17.7447 0 11.4313C0 5.11798 5.11798 0 11.4313 0C17.7447 0 22.8626 5.11798 22.8626 11.4313ZM14.3809 7.07583C14.741 6.7157 15.3249 6.71565 15.6849 7.07573C16.045 7.4358 16.0449 8.01964 15.6848 8.37977L12.6434 11.4212L15.6268 14.4046C15.9869 14.7647 15.9868 15.3486 15.6267 15.7087C15.2666 16.0688 14.6828 16.0689 14.3227 15.7088L11.3392 12.7254L8.29776 15.7668C7.93763 16.127 7.35379 16.127 6.99372 15.7669C6.63365 15.4069 6.6337 14.823 6.99383 14.4629L10.0353 11.4214L7.05225 8.43836C6.69218 8.07829 6.69223 7.49445 7.05236 7.13432C7.41249 6.77419 7.99633 6.77414 8.3564 7.13421L11.3395 10.1173L14.3809 7.07583Z"
-                      fill={replyingColor()}
-                    />
-                  </svg>
-                  <p
-                    style={{
-                      alignSelf: "flex-end",
-                      color: replyingColor(replyingTo),
-                      marginHorizontal: 20
-                    }}
-                    className="replyTo"
-                  >
-                    Replying to <b>{replyingWhom(replyingTo)}</b>
-                  </p>
-                </div>
-                  <div className="in-grid">
-                    <textarea
-                      className="message-input"
-                      placeholder="type a message..."
-                      onKeyDown={onKeyPress}
-                      value={message}
-                      onChange={setMessageInput}
-                      style={{
-                        fontSize: "1.2em",
-                        height: "3.5em",
-                        lineHeight: "1.5em",
-                        borderColor: replyingColor(),
-                        marginBottom: 10,
-                      }}
-                      type="text"
-                    />
-                    <span
-                      style={{
-                        position: 'absolute',
-                        right: '18%', top: 9,
-                        color: 'white',
-                        padding: 10, borderRadius: 5,
-                        cursor: 'pointer'
-                      }}
-                      className="gifBtn"
-                      onClick={e => {
-                        if (closeGif) {
-                          setfetchGifs(false)
-                          gifsCanbeClosed(false)
-                          setGiphySearchParam('')
-                        } else {
-                          setfetchGifs(true)
-                          gifsCanbeClosed(false)
-                        }
-
-                      }}>GIF</span>
-                    <svg
-                      onClick={() => sendMsg()}
-                      className="enterBtn"
-                      width="65"
-                      style={{
-                        visibility: displayEnterBtn(),
-                        marginLeft: 10,
-                        marginBottom: 5
-                      }}
-                      height="60"
-                      viewBox="0 0 82 82"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g filter="url(#filter0_d)">
-                        <circle cx="41" cy="37" r="37" fill={chatColor} />
-                        <g clip-path="url(#clip0)">
-                          <path
-                            d="M30.3132 34.7004L42.0138 23L53.7142 34.7004"
-                            stroke="white"
-                            stroke-width="4.6751"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                          <path
-                            d="M30.3132 34.7004L42.0138 23L53.7142 34.7004"
-                            stroke="black"
-                            stroke-width="4.6751"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                          <path
-                            d="M42.3198 23.3065L42.3198 51.7791"
-                            stroke="white"
-                            stroke-width="4.6751"
-                            stroke-linecap="round"
-                          />
-                          <path
-                            d="M42.3198 23.3065L42.3198 51.7791"
-                            stroke="black"
-                            stroke-width="4.6751"
-                            stroke-linecap="round"
-                          />
-                        </g>
-                      </g>
-                      <defs>
-                        <filter
-                          id="filter0_d"
-                          x="0.390244"
-                          y="0"
-                          width="81.2195"
-                          height="81.2195"
-                          filterUnits="userSpaceOnUse"
-                          color-interpolation-filters="sRGB"
-                        >
-                          <feFlood
-                            flood-opacity="0"
-                            result="BackgroundImageFix"
-                          />
-                          <feColorMatrix
-                            in="SourceAlpha"
-                            type="matrix"
-                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                          />
-                          <feOffset dy="3.60976" />
-                          <feGaussianBlur stdDeviation="1.80488" />
-                          <feColorMatrix
-                            type="matrix"
-                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-                          />
-                          <feBlend
-                            mode="normal"
-                            in2="BackgroundImageFix"
-                            result="effect1_dropShadow"
-                          />
-                          <feBlend
-                            mode="normal"
-                            in="SourceGraphic"
-                            in2="effect1_dropShadow"
-                            result="shape"
-                          />
-                        </filter>
-                        <clipPath id="clip0">
-                          <rect
-                            width="44"
-                            height="44"
-                            fill="white"
-                            transform="matrix(-1 0 0 1 63 15)"
-                          />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                    {fetchGifs ?
-                      <div style={{
-                        position: 'absolute', zIndex: 10,
-                        height: 300, width: 300, backgroundColor: 'black',
-                        bottom: 80, overflow: 'auto',
-                        padding: 5,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        right: '20%',
-                        borderRadius: 10
-                      }}
-                        ref={wrapperRef}>
-                        <GridDemo
-                          onGifClick={(gif, e) => {
-                            // console.log("gif", gif);
-                            setPhoto(gif.images.downsized.url)
-                            setfetchGifs(false)
-                            setGiphySearchParam("")
-                            e.preventDefault();
-                            console.log(photo)
-                            sendMsg(gif.images.downsized.url);
-                          }}
-                        />
-                      </div> : null}
-                  </div>
-                </div>
-              </div>
-              {/* </textarea> */}
-            </div>
-          </div> 
-        </div>
-      );
+						</div>
+						{/* </textarea> */}
+					</div>
+				</div>
+			</div>
+		);
     } else {
       return (
         <div>
@@ -1996,46 +2305,21 @@ export default function ChatRoom() {
       </div>
 
             {userNameText ? (
-              <div 
-              style = {{
-                height: "37%"
-              }}>
-              <span
-              style = {{
-                fontWeight:"400",
-                fontSize: "1.1em",
-                color: "#757575",
-                // border: "1px solid #000",
-                textAlign: "center",
-                width: "70%",
-                // height: "30%",
-                display: "block",
-                marginTop: 10,
-                marginBottom: 10
-              }}>
+              <div
+                className="inputInfo-div"
+              >
+                <span
+                  className="span-joiningAs"
+                >
                 joining as:
                  {/* <br /> */}
                 
                 </span>
-                <div style={{
-                   color: "#000",
-                  textAlign: "left",
-                   fontSize: "1.35em",
-                  //  border: "1px solid #000",
-                  width: "13em",
-                  float:"right",
-                  marginBottom: 15,
-                  display: "flex",
-                  alignItems: "center",
-                  position: "relative",
-                  // bottom: ".5em"
-               }}>
+                <div
+                  className="avatarAndUName"
+                >
                  <span className = "avatarSpace"
                  style = {{
-                   marginRight: ".5em",
-                   padding: "1px 2px",
-                  //  border:"1px solid #000",
-                   borderRadius: "60%",
                    backgroundColor:`${chatColor}`
                  }}
                  >
@@ -2055,23 +2339,10 @@ export default function ChatRoom() {
                 userNameText} </span></div>
                 {/* <br /> */}
             <button
-            // className = "joinChatBtn"
+              className = "joinChatBtn"
               style={{
                 // visibility: "hidden",
-                backgroundColor: "#48A7FF",
-                borderWidth: 0,
-                padding: 20,
-                marginLeft: 45,
-                fontSize: 25,
-                fontWeight:"700",
-                color: "white",
-                borderRadius: 50,
-                width: "70%",
-                height: "35%",
-                fontFamily: "Roboto",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center"
+                
               }}
               onClick={joinChat}
             >
