@@ -54,6 +54,43 @@
 			/* border:2px solid #fff; */
 			height: 90%;
 		}
+		/* enterName - in ChatRoom.js */
+		#new-user{
+			width: 290px;
+			height: 75%;
+		}
+		.name{
+			margin: 1em .5em;
+			font-size:.95em;
+		}
+		#new-user .inputName .userName-input{
+			padding: 10px;
+			font-size:20px;
+			border-radius: 15px;
+			width: 190px;
+		}
+		.span-joiningAs{
+			width: 55%;
+			font-size: .9em;
+			margin: 7px;
+		}
+		.avatarAndUName{
+			font-size: 1.2em;
+			float: none;
+			margin: 0 auto 10px auto;
+			width: 10em;
+		}
+		.avatarSpace{
+			padding: 0 1px;
+		}
+		.joinChatBtn{
+			margin: 0 auto;
+			font-size: 23px;
+			height: auto;
+			width: 65%;
+			padding: 15px;
+		}
+
 		/* ChatRoom.js */
 		#inChatRoom {
 			width: 100%;
@@ -94,7 +131,9 @@
 			width: 100%;
 			position: absolute;
 			left: 0;
-			top: 20vw;
+			top: 25vw;
+			background-color: #fff;
+			/* padding: 1em 0; */
 			font-weight:300;
 			font-size:.7em;
 
@@ -105,8 +144,8 @@
 		} */
 		.userListContainer {
 			/* border: 1px solid #000; */
-			top: 7vw;
-			left: 23vw;
+			top: 11vw;
+			left: 10vw;
 		}
 		/* .stackContainer {
 			border: 2px solid #000;
@@ -127,7 +166,11 @@
 		 #chat-area{
 			/* border: 1px solid #000; */
 			height: 60vh !important;
+			width: 100vw;
 			/* align-self: center; */
+		}
+		.closeUserList{
+			display: none;
 		}
 		/*
 		.chatContainer{

@@ -1076,106 +1076,107 @@ export default function ChatRoom() {
 								document.querySelector(
 									".newRoom"
 								).style.filter = "blur(0px)";
-							}}></div>
-						<span
-							style={{
-								position: "relative",
-								top: 15,
-								left: 430,
-								color: "#656565",
-								zIndex: 50,
-								fontSize: "1.5em",
-								// border: "2px solid #fff"
 							}}>
-							({userList.length}){/* ({userList.length}) */}
-							{/* {userList.length > 6 ? `(${userList.length})` : null} */}
-						</span>
-						<div
-							style={{
-								zIndex: 50,
-								position: "absolute",
-								top: "8%",
-								left: "18%",
-								display: "flex",
-								// border: "1px solid #fff",
-								width: "43%",
-							}}>
+							<span
+								style={{
+									position: "relative",
+									top: 15,
+									left: 430,
+									color: "#656565",
+									zIndex: 50,
+									fontSize: "1.5em",
+									// border: "2px solid #fff"
+								}}>
+								({userList.length}){/* ({userList.length}) */}
+								{/* {userList.length > 6 ? `(${userList.length})` : null} */}
+							</span>
 							<div
 								style={{
+									zIndex: 50,
+									position: "absolute",
+									top: "8%",
+									left: "18%",
+									display: "flex",
 									// border: "1px solid #fff",
-									width: "inherit",
+									width: "43%",
 								}}>
-								{userList.map((user, index) => {
-									return (
-										<span
-											style={{
-												// border: "1px solid #fff",
-												display: "flex",
-												alignItems: "center",
-												margin: 15,
-											}}>
-											<p
-												style={{
-													color: "#fff",
-													// border: "2px solid #fff",
-													width: "50%",
-													textAlign: "right",
-													paddingRight: 30,
-													textOverflow: "ellipsis",
-													fontSize: "1.3",
-												}}>
-												{user[0]}
-											</p>
-											<div
-												key={index}
-												style={{
-													backgroundColor:
-														user[1].color,
-													borderRadius: "50%",
-													zIndex: 60,
-													width: "45px",
-													height: "45px",
-												}}>
-												{renderAvatar(
-													user[1].avatar,
-													"45",
-													"45"
-												)}
-											</div>
-										</span>
-									);
-								})}
-							</div>
-							<span
-								style={
-									{
-										// border: "2px solid #fff",
-										// width: "inherit"
-									}
-								}>
-								<svg
-									// style={{border: "2px solid #fff"}}
-									width='400'
-									height='400'
-									viewBox='0 0 100 100'
-									fill='none'
-									xmlns='http://www.w3.org/2000/svg'
-									onClick={() => {
-										setUserListClick(false);
-										document.querySelector(
-											".newRoom"
-										).style.filter = "blur(0px)";
+								<div
+									style={{
+										// border: "1px solid #fff",
+										width: "inherit",
 									}}>
-									<path
-										fill-rule='evenodd'
-										clip-rule='evenodd'
-										d='M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z'
-										fill='#FFFFFF'
-									/>
-								</svg>
-							</span>
+									{userList.map((user, index) => {
+										return (
+											<span
+												style={{
+													// border: "1px solid #fff",
+													display: "flex",
+													alignItems: "center",
+													margin: 15,
+												}}>
+												<p
+													style={{
+														color: "#fff",
+														// border: "2px solid #fff",
+														width: "50%",
+														textAlign: "right",
+														paddingRight: 30,
+														textOverflow:
+															"ellipsis",
+														fontSize: "1.3",
+													}}>
+													{user[0]}
+												</p>
+												<div
+													key={index}
+													style={{
+														backgroundColor:
+															user[1].color,
+														borderRadius: "50%",
+														zIndex: 60,
+														width: "45px",
+														height: "45px",
+													}}>
+													{renderAvatar(
+														user[1].avatar,
+														"45",
+														"45"
+													)}
+												</div>
+											</span>
+										);
+									})}
+								</div>
+								<span
+									style={
+										{
+											// border: "2px solid #fff",
+											// width: "inherit"
+										}
+									}>
+									<svg
+										className="closeUserList"
+										width='400'
+										height='400'
+										viewBox='0 0 100 100'
+										fill='none'
+										xmlns='http://www.w3.org/2000/svg'
+										onClick={() => {
+											setUserListClick(false);
+											document.querySelector(
+												".newRoom"
+											).style.filter = "blur(0px)";
+										}}>
+										<path
+											fill-rule='evenodd'
+											clip-rule='evenodd'
+											d='M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z'
+											fill='#FFFFFF'
+										/>
+									</svg>
+								</span>
+							</div>
 						</div>
-
 						{/* <div style={{
                 zIndex: 50,
                 border: "2px solid #fff"
@@ -1257,9 +1258,11 @@ export default function ChatRoom() {
 							<svg
 								width='100'
 								height='100'
-                viewBox='0 0 119 119'
-                style={{ position: 'absolute', right: '2vw' }}
-                onClick={() => {setOpenMenu(false)}}  
+								viewBox='0 0 119 119'
+								style={{ position: "absolute", right: "2vw" }}
+								onClick={() => {
+									setOpenMenu(false);
+								}}
 								fill='none'
 								xmlns='http://www.w3.org/2000/svg'
 								className='copy'>
