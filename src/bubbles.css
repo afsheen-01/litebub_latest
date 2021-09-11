@@ -54,6 +54,7 @@
 @media screen and (max-width:540px){
 	.bubbleUI{
 		width: 80vw;
-		overflow-y: scroll
+		overflow-y: scroll;
+		/* font-size: 1.2em; */
 	}
 }

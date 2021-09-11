@@ -859,7 +859,6 @@ export default function ChatRoom() {
           for (var n in messages[i].replies) {
             if (messages[i].replies[n].time === replyingTo) {
               return messages[i].replies[n].user;
-              break;
             }
           }
         }
@@ -868,7 +867,6 @@ export default function ChatRoom() {
       for (var i in messages) {
         if (messages[i].time == id) {
           return messages[i].user;
-          break;
         }
       }
     }
@@ -1077,7 +1075,8 @@ export default function ChatRoom() {
 									".newRoom"
 								).style.filter = "blur(0px)";
 							}}>
-							<span
+						  <span
+							  className = "userCount"
 								style={{
 									position: "relative",
 									top: 15,
@@ -1090,7 +1089,8 @@ export default function ChatRoom() {
 								({userList.length}){/* ({userList.length}) */}
 								{/* {userList.length > 6 ? `(${userList.length})` : null} */}
 							</span>
-							<div
+						  <div
+							  	className="userListContent"
 								style={{
 									zIndex: 50,
 									position: "absolute",

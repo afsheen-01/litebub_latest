@@ -127,10 +127,10 @@ const Address = ({ setForm, formData, navigation }) => {
 					: "21vw",
 			fontSize:
 				obj.size == "big"
-					? "1.7vw"
+					? "3.7vw"
 					: obj.size == "medium"
-					? "1.6vw"
-					: "1.3vw",
+					? "3.6vw"
+					: "3.3vw",
 		};
 	} else if (width <= 880) {
 		return {

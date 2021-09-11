@@ -36,7 +36,7 @@ export default function App() {
 			<Switch>
 				<Route exact path='/'>
 					<div className='app'>
-						<div class='appRow'>
+						{/* <div class='appRow'> */}
 							<div
 								className='wrapper'
 								style={{
@@ -69,7 +69,7 @@ export default function App() {
 							</span>{" "}
 							{bgs.artist}
 						</a>
-					</div>
+					{/* </div> */}
 				</Route>
 				<ErrorBoundary>
 					<Route path='/room/:id' children={<ChatRoom />}></Route>

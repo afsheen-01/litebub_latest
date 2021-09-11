@@ -6,22 +6,25 @@
 /* App.js */
 
 .app{
-  display: table;
+  /* display: table; */
   width: 100vw;
   height: 100vh;
+  /* border: 1px solid #000; */
   /* position: absolute; */
 }
 .appRow{
-  display:table-row;
-  /* width: inherit;
-  height: inherit; */
+  /* display:table-row; */
+  width: inherit;
+  min-height: 100% !important;
+  /* border: 2px solid #000 !important; */
 }
 .wrapper{
-/* border:2px solid #fff; */
-display:table-cell;
+/* border:2px solid #000; */
+/* display:table-cell; */
 width: inherit;
 height: inherit;
 color: #fff;
+overflow-y: auto
 }
 .artistLink, .artistLink:hover{
   /* border: 1px solid #fff; */

@@ -1,11 +1,15 @@
-/*more than 400px width of phone*/
+/* more than 400px width of phone */
 @media only screen 
   and (min-width: 300px) 
   and (max-width: 667px) {
 	  /*App.js */
 	  .app{
-		  /* border: 1px solid #000; */
+		  /* border: 5px solid red !important; */
 		  width:100vw;
+	  }
+	  .wrapper{
+		  /* border: 2px solid #000; */
+		  height: inherit !important;
 	  }
 
 	  /* Start.js */
@@ -56,8 +60,10 @@
 		}
 		/* enterName - in ChatRoom.js */
 		#new-user{
+			/* border: 1px solid #fff; */
 			width: 290px;
 			height: 75%;
+			overflow-y: hidden;
 		}
 		.name{
 			margin: 1em .5em;
@@ -84,17 +90,20 @@
 			padding: 0 1px;
 		}
 		.joinChatBtn{
-			margin: 0 auto;
+			margin: 3px auto;
 			font-size: 23px;
 			height: auto;
-			width: 65%;
+			/* width: 65%; */
 			padding: 15px;
+			/* border: 1px solid #000; */
 		}
 
 		/* ChatRoom.js */
 		#inChatRoom {
 			width: 100%;
 			height: 7%;
+			overflow-y: hidden;
+			/* border: 1px solid rgb(22, 10, 10) */
 		}
 		.newRoom {
 			grid-template-columns: 1fr;
@@ -133,12 +142,10 @@
 			left: 0;
 			top: 25vw;
 			background-color: #fff;
-			/* padding: 1em 0; */
+			padding-bottom: 1.2em;
 			font-weight:300;
 			font-size:.7em;
-
 		}
-		
 		/* .topic{
 			border: 1px solid #000;
 		} */
@@ -169,8 +176,21 @@
 			width: 100vw;
 			/* align-self: center; */
 		}
+		.userCount{
+			top: 0px !important;
+			left: 0px !important;
+		}
+		.userListContent{
+			width: 100% !important;
+			height: 90% ;
+		}
 		.closeUserList{
-			display: none;
+			width: 50%;
+			height: 50%;
+			/* border: 1px solid #fff; */
+			position: relative;
+			/* right: 5%; */
+			top: 0px;
 		}
 		/*
 		.chatContainer{
