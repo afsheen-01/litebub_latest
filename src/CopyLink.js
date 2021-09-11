@@ -100,7 +100,7 @@ const Contact = ({ formData, navigation }) => {
 	function copyRoomID() {
 		// console.log("https://hkwft.csb.app/room/" + roomID);
 		copyToClipboard(
-			"https://mytlp.csb.app/room/" +
+			"https://u852r.csb.app/room/" +
 				roomID +
 				`?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${chatBg}`
 		);
