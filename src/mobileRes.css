@@ -124,7 +124,7 @@
 		}
 		.topicAndListContainer {
 			/* border: 1px solid #000; */
-			margin: 1em;
+			/* margin: 1em; */
 			width: 100%;
 			box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 			z-index: 30;
@@ -132,7 +132,7 @@
 		}
 		.hamburger-menu{
 			display: inline-block;
-			margin: 0 5vw;
+			margin-right:9vw;
 		}
 		.chatting-about{
 			/* border: 1px solid #000; */
@@ -140,7 +140,7 @@
 			width: 100%;
 			position: absolute;
 			left: 0;
-			top: 25vw;
+			top: 15.5vh;
 			background-color: #fff;
 			padding-bottom: 1.2em;
 			font-weight:300;
@@ -152,7 +152,7 @@
 		.userListContainer {
 			/* border: 1px solid #000; */
 			top: 11vw;
-			left: 10vw;
+			left: 5vw;
 		}
 		/* .stackContainer {
 			border: 2px solid #000;
@@ -172,7 +172,7 @@
 		} */
 		 #chat-area{
 			/* border: 1px solid #000; */
-			height: 60vh !important;
+			height: 47vh !important;
 			width: 100vw;
 			/* align-self: center; */
 		}
@@ -192,26 +192,33 @@
 			/* right: 5%; */
 			top: 0px;
 		}
-		/*
-		.chatContainer{
+		
+		/* .chatContainer{
 			border: 1px solid #000;
-		}
+			
+		} */
 		.msg-container{
-			border: 1px solid #000;
+			/* border: 1px solid #000; */
+			margin: 0.4em 0;
+			font-size: 1.2em;
 		}
-		.msg-user-name{
+		/* .msg-user-name{
 			border: 1px solid #000;
-		}
+		} */
 		.msg-msg{
-			border: 1px solid #000;
+			/* border: 1px solid #000; */
+			/* padding: .4em 0; */
+			min-height: 5vh;
+			max-width: 100%;
 		}
-		.icon{
+		/* .icon svg{
 			border: 1px solid #000;
-		}
+		} */
 		.msg-btn-container{
 			border: 1px solid #000;
+			display: none;
 		}
-		.btnRContainer,
+		/*.btnRContainer,
 		.btnLContainer,
 		.btnTContainer{
 			border: 1px solid #000;

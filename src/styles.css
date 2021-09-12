@@ -29,6 +29,8 @@ overflow-y: auto
 .artistLink, .artistLink:hover{
   /* border: 1px solid #fff; */
   color: #fff;
+  /* background-color: rgba(66, 66, 66, 0.5);
+  backdrop-filter: opacity(50%); */
   font-size: 1.15em;
   position: fixed;
   bottom: 0;
