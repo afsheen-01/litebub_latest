@@ -912,7 +912,8 @@ export default function ChatRoom() {
     display: 'block',
     height: '100vh',
     width: '100vw',
-    backgroundColor: '#000',
+	backgroundColor: '#000',
+	// filter: "blur(20px)",
     opacity: '0.83',
     position: 'absolute',
     zIndex: '45'
@@ -1262,6 +1263,10 @@ export default function ChatRoom() {
 								style={{ position: "absolute", right: "2vw" }}
 								onClick={() => {
 									setOpenMenu(false);
+									document.querySelector(
+										".newRoom"
+									).style.filter =
+										"blur(0px)";
 								}}
 								fill='none'
 								xmlns='http://www.w3.org/2000/svg'
@@ -1359,6 +1364,9 @@ export default function ChatRoom() {
 								class='hamburger-menu'
 								onClick={() => {
 									setOpenMenu(!openMenu);
+									document.querySelector(
+										".newRoom"
+									).style.filter = "blur(20px)";
 								}}
 								// style={{display=openMenu?}}
 								viewBox='0 0 43 26'
