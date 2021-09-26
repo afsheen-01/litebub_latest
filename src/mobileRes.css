@@ -239,12 +239,34 @@
 			-webkit-tap-highlight-color:rgba(0,0,0,0);
 		}
 		.msg-btn-container{
-			border: 1px solid #000;	
+			/* border: 1px solid #000; */
+			position: absolute;
+			right: 30%;
+			border-radius: 5px;
+			margin-top: 7%;
+			background-color: #000000D5;
+			padding: 0.5rem;
+			width: 35%;
+			display: flex;
+			justify-content: space-between;
 		}
 		.btnRContainer,
 		.btnLContainer,
 		.btnTContainer{
-			border: 1px solid #000;
+			/* border: 1px solid #fff; */
+			height: 100%;
+		}
+		.btnRContainer svg{
+			fill: #fff;
+			position: relative;
+			z-index: 50;
+			/* border: 1px solid #fff; */
+		}
+		.btnLContainer svg path,
+		.btnTContainer svg path{
+			/* border: 1px solid #fff; */
+			height: 100%;
+			stroke: #fff;
 		}
 		.divLr{
 			border: 1px solid #000;
@@ -253,7 +275,7 @@
 			border: 1px solid #000;
 		}
 		#replyBox{
-			border: 1px solid #000;
+			/* border: 1px solid #000; */
 			-webkit-touch-callout:none;
 			-webkit-user-select:none;
 			-khtml-user-select:none;

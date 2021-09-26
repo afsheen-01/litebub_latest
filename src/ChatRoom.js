@@ -147,9 +147,6 @@ export default function ChatRoom() {
       })
   //   }
   }, [currMessages, newMessageCount])
-	useEffect(() => {
-		console.log(longPressDetector, "useEffect", 4);
-	}, [longPressDetector]);
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -748,7 +745,7 @@ export default function ChatRoom() {
     }
   } 
 
-  function thwackMsg(item) {
+	function thwackMsg(item) {
     if(userName === item.user)
       return;
       let thwackCount = 0;
@@ -900,7 +897,7 @@ export default function ChatRoom() {
 			}
 			setDisplayMsgBtns(0);
 			setLongPressDetector(0);
-		}, 2500);
+		}, 7000);
 	}
 
   const wrapperRef = useRef(null);
@@ -1064,7 +1061,7 @@ export default function ChatRoom() {
 						zIndex:
 							userListClick && !thwackNotif && !leavingRoom
 								? 50
-								: "none",
+								: 2,
 						filter:
 							thwackNotif || leavingRoom
 								? "blur(10px)"

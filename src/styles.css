@@ -161,6 +161,7 @@ background-color: transparent;
 }
 .linkCopied{
   visibility: hidden;
+  z-index:2;
 }
 #url-preview{
   display: flex;
