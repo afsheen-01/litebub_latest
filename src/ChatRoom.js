@@ -36,38 +36,40 @@ const noNameGiven = () => {
 const avatars = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 //starting function
 export default function ChatRoom() {
-  var [isValid, setValidity] = useState(true);
-  var [message, setMessageText] = useState("");
-  var [messages, setMessages] = useState([]);
-  var [userName, setUserName] = useState("");
-  var [userNameText, setUserNameText] = useState("");
-  var [mobileDevice, setDevice] = useState(false);
-  var [topic, setTopic] = useState("");
-  var [chatColor, setColor] = useState("");
-  var [chatAvatar, setAvatar] = useState("");
-  var [chatPrev, setPreview] = useState("");
-  var [participants, setParticipants] = useState(0);
-  var [replyingTo, setReplyingTo] = useState(0);
-  var [likeColor, setlikeColor] = useState([""]);
-  var [leavingRoom, setislEaving] = useState(false);
-  var [bgs, setbgs] = useState([]);
-  // var [isSystem, setIsSystem] = useState(true);
-  var [selfReply, isSelfReply] = useState(0);
-  var [currMessages, setCurrMessages] = useState(0);
-  var [newMessageCount, setNewMessageCount] = useState(0);
-  var [thwackNotif, setThwackNotif] = useState(false);
-  const [fetchGifs, setfetchGifs] = useState();
-  const [photo, setPhoto] = useState('');
-  var [userList, setUserList] = useState([]);
-  var [userListClick, setUserListClick] = useState(false);
-  const [giphySearchParam, setGiphySearchParam] = useState('')
-  const [closeGif, gifsCanbeClosed] = useState(false)
-  const [openMenu, setOpenMenu] = useState(false);
+  	var [isValid, setValidity] = useState(true);
+  	var [message, setMessageText] = useState("");
+  	var [messages, setMessages] = useState([]);
+  	var [userName, setUserName] = useState("");
+  	var [userNameText, setUserNameText] = useState("");
+  	var [mobileDevice, setDevice] = useState(false);
+  	var [topic, setTopic] = useState("");
+  	var [chatColor, setColor] = useState("");
+  	var [chatAvatar, setAvatar] = useState("");
+  	var [chatPrev, setPreview] = useState("");
+  	var [participants, setParticipants] = useState(0);
+  	var [replyingTo, setReplyingTo] = useState(0);
+  	var [likeColor, setlikeColor] = useState([""]);
+  	var [leavingRoom, setislEaving] = useState(false);
+  	var [bgs, setbgs] = useState([]);
+  	var [selfReply, isSelfReply] = useState(0);
+  	var [currMessages, setCurrMessages] = useState(0);
+  	var [newMessageCount, setNewMessageCount] = useState(0);
+  	var [thwackNotif, setThwackNotif] = useState(false);
+  	const [fetchGifs, setfetchGifs] = useState();
+  	const [photo, setPhoto] = useState('');
+	var [userList, setUserList] = useState([]);
+	var [userListClick, setUserListClick] = useState(false);
+	const [giphySearchParam, setGiphySearchParam] = useState('');
+	const [closeGif, gifsCanbeClosed] = useState(false);
+	const [openMenu, setOpenMenu] = useState(false);
+	const [blackBg, setBlackBg] = useState(false);
+	const [longPressDetector, setLongPressDetector] = useState(0);
+	const [displayMsgBtns, setDisplayMsgBtns] = useState(0);
 
   //history for enterNamePage
   const history = useHistory();
   const { id } = useParams();
-  const useQuery = () =>{
+  const useQuery = () => {
     return new URLSearchParams(history.location.search)
   }
 
@@ -91,7 +93,6 @@ export default function ChatRoom() {
 
   useEffect(() => {
     document.addEventListener("keydown", escFunction, false);
-
     return () => {
       document.removeEventListener("keydown", escFunction, false);
     };
@@ -108,7 +109,7 @@ export default function ChatRoom() {
           bgGifNo = snapshot.val().chatBg
         }
       })
-    }
+	}  
     
     firebase
       .database()
@@ -132,22 +133,8 @@ export default function ChatRoom() {
     })
   }, []);
 
-  useEffect(getUpdate, [userName])
-
-  // useEffect(() => {
-  //   document.addEventListener("visibilitychange",() => {
-  //     if(document.visibilityState === "hidden"){
-  //       console.log("hidden")
-  //         // && (newMessageCount > currMessages)
-  //       console.log(newMessageCount)
-  //       console.log(currMessages)
-  //       console.log(newMessageCount-currMessages)
-  //       document.title = `(${(newMessageCount - currMessages).toString()}) Litebub`;
-  //     }
-  //   })
-    
-  // }, [currMessages, newMessageCount]);
-    
+	useEffect(getUpdate, [userName])
+	
   useEffect(() => {
   //   if(document.visibilityState !== "hidden"){
       firebase.database().ref("/chats/" + id).on("value", snapshot => {
@@ -160,32 +147,9 @@ export default function ChatRoom() {
       })
   //   }
   }, [currMessages, newMessageCount])
-
-
-  // useEffect(() => {
-  //   firebase
-  //     .database()
-  //     .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/" + item.time + "/")
-  //     .on("value", snap => {
-  //       if (snap.val()) {
-  //         console.log(snap.val())
-  //         setUsersThwacked(snap.val())
-  //       }
-  //     })
-
-  //   firebase
-  //     .database()
-  //     .ref("userList/" + id + "/" + item.user + "/thwackedMsgs/")
-  //     .on("value", snap => {
-  //       if (snap.val()) {
-  //         console.log(snap.val())
-  //         setThwackedMsgs(snap.val())
-  //       }
-  //     })
-    
-  // }, [thwackedMsgs, usersthwacked])
-
-  
+	useEffect(() => {
+		console.log(longPressDetector, "useEffect", 4);
+	}, [longPressDetector]);
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -330,7 +294,11 @@ export default function ChatRoom() {
         if(allThwacks.length >= 3 || allThwacks.find(elem => elem[1].count >= 3)){
             document.querySelector(".newRoom").style.filter = "blur(10px)";
             setThwackNotif(true);
-            setTimeout(() => {
+			let timerID = setTimeout(() => {
+				if (userName === "") {
+					console.log(cookies);
+					clearTimeout(timerID);
+				}
               setUserName("");
               cookies.set("user", "", { path: "/" });
               firebase
@@ -404,7 +372,7 @@ export default function ChatRoom() {
       }
     }
   }
-  function chatAreaNotifications(msg, bootedUser, bootedColor, bootedAvatar) {
+	function chatAreaNotifications(msg, bootedUser, bootedColor, bootedAvatar) {
     let textMsg = "";
     switch (msg) {
       case "join":
@@ -497,10 +465,11 @@ export default function ChatRoom() {
       </div>
     )
   }
-  function joinChat() {
+	function joinChat() {
+
     if (userNameText.length) {
       setUserName(userNameText);
-      chatAreaNotifications("join");
+	  chatAreaNotifications("join");
       setThwackNotif(false);
       // setIsSystem(true);
       cookies.set("user", userNameText, { path: "/" });
@@ -848,8 +817,13 @@ export default function ChatRoom() {
     copyToClipboard("https://u852r.csb.app/room/" + id);
     const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
-		let timerID = setTimeout(() => {
-			linkCopy.style.visibility = "hidden";
+	  let timerID = setTimeout(() => {
+		  if (linkCopy.style.visibility === "hidden") {
+			  clearTimeout(timerID);
+			} else{
+				linkCopy.style.visibility = "hidden";
+			}
+			
 		}, 2000);
   }
   function replyingWhom(id) {
@@ -871,7 +845,7 @@ export default function ChatRoom() {
       }
     }
   }
-  function replyingColor(id) {
+	function replyingColor(id) {
     if (selfReply > 0) {
       for (var i in messages) {
         if (messages[i].time === selfReply) {
@@ -913,11 +887,21 @@ export default function ChatRoom() {
     height: '100vh',
     width: '100vw',
 	backgroundColor: '#000',
-	// filter: "blur(20px)",
     opacity: '0.83',
     position: 'absolute',
-    zIndex: '45'
-  }
+    zIndex: '1200'
+	}
+	//timerID for long press on mobile resolution
+	const funcDisplayMsgBtns = (id) => {
+		setDisplayMsgBtns(id);
+		const hideBtnsTimerId = setTimeout(() => {
+			if (!displayMsgBtns) {
+				clearTimeout(hideBtnsTimerId);
+			}
+			setDisplayMsgBtns(0);
+			setLongPressDetector(0);
+		}, 2500);
+	}
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
@@ -925,40 +909,19 @@ export default function ChatRoom() {
   if (isValid) { 
     if (userName) {
       return (
-			<div
-				class='roomContainer'
-				style={{
-					display: "flex",
-					justifyContent: "center",
-					width: "100vw",
-				}}>
+			<div class='roomContainer'>
 				{leavingRoom ? (
-					<div>
-						<div
-							className='blackBg'
-							onClick={() => {
-								setislEaving(false);
-								document.querySelector(
-									".newRoom"
-								).style.filter = "blur(0px)";
-							}}></div>
-						<div
-							className='solDiv'
-							style={{
-								filter: "blur(0)",
-								position: "absolute",
-								zIndex: 50,
-								// border: "2px solid #fff"
-							}}>
+					<div
+						className='blackBg'
+						onClick={() => {
+							setislEaving(false);
+							document.querySelector(".newRoom").style.filter =
+								"blur(0px)";
+						}}>
+						<div className='solDiv'>
 							<h1>{leaveQuote()}</h1>
 							<div className='btnsHolder'>
 								<button
-									style={{
-										fontSize: 20,
-										margin: 0,
-										borderTopLeftRadius: 0,
-										borderBottomLeftRadius: 0,
-									}}
 									className=' ui button btnStay'
 									onClick={() => {
 										setislEaving(false);
@@ -969,7 +932,6 @@ export default function ChatRoom() {
 									STAY
 								</button>
 								<button
-									style={{ fontSize: 20, margin: 0 }}
 									className=' ui button btnYes'
 									onClick={() => {
 										setUserName("");
@@ -996,35 +958,11 @@ export default function ChatRoom() {
 					</div>
 				) : null}
 				{thwackNotif ? (
-					<div>
-						<div className='blackBg'></div>
-						<div
-							className='solDiv'
-							style={{
-								filter: "blur(0)",
-								position: "absolute",
-								zIndex: 50,
-								height: "25%",
-								display: "flex",
-								flexDirection: "column",
-
-								justifyContent: "center",
-								border: "5px solid #000",
-							}}>
-							<p
-								style={{
-									fontSize: "1.7em",
-									marginTop: "10px",
-									// border:"2px solid #000",
-									// height:"10%"
-								}}>
+					<div className='blackBg'>
+						<div className='solDiv thwackContainer'>
+							<p>
 								You got
-								<span
-									style={
-										{
-											// border:"1px solid #000"
-										}
-									}>
+								<span>
 									<svg
 										width='25'
 										height='23'
@@ -1040,29 +978,10 @@ export default function ChatRoom() {
 								</span>
 								3 times
 							</p>
-							<p
-								style={{
-									fontSize: "2.5em",
-									fontWeight: "bold",
-									// border:"2px solid #000",
-									position: "relative",
-									bottom: "0.5em",
-								}}>
+							<p className='thwackMessage'>
 								Be kind in the future
 							</p>
-							<span
-								style={{
-									color: "#AAA",
-									fontWeight: "bold",
-									fontSize: "1.3em",
-									position: "absolute",
-									bottom: "2em",
-									width: "100%",
-									// marginBottom: "3em",
-									// border: "2px solid #000"
-								}}>
-								goodbye.
-							</span>
+							<span className='thwack-goodbye'>goodbye.</span>
 						</div>
 					</div>
 				) : null}
@@ -1076,67 +995,27 @@ export default function ChatRoom() {
 									".newRoom"
 								).style.filter = "blur(0px)";
 							}}>
-						  <span
-							  className = "userCount"
-								style={{
-									position: "relative",
-									top: 15,
-									left: 430,
-									color: "#656565",
-									zIndex: 50,
-									fontSize: "1.5em",
-									// border: "2px solid #fff"
-								}}>
+							<span className='userCount'>
 								({userList.length}){/* ({userList.length}) */}
 								{/* {userList.length > 6 ? `(${userList.length})` : null} */}
 							</span>
-						  <div
-							  	className="userListContent"
-								style={{
-									zIndex: 50,
-									position: "absolute",
-									top: "8%",
-									left: "18%",
-									display: "flex",
-									// border: "1px solid #fff",
-									width: "43%",
-								}}>
+							<div className='userListContent'>
 								<div
 									style={{
-										// border: "1px solid #fff",
 										width: "inherit",
 									}}>
 									{userList.map((user, index) => {
 										return (
-											<span
-												style={{
-													// border: "1px solid #fff",
-													display: "flex",
-													alignItems: "center",
-													margin: 15,
-												}}>
-												<p
-													style={{
-														color: "#fff",
-														// border: "2px solid #fff",
-														width: "50%",
-														textAlign: "right",
-														paddingRight: 30,
-														textOverflow:
-															"ellipsis",
-														fontSize: "1.3",
-													}}>
+											<span className='list-name-and-avatar'>
+												<p className='list-user-name'>
 													{user[0]}
 												</p>
 												<div
 													key={index}
+													className='list-avatar'
 													style={{
 														backgroundColor:
 															user[1].color,
-														borderRadius: "50%",
-														zIndex: 60,
-														width: "45px",
-														height: "45px",
 													}}>
 													{renderAvatar(
 														user[1].avatar,
@@ -1148,15 +1027,9 @@ export default function ChatRoom() {
 										);
 									})}
 								</div>
-								<span
-									style={
-										{
-											// border: "2px solid #fff",
-											// width: "inherit"
-										}
-									}>
+								<span>
 									<svg
-										className="closeUserList"
+										className='closeUserList'
 										width='400'
 										height='400'
 										viewBox='0 0 100 100'
@@ -1191,7 +1064,7 @@ export default function ChatRoom() {
 						zIndex:
 							userListClick && !thwackNotif && !leavingRoom
 								? 50
-								: 40,
+								: "none",
 						filter:
 							thwackNotif || leavingRoom
 								? "blur(10px)"
@@ -1214,70 +1087,56 @@ export default function ChatRoom() {
 								return (
 									<div
 										key={index}
+										className='user-coin'
 										style={{
 											backgroundColor: user[1].color,
-											borderRadius: "50%",
 											zIndex: `${index + 30}`,
-											position: "absoulte",
 											left: coinOffset,
-											width: "33px",
-											height: "33px",
-											marginLeft: -17,
-											border: "2px solid #fff",
 										}}>
-										{/* <p 
-                      style={{
-                        padding: "-5px"
-                    }}> */}
 										{renderAvatar(
 											user[1].avatar,
 											"30",
 											"30"
 										)}
-										{/* </p> */}
 									</div>
 								);
 							}
 						})}
 					</div>
-					<span
-						style={{ zIndex: 50, color: "#656565" }}
-						className='userCounter'>
+					<span className='userCounter'>
 						{userList.length > 6
 							? `(+${userList.length - 6})`
 							: null}
 					</span>
 				</div>
-				<div
-					style={{ backgroundColor: "white", width: "100%" }}
-					className='newRoom'>
+				<div className='newRoom'>
 					{/* start */}
 					<div
 						className='rBtns'
 						style={openMenu ? rBtnsMobileStyle : null}>
 						{openMenu ? (
-							<svg
-								width='100'
-								height='100'
-								viewBox='0 0 119 119'
-								style={{ position: "absolute", right: "2vw" }}
-								onClick={() => {
-									setOpenMenu(false);
-									document.querySelector(
-										".newRoom"
-									).style.filter =
-										"blur(0px)";
-								}}
-								fill='none'
-								xmlns='http://www.w3.org/2000/svg'
-								className='copy'>
-								<path
-									fill-rule='evenodd'
-									clip-rule='evenodd'
-									d='M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z'
-									fill='#fff'
-								/>
-							</svg>
+							<div className='crossSvg closeModal'>
+								<svg
+									width='100'
+									height='100'
+									viewBox='0 0 119 119'
+									className='copy'
+									onClick={() => {
+										setOpenMenu(false);
+										document.querySelector(
+											".newRoom"
+										).style.filter = "blur(0px)";
+									}}
+									fill='none'
+									xmlns='http://www.w3.org/2000/svg'>
+									<path
+										fill-rule='evenodd'
+										clip-rule='evenodd'
+										d='M80.5796 38.4536C78.8385 36.7125 76.0153 36.7127 74.2739 38.4541L59.5672 53.1608L45.1429 38.7365C43.4018 36.9954 40.5786 36.9956 38.8371 38.737C37.0957 40.4785 37.0955 43.3017 38.8366 45.0428L53.2609 59.4671L38.5533 74.1747C36.8119 75.9162 36.8116 78.7394 38.5528 80.4805C40.2939 82.2216 43.1171 82.2214 44.8585 80.48L59.5661 65.7724L73.9932 80.1995C75.7344 81.9406 78.5576 81.9404 80.299 80.1989C82.0404 78.4575 82.0407 75.6343 80.2995 73.8932L65.8724 59.4661L80.5791 44.7594C82.3205 43.0179 82.3208 40.1948 80.5796 38.4536Z'
+										fill='#fff'
+									/>
+								</svg>
+							</div>
 						) : (
 							<></>
 						)}
@@ -1300,22 +1159,10 @@ export default function ChatRoom() {
 									fill='#EDEDED'
 								/>
 							</svg>
-							{openMenu ? (
-								<span style={{ color: "#fff" }}>
-									Leave Chat
-								</span>
-							) : (
-								<></>
-							)}
+							{openMenu ? <span>Leave Chat</span> : <></>}
 						</div>
 
-						<div
-							style={{
-								position: "absolute",
-								height: 100,
-								left: 15,
-							}}
-							className='copySvg'>
+						<div className='copySvg'>
 							<svg
 								width='75'
 								height='75'
@@ -1331,18 +1178,9 @@ export default function ChatRoom() {
 									fill='#EDEDED'
 								/>
 							</svg>
-							{openMenu ? (
-								<span style={{ color: "#fff" }}>Copy Link</span>
-							) : (
-								<></>
-							)}
+							{openMenu ? <span>Copy Link</span> : <></>}
 						</div>
-						<h3
-							className='ui header linkCopied lcChatRoom'
-							style={{
-								padding: "10px 18px",
-								border: "2px solid #000",
-							}}>
+						<h3 className='ui header linkCopied lcChatRoom'>
 							link copied!
 						</h3>
 					</div>
@@ -1351,43 +1189,37 @@ export default function ChatRoom() {
 						<div className='topicAndListContainer'>
 							<h3 className='chat-topic'>
 								litebub
-								<span
-									className='chatting-about'
-									style={{ padding: "0 5px" }}>
+								<span className='chatting-about'>
 									chatting about{" "}
 									<span className='topic'>{topic}</span>
 								</span>
 							</h3>
 							<svg
-								width='43'
-								height='26'
+								width='40'
+								height='23'
 								class='hamburger-menu'
 								onClick={() => {
 									setOpenMenu(!openMenu);
-									document.querySelector(
-										".newRoom"
-									).style.filter = "blur(20px)";
 								}}
-								// style={{display=openMenu?}}
-								viewBox='0 0 43 26'
+								viewBox='0 0 40 26'
 								fill='none'
 								xmlns='http://www.w3.org/2000/svg'>
 								<rect
-									width='43'
+									width='40'
 									height='4'
 									rx='2'
 									fill='black'
 								/>
 								<rect
 									y='11'
-									width='43'
+									width='40'
 									height='4'
 									rx='2'
 									fill='black'
 								/>
 								<rect
 									y='22'
-									width='43'
+									width='40'
 									height='4'
 									rx='2'
 									fill='black'
@@ -1408,20 +1240,31 @@ export default function ChatRoom() {
 								autoClose={5000}
 							/>
 							{messages.map((item) => {
-								// console.log(item.text)
+								// console.log(item.)
 								return (
 									<div className='chatContainer'>
 										<div className='msg-container'>
-											<p
-												className='msg-user-name'
-												style={{ marginTop: "5px" }}>
+											<p className='msg-user-name'>
 												{item.user}
 											</p>
 											{item.sysAdd ? (
 												notificationMsg(item)
 											) : (
 												<div
-													className='msg-msg'
+														className='msg-msg'
+														onTouchStart={(e) => {
+															e.preventDefault();
+															let timerID = setTimeout(() => {
+																setLongPressDetector(longPressDetector + 20)
+																if (longPressDetector >= 20) {
+																	funcDisplayMsgBtns(item.time);
+																	clearTimeout(timerID);
+																}
+																
+															}, 100);
+															
+														}}
+														
 													style={{
 														alignItems: "center",
 														borderRadius: item.photo
@@ -1468,15 +1311,13 @@ export default function ChatRoom() {
 											)}
 
 											{!item.sysAdd ? (
-												<div className='msg-btn-container'>
+												window.innerWidth > 700 || displayMsgBtns === item.time ? (
+													<div className='msg-btn-container'>
 													<div
 														onClick={() =>
 															reply(item)
 														}
-														className='btnRContainer'
-														style={{
-															marginLeft: ".3vw",
-														}}>
+														className='btnRContainer'>
 														<svg
 															className='btnR'
 															width='27'
@@ -1549,6 +1390,7 @@ export default function ChatRoom() {
 														</svg>
 													</div>
 												</div>
+												):null	
 											) : null}
 
 											{/* end */}
@@ -1558,17 +1400,8 @@ export default function ChatRoom() {
 													(itm) => {
 														return (
 															<div>
-																<div
-																	className='msg-container'
-																	style={{
-																		marginLeft: 50,
-																	}}>
-																	<p
-																		className='msg-user-name'
-																		style={{
-																			marginTop:
-																				"5px",
-																		}}>
+																<div className='msg-container'>
+																	<p className='msg-user-name'>
 																		{
 																			itm.user
 																		}
@@ -1600,6 +1433,17 @@ export default function ChatRoom() {
 																			paddingRight: 20,
 																			backgroundColor:
 																				itm.color,
+																		}}
+																		// onClick={(
+																		// 	e
+																		// ) => {
+																		// 	// e.preventDefault();
+																		// 	console.log("click event",1);
+																		// }}
+																		onTouchStart={(
+																			e
+																		) => {
+																			e.preventDefault()
 																		}}>
 																		<span className='icon'>
 																			{renderAvatar(
@@ -1641,22 +1485,13 @@ export default function ChatRoom() {
 																							{
 																								itm
 																							}
-																							{/* {console.log(item)} */}
 																						</p>
 																					)
 																				)
 																		)}
 																	</div>
-																	{/* <button
-                                className="ui circular"
-                                onClick={() => reply(item)}
-                              ></button> */}
-																	<div
-																		className='msg-btn-container'
-																		style={{
-																			marginLeft:
-																				".4vw",
-																		}}>
+
+																	<div className='msg-btn-container'>
 																		<div
 																			onClick={() =>
 																				reply(
@@ -1664,11 +1499,7 @@ export default function ChatRoom() {
 																					item
 																				)
 																			}
-																			className='btnRContainer'
-																			style={{
-																				marginLeft:
-																					".3vw",
-																			}}>
+																			className='btnRContainer'>
 																			<svg
 																				className='btnR'
 																				width='27'
@@ -1761,12 +1592,7 @@ export default function ChatRoom() {
 																							style={{
 																								marginLeft: 80,
 																							}}>
-																							<p
-																								className='msg-user-name'
-																								style={{
-																									marginTop:
-																										"5px",
-																								}}>
+																							<p className='msg-user-name'>
 																								{
 																									item.user
 																								}
@@ -1798,6 +1624,22 @@ export default function ChatRoom() {
 																									paddingRight: 20,
 																									backgroundColor:
 																										item.color,
+																								}}
+																								// onClick={(
+																								// 	e
+																								// ) => {
+																								// 	console.log(
+																								// 		"clicked",
+																								// 		1
+																								// 	);
+																								// }}
+																								onTouchStart={(
+																									e
+																								) => {
+																									console.log(
+																										"touched",
+																										2
+																									);
 																								}}>
 																								<span className='icon'>
 																									{renderAvatar(
@@ -1839,16 +1681,11 @@ export default function ChatRoom() {
 																													{
 																														item
 																													}
-																													{/* {console.log(item)} */}
 																												</p>
 																											)
 																										)
 																								)}
 																							</div>
-																							{/* <button
-                                className="ui circular"
-                                onClick={() => reply(item)}
-                              ></button> */}
 																							<div
 																								className='msg-btn-container'
 																								style={{
@@ -1930,11 +1767,7 @@ export default function ChatRoom() {
 						</div>
 
 						<div id='input-area'>
-							<div
-								style={{
-									width: "100%",
-									backgroundColor: "rgba(255, 255, 255, 0)",
-								}}>
+							<div className='input-container'>
 								<div
 									id='replyBox'
 									style={{
@@ -1945,6 +1778,7 @@ export default function ChatRoom() {
 											replyingTo > 0
 												? "white"
 												: "rgba(255, 255, 255, 0)",
+										// border;
 									}}
 									className='replyEl'>
 									<svg
@@ -1958,12 +1792,11 @@ export default function ChatRoom() {
 											fill-rule='evenodd'
 											clip-rule='evenodd'
 											d='M22.8626 11.4313C22.8626 17.7447 17.7447 22.8626 11.4313 22.8626C5.11798 22.8626 0 17.7447 0 11.4313C0 5.11798 5.11798 0 11.4313 0C17.7447 0 22.8626 5.11798 22.8626 11.4313ZM14.3809 7.07583C14.741 6.7157 15.3249 6.71565 15.6849 7.07573C16.045 7.4358 16.0449 8.01964 15.6848 8.37977L12.6434 11.4212L15.6268 14.4046C15.9869 14.7647 15.9868 15.3486 15.6267 15.7087C15.2666 16.0688 14.6828 16.0689 14.3227 15.7088L11.3392 12.7254L8.29776 15.7668C7.93763 16.127 7.35379 16.127 6.99372 15.7669C6.63365 15.4069 6.6337 14.823 6.99383 14.4629L10.0353 11.4214L7.05225 8.43836C6.69218 8.07829 6.69223 7.49445 7.05236 7.13432C7.41249 6.77419 7.99633 6.77414 8.3564 7.13421L11.3395 10.1173L14.3809 7.07583Z'
-											fill={replyingColor()}
+											fill={replyingColor(replyingTo)}
 										/>
 									</svg>
 									<p
 										style={{
-											alignSelf: "flex-end",
 											color: replyingColor(replyingTo),
 											marginHorizontal: 20,
 										}}
@@ -1980,24 +1813,13 @@ export default function ChatRoom() {
 										value={message}
 										onChange={setMessageInput}
 										style={{
-											fontSize: "1.2em",
-											height: "3.5em",
-											lineHeight: "1.5em",
-											borderColor: replyingColor(),
-											marginBottom: 10,
+											borderColor: replyingColor(
+												replyingTo
+											),
 										}}
 										type='text'
 									/>
 									<span
-										style={{
-											position: "absolute",
-											right: "18%",
-											top: 9,
-											color: "white",
-											padding: 10,
-											borderRadius: 5,
-											cursor: "pointer",
-										}}
 										className='gifBtn'
 										onClick={(e) => {
 											if (closeGif) {
@@ -2018,7 +1840,6 @@ export default function ChatRoom() {
 										style={{
 											visibility: displayEnterBtn(),
 											marginLeft: 10,
-											marginBottom: 5,
 										}}
 										height='60'
 										viewBox='0 0 82 82'
@@ -2108,20 +1929,7 @@ export default function ChatRoom() {
 									</svg>
 									{fetchGifs ? (
 										<div
-											style={{
-												position: "absolute",
-												zIndex: 10,
-												height: 300,
-												width: 300,
-												backgroundColor: "black",
-												bottom: 80,
-												overflow: "auto",
-												padding: 5,
-												justifyContent: "center",
-												alignItems: "center",
-												right: "20%",
-												borderRadius: 10,
-											}}
+											className='fetchGifs'
 											ref={wrapperRef}>
 											<GridDemo
 												onGifClick={(gif, e) => {
@@ -2261,16 +2069,7 @@ export default function ChatRoom() {
               <h2>What's your Name?</h2> (for chat)
             </p>
             <br />
-            <div 
-            style = {{
-              // border: "1px solid #000",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              width: "99%",
-              }}
-              className="inputName"
-            >
+            <div className="inputName">
              
             <input
             placeholder = "John appleseed"
@@ -2284,11 +2083,6 @@ export default function ChatRoom() {
         />
       <svg 
         className = "nameCrossBtn"
-        style = {{
-          visibility: "hidden",
-          margin: "0 15px ",
-          // border: "1px solid #000",
-        }}
         onClick={() => {
           const userInput = document.querySelector('.userName-input')
           userInput.value = ""
@@ -2323,7 +2117,6 @@ export default function ChatRoom() {
                   className="span-joiningAs"
                 >
                 joining as:
-                 {/* <br /> */}
                 
                 </span>
                 <div
@@ -2340,22 +2133,13 @@ export default function ChatRoom() {
                     width:"60%",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
-                    textOverflow: "ellipsis"}}>{
-              //  userNameText.length > 15
-              //   ? userNameText.substring(
-              //       0,
-              //       15
-              //     ) + "..."
-              //   : 
-                userNameText} </span></div>
-                {/* <br /> */}
+                    textOverflow: "ellipsis"}}>{userNameText} 
+				</span>
+			</div>
+
             <button
               className = "joinChatBtn"
-              style={{
-                // visibility: "hidden",
-                
-              }}
-              onClick={joinChat}
+							  onClick={joinChat}
             >
               Join Chat!
             </button>
@@ -2364,7 +2148,7 @@ export default function ChatRoom() {
             ) : (
               <p></p>
             )}
-            {/* <br /> */}
+
             <ToastContainer
               position="bottom-right"
               autoClose={5000}

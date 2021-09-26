@@ -120,7 +120,11 @@ const Contact = ({ formData, navigation }) => {
 		const linkCopy = document.querySelector(".linkCopied");
 		linkCopy.style.visibility = "visible";
 		let timerID = setTimeout(() => {
-			linkCopy.style.visibility = "hidden";
+			if (linkCopy.style.visibility === "hidden") {
+				clearTimeout(timerID);
+			} else {
+				linkCopy.style.visibility = "hidden";
+			}
 		}, 3000);
 	}
     firebase
@@ -460,6 +464,7 @@ const Contact = ({ formData, navigation }) => {
 					className="ui header linkCopied"
 					style={{
 						padding: "10px 18px",
+						// display: 'none'
 						// marginTop: "15em"
 					}}
 				>

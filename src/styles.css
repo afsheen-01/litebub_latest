@@ -6,21 +6,19 @@
 /* App.js */
 
 .app{
-  /* display: table; */
   width: 100vw;
   height: 100vh;
-  /* border: 1px solid #000; */
-  /* position: absolute; */
+  font-family:  'Roboto', sans-serif;
+  
 }
 .appRow{
-  /* display:table-row; */
+
   width: inherit;
   min-height: 100% !important;
   /* border: 2px solid #000 !important; */
 }
 .wrapper{
 /* border:2px solid #000; */
-/* display:table-cell; */
 width: inherit;
 height: inherit;
 color: #fff;
@@ -29,8 +27,6 @@ overflow-y: auto
 .artistLink, .artistLink:hover{
   /* border: 1px solid #fff; */
   color: #fff;
-  /* background-color: rgba(66, 66, 66, 0.5);
-  backdrop-filter: opacity(50%); */
   font-size: 1.15em;
   position: fixed;
   bottom: 0;
@@ -63,7 +59,6 @@ overflow-y: auto
   color: #fff;
   font-weight: 200;
   font-size: 2em;
-  /* margin-left:2vw; */
   /* border: 3px solid #000; */
 }
 .center-it-cl {
@@ -92,8 +87,6 @@ font-size: 1.7em !important;
 width: 65% !important;
 position: relative;
 left:17%;
-/* display: table-cell;
-vertical-align: middle; */
 }
 
 .chatAbout {
@@ -110,7 +103,6 @@ vertical-align: middle; */
   justify-content: center;
   justify-self:center;
   /* border: 1px solid #000; */
-  /* flex-direction: row */
 }
 .topic-input{
   border: none;
@@ -129,9 +121,7 @@ vertical-align: middle; */
 }
 
 .bg {
-  /* background-image: url("images/giphy-3.gif"); */
   background-image: linear-gradient(rgba(109, 72, 225, 0.45), #7325c2),
-    /* url("https://media.giphy.com/media/eBtpLQVJeFEBx92VCy/giphy.gif"); */
       url("https://media.discordapp.net/attachments/787951209818226708/788658752982351892/giphy-3.gif");
   opacity: 1;
   background-position: center;
@@ -140,16 +130,6 @@ vertical-align: middle; */
   transform: scale(1.2);
 }
 
-/* .position {
-  margin: 2em;
-  position: relative;
-  bottom: 10vw;
-} */
-/* .ui.center.aligned {
-  color: #fff;
-  position: relative;
-  right: 3em;
-} */
 /* copyLink.js */
 .corner{
   display: flex;
@@ -179,6 +159,9 @@ vertical-align: middle; */
 background-color: transparent;
 /* border: 1px solid #fff; */
 }
+.linkCopied{
+  visibility: hidden;
+}
 #url-preview{
   display: flex;
   flex-direction: row;
@@ -194,58 +177,55 @@ position: relative;
 z-index: 10
 
 }
-.linkCopied{
-  background: #fff;
-  border-radius:24px;
-  border-radius: 35px;
-  text-align: center;
-  padding: 7px 12px;
-  margin-right: 5px;
-  width: auto;
-  visibility: hidden;
-}
 .lcChatRoom{
+  background: #fff;
+  border-radius: 35px;
   position: absolute;
+  text-align: center;
   left: 5em;
   top: 6em;
+  padding: 10px 18px !important;
+  margin-right: 5px !important;
+  width: auto;
+  visibility: hidden;
+  border: 2px solid #000 !important;
 }
-/* #url-previe{
-  width: 100%;
-  height: 100%;
-  object-fit: stretch;
-} */
 .topic-input::-webkit-input-placeholder{
   color: #d9d9d9;
   font-size: 1.2em;
   vertical-align: middle;
   line-height: 1.5em;
   /* border: 1px solid #000; */
-  /* text-align: center; */
+  
 }
 #input-area {
   bottom: 10px;
   width: 60%;
   height: 75%;
-  /* margin-left: 10em; */
   /* border: 1px solid #000; */
   display: grid;
   grid-row-gap: 5px;
   text-align: center;
-  /* background-color: transparent; */
 }
 #input-area ::-webkit-scrollbar {
   display: none;
   scrollbar-width: 0px;
+}
+.input-container{
+  width: 100%;
+	background-color: rgba(255, 255, 255, 0);
+  /* border: 1px solid #000; */
 }
 .in-grid {
   align-items: center;
   position: relative;
   width: 85%;
   min-width: 400px;
+  display: grid;
   grid-template-columns: 2fr 0.01fr;
   place-items: center;
   justify-self: end;
-  align-content: center;
+  align-items: start;
 }
 /*preventing border*/
 :focus {
@@ -259,12 +239,16 @@ z-index: 10
   width: inherit;
   resize: none;
   font-size: 15px;
-  padding-left: 25px;
-  padding-top: 15px;
+  /* padding-left: 25px;
+  padding-top: 15px; */
   border: 1px solid;
   justify-self: end;
-  margin-bottom: 50px;
-  /* border: 1px solid #000; */
+  /* margin-bottom: 50px; */
+  padding: 15px 7rem 0 25px;
+  font-size: 1.2em;
+	height: 3.5em;
+	line-height: 1.5em;
+  border: 1px solid #000;
 }
 .message-input::-webkit-input-placeholder {
   color: #d9d9d9;
@@ -276,10 +260,7 @@ z-index: 10
 .enterBtn {
   justify-self: start;
 }
-
 .chatBg {
-  /* background-image: url("images/giphy-3.gif"); */
-  /* background-image: url("https://cdn.discordapp.com/attachments/787951209818226708/788658412892061716/source.gif"); */
   z-index: -5;
   background-position: center;
   background-size: cover;
@@ -296,10 +277,7 @@ z-index: 10
   position:absolute;
   width: 90%;
   height: 12%;
-  /* display:flex; */
   justify-content: center;
-  /* top: 2em;
-  left: 5em */
 }
 #new-user {
   width: 330px;
@@ -325,6 +303,12 @@ z-index: 10
 .name{
 		margin-top: 1.2em;
 	}
+  .inputName{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 99%;
+  }
 .userName-input {
   border-radius: 20px;
   border: 2px solid #DCDCDC;
@@ -354,9 +338,6 @@ button:focus {
 button:hover {
   padding: 5px;
 }
-/* #inChatRoom{
-  border: 1px solid #000;
-} */
 .inputTextBox {
   display: flex;
   align-content: center;
@@ -412,29 +393,111 @@ button:hover {
   align-items: center;
   justify-content: center;
 }
+.nameCrossBtn{
+  visibility: hidden;
+  margin: 0 15px;
+}
+.roomContainer{
+  display: flex;
+	justify-content: center;
+	width: 100vw;
+}
 .newRoom {
   height: 100vh;
   object-fit: contain;
   display: grid;
   grid-template-columns: 0.07fr 1fr;
+  background-color: white;
+  width: 100%;
+  /* position: relative; */
 }
 .rBtns {
   height: inherit;
   justify-content: center;
   /* border: 1px solid #000; */
+
 }
-.copySvg {
+.blackBg{
+height: 100vh;
+width: 100%;
+background-color: #000;
+opacity: 0.83;
+position: absolute;
+z-index: 45
+}
+/* .crossSvg {
+  border: 1px solid #000;
+} */
+.solDiv {
+  filter: blur(0);
+	position: absolute;
+	z-index: 50;
+  width: 30em;
+  text-align:center;
+  transform: translate(35.4vw,30vh);
+  /* display: flex; */
+  /* border: 1px solid #000; */
+  border-radius: 35px;
+  background-color: rgb(238, 238, 238)
+}
+.solDiv h1{
+  /* border: 1px solid #000; */
+  padding: .9em 0 .6em !important;
+  font-size: 2.5em !important;
+}
+
+.solDiv button{
+width: 50% !important;
+padding:1.6em 0 !important;
+font-size: 2em !important;
+color: white !important
+}
+.btnsHolder{
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 10%;
-  width: 15%;
+  height: 50% !important;
+}
+.btnStay{
+  background-color: #BCBCBC !important;
+  border-radius: 0 0 0 35px !important;
+
+}
+.btnYes{
+  background-color: #48A7FF !important;
+  border-radius: 0 0 35px 0 !important;
+}
+.thwackContainer{
+  height: 25%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border: 5px solid #000
+}
+.thwackContainer:first-child{
+  font-size: 1.7em;
+	margin-top: 10px;
+}
+.thwackMessage{
+  font-size: 2.5em;
+	font-weight: bold;
+	/* border: 2px solid #000; */
+	position: relative;
+	bottom: 0.5em;
+}
+.thwack-goodbye{
+  color: #AAA;
+	font-weight: bold;
+	font-size: 1.3em;
+	position: absolute;
+	bottom: 2em;
+	width: 100%;
+}
+.copySvg .copy{
+  position: relative;
+  left: 1vw;
 }
 .copy:hover path{
   fill: #656565 ;
 }
-
 .chat-container {
   display: grid;
   grid-gap: 0;
@@ -442,6 +505,8 @@ button:hover {
   height: 94%;
   width: 100%;
   justify-self: center;
+  /* border: 2px solid #000; */
+  position: relative;
 }
 .topicAndListContainer{
   /* border: 1px solid #000; */
@@ -463,6 +528,12 @@ button:hover {
   /* border: 2px solid #000; */
   /* display: flex; */
 }
+.usersStack{
+  border: 1px solid #fff;
+  /* display: none; */
+  position: fixed;
+  top: 0;
+}
 .userListContainer{
    padding: 0 1em;
    display: flex;
@@ -478,11 +549,60 @@ button:hover {
 }
 .userCounter{
   padding: 0 5px;
+  z-index: 50;
+  color: #656565;
+}
+.userCount{
+  position: relative;
+	top: 15;
+	left: 430;
+	color: #656565;
+	z-index: 50;
+	font-size: 1.5em;
+}
+.user-coin{
+  border-radius: 50%;
+  position: absolute;
+  width: 33px;
+	height: 33px;
+	margin-left: -17;
+	border: 2px solid #fff;
+}
+.userListContent{
+  z-index: 50;
+	position: absolute;
+	top: 8%;
+	left: 18%;
+	display: flex;
+	 /* border: 1px solid #fff; */
+	width: 43%;
+}
+.list-name-and-avatar{
+  /* border: 1px solid #fff; */
+	display: flex;
+	align-items: center;
+	margin: 15;
+}
+.list-user-name{
+  color: #fff;
+	/* border: 2px solid #fff; */
+  width: 50%;
+  text-align: right;
+  padding-right: 3;
+  text-overflow:ellipsis;
+  font-size: 1.3;
+}
+.list-avatar{
+  border-radius:50%;
+  z-index: 60;
+  width: 45px;
+  height: 45px;
 }
 .chatting-about {
   font-weight: 200;
   color: #656565;
   font-size: 0.8em;
+  padding: 0 5px;
 }
 .topic {
   font-weight: bold;
@@ -507,11 +627,13 @@ button:hover {
   font-size: 1.5em;
   margin: 0.7em 0;
   text-align: center;
+  margin-left: 50;
 }
 .msg-user-name {
   min-width: 15vw;
   margin: 5px;
   margin-right: 10px;
+  margin-top: 5px;
   text-align: right;
   vertical-align: middle;
 }
@@ -542,6 +664,7 @@ button:hover {
 .msg-btn-container {
   display: flex;
   align-items: center;
+  margin-left: 1.4vw;
 }
 .btnRContainer,
 .btnLContainer,
@@ -551,8 +674,8 @@ button:hover {
 }
 .btnRContainer{
   padding-right: .3em;
+  margin-left: .3vw;
 }
-
 .divLr {
   /* border: 1px solid #000; */
   justify-content: center;
@@ -566,10 +689,13 @@ button:hover {
 #replyBox {
   display: flex;
   text-align: center;
+  margin-left: 15%;
+  margin-bottom: 10px;
 }
 .replyTo {
   margin-left: 10px;
   text-align: center;
+  align-self: flex-end,
 }
 button, .cl-joinRoom {
   cursor: pointer
@@ -579,13 +705,6 @@ button, .cl-joinRoom {
   padding-right: 55px;
   padding-top: 40px;
   padding-bottom: 40px;
-
-}
-.stayBtn{
-  background-color:#BCBCBC;
-}
-.leaveBtn{
-  background-color:#48A7FF;
 
 }
 .blur-bg{
@@ -600,7 +719,6 @@ button, .cl-joinRoom {
   height: 75%;
 
 }
-
 /*hover states for buttons*/
 .btnh:hover{
   cursor: pointer
@@ -613,7 +731,6 @@ button, .cl-joinRoom {
   -ms-user-select: none;
   user-select: none;
 }
-
 /* error message */
 .errorContainer{
   /* border: 2px solid #000; */
@@ -660,8 +777,28 @@ button, .cl-joinRoom {
 }
 .gifBtn {
   background: rgba(153, 153, 153, 1);
+  position: absolute;
+	right: 18%;
+	top: 9px;
+	color: white;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
 }
-
 .gifBtn:hover {
   background-color:#242424;
+}
+.fetchGifs{
+  position: absolute;
+  height: 300px;
+  width: 300px;
+  background-color: black;
+  bottom: 80px;
+  overflow: auto;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  right: 20%;
+  border-radius: 10px;
+  z-index: 10px;
 }
