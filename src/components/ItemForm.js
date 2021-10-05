@@ -1,7 +1,7 @@
 import React from "react";
-import './styles.css';
-import "./mobileRes.css";
-import "./tabletRes.css";
+import '../css/styles.css';
+import "../css/mobileRes.css";
+import "../css/tabletRes.css";
 
 const ItemForm = ({ label, children, type = "text", ...otherProps }) =>{
   return (

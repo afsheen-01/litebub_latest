@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/app";
 import "@firebase/database";
-import './bubbles.css';
-import "./mobileRes.css";
-import "./tabletRes.css";
+import '../css/bubbles.css';
+import "../css/mobileRes.css";
+import "../css/tabletRes.css";
 
 const Address = ({ setForm, formData, navigation }) => {
   let [btnState, setBtnState] = useState(true)

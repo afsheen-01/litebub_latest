@@ -2,6 +2,15 @@
 @media only screen 
   and (min-width: 300px) 
   and (max-width: 667px) {
+	  body{
+			-webkit-touch-callout:none;
+			-webkit-user-select:none;
+			-khtml-user-select:none;
+			-moz-user-select:none;
+			-ms-user-select:none;
+			user-select:none;
+			-webkit-tap-highlight-color:rgba(0,0,0,0);
+	  }
 	  /*App.js */
 	  .app{
 		  /* border: 5px solid red !important; */
@@ -44,7 +53,8 @@
 		.cbtn {
 			font-size: 1.46em !important;
 			position: relative;
-			left: 15%;
+			left: 12%;
+			width: 70% !important;
 			/* height: 2.3em; */
 		}
 		.corner{

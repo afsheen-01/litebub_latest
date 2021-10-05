@@ -1,6 +1,6 @@
 import React from "react";
-import "./mobileRes.css";
-import "./tabletRes.css";
+import "../css/mobileRes.css";
+import "../css/tabletRes.css";
 
 const Names = ({ setForm, formData, navigation, currentImage, sideBubb }) => {
   const { next } = navigation;

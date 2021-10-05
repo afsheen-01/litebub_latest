@@ -2,24 +2,24 @@ import React, { useState } from "react";
 import html2canvas from "html2canvas";
 import firebase from "firebase/app";
 import "react-toastify/dist/ReactToastify.css";
-import "./styles.css";
-import "./mobileRes.css";
-import "./tabletRes.css";
+import "../css/styles.css";
+import "../css/mobileRes.css";
+import "../css/tabletRes.css";
 import { useHistory } from "react-router-dom";
 
 //setting avatar and background
-import AvatarOne from "./avatars/avatar-1-smile.js";
-import AvatarTwo from "./avatars/avatar-2.js";
-import AvatarThree from "./avatars/avatar-3.js";
-import AvatarFour from "./avatars/avatar-4.js";
-import AvatarFive from "./avatars/avatar-5.js";
-import AvatarSix from "./avatars/avatar-6.js";
-import AvatarSeven from "./avatars/avatar-7.js";
-import AvatarEight from "./avatars/avatar-8.js";
-import AvatarNine from "./avatars/avatar-9.js";
-import AvatarTen from "./avatars/avatar-10.js";
-import AvatarEleven from "./avatars/avatar-11.js";
-import AvatarTwelve from "./avatars/avatar-12.js";
+import AvatarOne from "../avatars/avatar-1-smile.js";
+import AvatarTwo from "../avatars/avatar-2.js";
+import AvatarThree from "../avatars/avatar-3.js";
+import AvatarFour from "../avatars/avatar-4.js";
+import AvatarFive from "../avatars/avatar-5.js";
+import AvatarSix from "../avatars/avatar-6.js";
+import AvatarSeven from "../avatars/avatar-7.js";
+import AvatarEight from "../avatars/avatar-8.js";
+import AvatarNine from "../avatars/avatar-9.js";
+import AvatarTen from "../avatars/avatar-10.js";
+import AvatarEleven from "../avatars/avatar-11.js";
+import AvatarTwelve from "../avatars/avatar-12.js";
 
 const Contact = ({ formData, navigation }) => {
 	const { previous, next } = navigation;

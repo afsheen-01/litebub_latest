@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useForm, useStep } from "react-hooks-helper";
 
-import Start from "./Start";
-import CreateLink from "./CreateLink";
-import CopyLink from "./CopyLink";
+import Start from "./pages/Start";
+import CreateLink from "./pages/CreateLink";
+import CopyLink from "./pages/CopyLink";
 
 
-import "./styles.css";
-import "./mobileRes.css";
-import "./tabletRes.css";
+import "./css/styles.css";
+import "./css/mobileRes.css";
+import "./css/tabletRes.css";
 
 const steps = [
   { id: "start" },

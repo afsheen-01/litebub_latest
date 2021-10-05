@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Container, Grid } from "semantic-ui-react";
 // import "semantic-ui-css/semantic.min.css";
-import "./styles.css";
-import "./mobileRes.css";
-import "./tabletRes.css";
+import "./css/styles.css";
+import "./css/mobileRes.css";
+import "./css/tabletRes.css";
 import firebase from "firebase/app";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import MultiStepForm from "./MultiStepForm";
-import ChatRoom from "./ChatRoom";
-import ErrorBoundary from "./ErrorBoundary"
+import ChatRoom from "./pages/ChatRoom";
+import ErrorBoundary from "./components/ErrorBoundary"
 
 export default function App() {
   var [bgs, setbgs] = useState([])
@@ -36,7 +36,7 @@ export default function App() {
 			<Switch>
 				<Route exact path='/'>
 					<div className='app'>
-						{/* <div class='appRow'> */}
+
 							<div
 								className='wrapper'
 								style={{
@@ -46,16 +46,8 @@ export default function App() {
 									backgroundSize: "cover",
 									objectFit: "cover",
 								}}>
-								{/* <Grid verticalAlign='middle' textAlign='center'> */}
-								{/* <Grid.Row stretched> */}
-								{/* <Grid.Column> */}
 								<MultiStepForm />
-								{/* </Grid.Column> */}
-								{/* </Grid.Row> */}
-								{/* </Grid> */}
-								{/* <Container>
-                <MultiStepForm />
-              </Container> */}
+								
 							</div>
 						</div>
 						<a
@@ -69,7 +61,6 @@ export default function App() {
 							</span>{" "}
 							{bgs.artist}
 						</a>
-					{/* </div> */}
 				</Route>
 				<ErrorBoundary>
 					<Route path='/room/:id' children={<ChatRoom />}></Route>
