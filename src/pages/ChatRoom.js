@@ -899,7 +899,7 @@ export default function ChatRoom() {
 			}
 			setDisplayMsgBtns(0);
 			setLongPressDetector(0);
-		}, 7000);
+		}, 3000);
 	}
 
   const wrapperRef = useRef(null);
@@ -1260,7 +1260,7 @@ export default function ChatRoom() {
 																	clearTimeout(timerID);
 																}
 																
-															}, 100);
+															}, 200);
 															
 														}}
 														
