@@ -216,14 +216,9 @@ const Address = ({ setForm, formData, navigation }) => {
  
   return (
     <div 
-    // id = "main"
       class="copyLink-div" id="createLink-div">
       <div 
         className="cl-corner"
-        // style={{
-         
-        // }}
-        
       >
         {/*icon here */}
         <h2 className="header2 btnh"
@@ -231,10 +226,6 @@ const Address = ({ setForm, formData, navigation }) => {
       </div>
       <div 
       className="form" 
-      style = {{
-        // height: "100%",  
-        // border:"1px solid #000"
-      }}
       >
         <div className = "center-it-cl">
           <div className="chatAbout">what's the chat about?
@@ -245,7 +236,6 @@ const Address = ({ setForm, formData, navigation }) => {
             <input
               className = "ui input massive topic-input"
               name="topic"
-              //value={topic}
               placeholder="type a topic" 
               onKeyUp = {changeBtnState}      
             />
