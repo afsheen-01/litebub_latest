@@ -108,8 +108,9 @@
 
   .roomContainer {
     width: 100vw;
-    height: 100vh;
+    height: 100vh !important;
     overflow: hidden !important;
+    overflow-y: hidden !important;
   }
 
   /* ChatRoom.js */
@@ -183,10 +184,15 @@
   }
   .in-grid {
     /* border: 2px solid #000;  */
-    width: 70vw;
+    width: 100vw;
   }
   .enterBtn {
     justify-self: start;
+    position: absolute;
+    right: 20%;
+    height: 45px;
+    width: 45px;
+    top: 10px;
   }
   #chat-area {
     /* border: 1px solid #000; */
@@ -334,12 +340,38 @@
   }
   .gifBtn {
     /* border: 1px solid #000; */
+    position: absolute;
     right: 38% !important;
     padding: 7px;
     top: 13px;
   }
 }
 
+@media only screen and (min-width: 3450px) and (max-width: 400px) {
+  .gifBtn {
+    /* border: 1px solid #000; */
+    position: absolute;
+    right: 30% !important;
+    padding: 7px;
+    top: 13px;
+  }
+  .enterBtn {
+    right: 10%;
+  }
+}
+
+@media only screen and (min-width: 400px) and (max-width: 667px) {
+  .gifBtn {
+    /* border: 1px solid #000; */
+    position: absolute;
+    right: 20% !important;
+    padding: 7px;
+    top: 13px;
+  }
+  .enterBtn {
+    right: 5%;
+  }
+}
 /* less than 400px width of phone */
 @media only screen and (min-width: 280px) and (max-width: 400px) {
   /* app.js */
