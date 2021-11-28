@@ -87,6 +87,9 @@
   position: relative;
   left: 17%;
 }
+#create-link-btn{
+  margin-top: 14px !important;
+}
 
 .chatAbout {
   font-size: 2em;
