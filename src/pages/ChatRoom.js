@@ -1352,7 +1352,7 @@ export default function ChatRoom() {
                   // console.log(item.)
                   return (
                     <div className="chatContainer">
-                      <div className="msg-container">
+                      <div className="msg-container" style={{margin: `.7em`}}>
                         <p className="msg-user-name">{item.user}</p>
                         {item.sysAdd ? (
                           notificationMsg(item)
@@ -1487,8 +1487,8 @@ export default function ChatRoom() {
                       {item.replies
                         ? Object.values(item.replies).map((itm) => {
                             return (
-                              <div>
-                                <div className="msg-container" style={{ marginLeft: 50 }}>
+                              // <div>
+                                <div className="msg-container" style={{ marginLeft: 80}}>
                                   <p className="msg-user-name">{itm.user}</p>
                                   {/* start */}
                                   <div
@@ -1619,15 +1619,15 @@ export default function ChatRoom() {
                                       ) : null
                                     ) : null}
 
-                                </div>
+                                {/* </div> */}
                                 {itm.replies
                                   ? Object.values(itm.replies).map((item) => {
                                       return (
-                                        <div>
+                                        // <div>
                                           <div
                                             className="msg-container"
                                             style={{
-                                              marginLeft: 80
+                                              marginLeft: 100
                                             }}
                                           >
                                             <p className="msg-user-name">
@@ -1746,7 +1746,7 @@ export default function ChatRoom() {
                                               ) : null
                                             ) : null}
                                           </div>
-                                        </div>
+                                        // </div>
                                       );
                                     })
                                   : null}{" "}

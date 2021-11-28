@@ -624,9 +624,8 @@ button:hover {
   width: 90;
   height: inherit;
   font-size: 1.5em;
-  margin: 0.7em 0;
   text-align: center;
-  margin-left: 50;
+  margin: .7em 50px;
 }
 .msg-user-name {
   min-width: 15vw;
