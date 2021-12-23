@@ -1,38 +1,38 @@
-import React, { useState } from "react";
-import html2canvas from "html2canvas";
-import firebase from "firebase/app";
-import "react-toastify/dist/ReactToastify.css";
-import "../css/styles.css";
-import "../css/mobileRes.css";
-import "../css/tabletRes.css";
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import html2canvas from 'html2canvas';
+import firebase from 'firebase/app';
+import 'react-toastify/dist/ReactToastify.css';
+import '../css/styles.css';
+import '../css/mobileRes.css';
+import '../css/tabletRes.css';
+import { useHistory } from 'react-router-dom';
 
 //setting avatar and background
-import AvatarOne from "../avatars/avatar-1-smile.js";
-import AvatarTwo from "../avatars/avatar-2.js";
-import AvatarThree from "../avatars/avatar-3.js";
-import AvatarFour from "../avatars/avatar-4.js";
-import AvatarFive from "../avatars/avatar-5.js";
-import AvatarSix from "../avatars/avatar-6.js";
-import AvatarSeven from "../avatars/avatar-7.js";
-import AvatarEight from "../avatars/avatar-8.js";
-import AvatarNine from "../avatars/avatar-9.js";
-import AvatarTen from "../avatars/avatar-10.js";
-import AvatarEleven from "../avatars/avatar-11.js";
-import AvatarTwelve from "../avatars/avatar-12.js";
+import AvatarOne from '../avatars/avatar-1-smile.js';
+import AvatarTwo from '../avatars/avatar-2.js';
+import AvatarThree from '../avatars/avatar-3.js';
+import AvatarFour from '../avatars/avatar-4.js';
+import AvatarFive from '../avatars/avatar-5.js';
+import AvatarSix from '../avatars/avatar-6.js';
+import AvatarSeven from '../avatars/avatar-7.js';
+import AvatarEight from '../avatars/avatar-8.js';
+import AvatarNine from '../avatars/avatar-9.js';
+import AvatarTen from '../avatars/avatar-10.js';
+import AvatarEleven from '../avatars/avatar-11.js';
+import AvatarTwelve from '../avatars/avatar-12.js';
 
 const Contact = ({ formData, navigation }) => {
-	const { previous, next } = navigation;
+	const { previous } = navigation;
 
 	var [chatBg, setChatBg] = useState(0);
 	var [Gifs, setBgs] = useState([
-		"https://i.imgur.com/QMvoNpW.gif",
-		"https://i.imgur.com/MtJMy50.gif",
-		"https://i.imgur.com/arP4rT5.gif",
-		"https://i.imgur.com/lqCa4Fo.gif",
-		"https://i.imgur.com/IIPRolA.gif",
-		"https://i.imgur.com/uTvbVKm.gif",
-		"https://i.imgur.com/F6V8JBO.gif"
+		'https://i.imgur.com/QMvoNpW.gif',
+		'https://i.imgur.com/MtJMy50.gif',
+		'https://i.imgur.com/arP4rT5.gif',
+		'https://i.imgur.com/lqCa4Fo.gif',
+		'https://i.imgur.com/IIPRolA.gif',
+		'https://i.imgur.com/uTvbVKm.gif',
+		'https://i.imgur.com/F6V8JBO.gif'
 	]);
 	var [chatAvatar, setChatAvatar] = useState(0);
 	var [chatColor, setChatColor] = useState(0);
@@ -40,73 +40,74 @@ const Contact = ({ formData, navigation }) => {
 	/*avatar setting from chatRoom - start*/
 	
 	let colorArr = [
-		"#FF766D",
-		"#FF84D6",
-		"#65D72C",
-		"#7BC0FF",
-		"#FFA620",
-		"#BEAFFA",
-		"#FAD824",
-		"#55A3B5",
-		"#A5FAFF",
-		"#D375FF",
-		"#A6FAAA",
-		"#A1BCFF"
+		'#FF766D',
+		'#FF84D6',
+		'#65D72C',
+		'#7BC0FF',
+		'#FFA620',
+		'#BEAFFA',
+		'#FAD824',
+		'#55A3B5',
+		'#A5FAFF',
+		'#D375FF',
+		'#A6FAAA',
+		'#A1BCFF'
 	];
 	const fnAvatar = (height, width) => {
 		// let avatarNum = 0
 		switch (chatAvatar){
-			case 0: 
-				return <AvatarOne height = {height?height:'45'} width = {width? width: '45'} />
-			case 1:
-				return <AvatarTwo height = {height?height:'45'} width = {width? width: '45'} />
-			case 2: 
-				return <AvatarThree height = {height?height:'45'} width = {width? width: '45'} />
-			case 3: 
-				return <AvatarFour height = {height?height:'45'} width = {width? width: '45'} />
-			case 4: 
-				return <AvatarFive height = {height?height:'45'} width = {width? width: '45'} />
-			case 5: 
-				return <AvatarSix height = {height?height:'47'} width = {width? width: '45'} />
-			case 6: 
-				return <AvatarSeven height = {height?height:'45'} width = {width? width: '45'} />
-			case 7: 
-				return <AvatarEight height = {height?height:'45'} width = {width? width: '45'} />
-			case 8: 
-				return <AvatarNine height = {height?height:'45'} width = {width? width: '45'} />
-			case 9: 
-				return <AvatarTen height = {height?height:'45'} width = {width? width: '45'} />
-			case 10: 
-				return <AvatarEleven height = {height?height:'45'} width = {width? width: '45'} />
-			case 11: 
-				return <AvatarTwelve height = {height?height:'45'} width = {width? width: '45'} />
-			default: 
-				return null
+		case 0: 
+			return <AvatarOne height = {height?height:'45'} width = {width? width: '45'} />;
+		case 1:
+			return <AvatarTwo height = {height?height:'45'} width = {width? width: '45'} />;
+		case 2: 
+			return <AvatarThree height = {height?height:'45'} width = {width? width: '45'} />;
+		case 3: 
+			return <AvatarFour height = {height?height:'45'} width = {width? width: '45'} />;
+		case 4: 
+			return <AvatarFive height = {height?height:'45'} width = {width? width: '45'} />;
+		case 5: 
+			return <AvatarSix height = {height?height:'47'} width = {width? width: '45'} />;
+		case 6: 
+			return <AvatarSeven height = {height?height:'45'} width = {width? width: '45'} />;
+		case 7: 
+			return <AvatarEight height = {height?height:'45'} width = {width? width: '45'} />;
+		case 8: 
+			return <AvatarNine height = {height?height:'45'} width = {width? width: '45'} />;
+		case 9: 
+			return <AvatarTen height = {height?height:'45'} width = {width? width: '45'} />;
+		case 10: 
+			return <AvatarEleven height = {height?height:'45'} width = {width? width: '45'} />;
+		case 11: 
+			return <AvatarTwelve height = {height?height:'45'} width = {width? width: '45'} />;
+		default: 
+			return null;
 		}
-	}
- 	/*avatar setting from chatRoom - end*/
+	};
 	
+	// avatar setting from chatRoom - end
+
 	function copyToClipboard(txt) {
-		var textField = document.createElement("textarea");
+		var textField = document.createElement('textarea');
 		textField.innerText = txt;
 		document.body.appendChild(textField);
 		textField.select();
-		document.execCommand("copy");
+		document.execCommand('copy');
 		textField.remove();
 	}
-// console.log(window.getSelection.isCollapsed(true))
+	// console.log(window.getSelection.isCollapsed(true))
 
 	var roomID = formData.roomId;
 	function copyRoomID() {
 		// console.log("https://hkwft.csb.app/room/" + roomID);
 		copyToClipboard(
-			"https://d3fn7.csb.app/room/" +
+			'https://d3fn7.csb.app/room/' +
 				roomID +
 				`?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${chatBg}`
 		);
 		// console.log(chatBg)
 
-		html2canvas(document.getElementById("url-preview"), {
+		html2canvas(document.getElementById('url-preview'), {
 			allowTaint: true,
 			//canvas: document.getElementById('exported'),
 			useCORS: true
@@ -114,41 +115,41 @@ const Contact = ({ formData, navigation }) => {
 			//document.body.appendChild(canvas);
 			//setImg(canvas.toDataURL())
 			var updates = {};
-			updates["/rooms/" + roomID + "/urlPreview"] = canvas.toDataURL();
+			updates['/rooms/' + roomID + '/urlPreview'] = canvas.toDataURL();
 			firebase.database().ref().update(updates);
 		});
-		const linkCopy = document.querySelector(".linkCopied");
-		linkCopy.style.visibility = "visible";
+		const linkCopy = document.querySelector('.linkCopied');
+		linkCopy.style.visibility = 'visible';
 		let timerID = setTimeout(() => {
-			if (linkCopy.style.visibility === "hidden") {
+			if (linkCopy.style.visibility === 'hidden') {
 				clearTimeout(timerID);
 			} else {
-				linkCopy.style.visibility = "hidden";
+				linkCopy.style.visibility = 'hidden';
 			}
 		}, 3000);
 	}
-    firebase
-      .database()
-      .ref("/ChatBackgrounds")
-      .once("value")
-      .then((snapshot) => {
-        if (snapshot.val()) {
-          //console.log(snapshot.val());
-          var arr = Object.values(snapshot.val());
-        //   console.log(arr);
-          let obj = arr[Math.floor(Math.random() * arr.length)]
-        //   console.log(obj);
-          setBgs(arr);
-        }
-      });
+	firebase
+		.database()
+		.ref('/ChatBackgrounds')
+		.once('value')
+		.then((snapshot) => {
+			if (snapshot.val()) {
+				//console.log(snapshot.val());
+				var arr = Object.values(snapshot.val());
+				//   console.log(arr);
+				// let obj = arr[Math.floor(Math.random() * arr.length)];
+				//   console.log(obj);
+				setBgs(arr);
+			}
+		});
 	function joinRoom() {
-		formData.bgGif = (Gifs[chatBg].url)
-		history.push("/room/" + formData.roomId + `?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${chatBg}`);
+		formData.bgGif = (Gifs[chatBg].url);
+		history.push('/room/' + formData.roomId + `?avatarNum=${chatAvatar}&avatarColor=${chatColor}&chatBg=${chatBg}`);
 		// console.log(history)
 		firebase
 			.database()
-			.ref("rooms/" + roomID + "/")
-			.update({ chatBg: chatBg })
+			.ref('rooms/' + roomID + '/')
+			.update({ chatBg: chatBg });
 	}
 	return (
 		<div className="copyLink-div" style={{ zIndex: 10 }}>
@@ -156,7 +157,7 @@ const Contact = ({ formData, navigation }) => {
 				<svg
 					className="prevIcon btnh"
 					onClick={previous}
-					style={{ margin: "0 18px" }}
+					style={{ margin: '0 18px' }}
 					width="28"
 					height="33"
 					viewBox="0 0 30 40"
@@ -166,44 +167,44 @@ const Contact = ({ formData, navigation }) => {
 					<path
 						d="M3.31323 14.7004L15.0138 3L26.7142 14.7004"
 						stroke="white"
-						stroke-width="4.6751"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+						strokeWidth="4.6751"
+						strokeLinecap="round"
+						strokeLinejoin="round"
 					/>
 					<path
 						d="M3.31323 14.7004L15.0138 3L26.7142 14.7004"
 						stroke="white"
-						stroke-width="4.6751"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+						strokeWidth="4.6751"
+						strokeLinecap="round"
+						strokeLinejoin="round"
 					/>
 					<path
 						d="M15.3198 3.30649L15.3198 31.7791"
 						stroke="white"
-						stroke-width="4.6751"
-						stroke-linecap="round"
+						strokeWidth="4.6751"
+						strokeLinecap="round"
 					/>
 					<path
 						d="M15.3198 3.30649L15.3198 31.7791"
 						stroke="white"
-						stroke-width="4.6751"
-						stroke-linecap="round"
+						strokeWidth="4.6751"
+						strokeLinecap="round"
 					/>
 				</svg>
 				<h2 className="header2">litebub</h2>
 			</div>
 			<div className="form">
 				<p className="header" style={{ 
-						zIndex: 10
-					}}
+					zIndex: 10
+				}}
 				>
-					Here's the link!
+					Here&apos;s the link!
 					<span
 						style={{
-							fontSize: ".7em",
-							display: "block",
-							position: " relative",
-							bottom: ".9vh"
+							fontSize: '.7em',
+							display: 'block',
+							position: ' relative',
+							bottom: '.9vh'
 						}}
 					>
 						{/* <br /> */}
@@ -215,25 +216,25 @@ const Contact = ({ formData, navigation }) => {
 					<div
 						id="url-preview"
 						style={{
-							borderRadius: "50px",
-							border: "2.7px solid #fff",
-							background: "#000",
+							borderRadius: '50px',
+							border: '2.7px solid #fff',
+							background: '#000',
 							backgroundImage: `url(${Gifs[chatBg].url})`,
-							backgroundPosition: "center",
-							backgroundSize: "cover",
+							backgroundPosition: 'center',
+							backgroundSize: 'cover',
 							height: 325,
 							width: 290,
-							display: "grid",
-							placeItems: "center",
-							position: " relative",
-							bottom: "1.8vh",
+							display: 'grid',
+							placeItems: 'center',
+							position: ' relative',
+							bottom: '1.8vh',
 							zIndex: 10
 						}}
 					>
 						
 						<div
 							className="bubble-chat speech-chat"
-							style={{ position: "absolute", top: "5%" }}
+							style={{ position: 'absolute', top: '5%' }}
 						>
 							<svg
 								width="190"
@@ -252,39 +253,39 @@ const Contact = ({ formData, navigation }) => {
 										<text
 											x="18%"
 											y="33%"
-											font-family="Roboto"
-											font-size="2.2em"
-											font-weight="400"
+											fontFamily="Roboto"
+											fontSize="2.2em"
+											fontWeight="400"
 											// letter-spacing=".05em"
 											// text-rendering = "optimizeLegibility"
 											fill="#000"
 										>
-											We're Chatting About:
+											We&apos;re Chatting About:
 										</text>
 										<text
 											x="12%"
 											y="58%"
 											fill="#FFA620"
-											font-family="Roboto"
-											font-size="2.7em"
-											font-weight="700"
-											letter-spacing=".05em"
+											fontFamily="Roboto"
+											fontSize="2.7em"
+											fontWeight="700"
+											letterSpacing=".05em"
 											// text-rendering = "geometricPrecision"
 											// shape-rendering =" crispEdges"
 										>
 											{formData.topic.length > 15
 												? formData.topic.substring(
-														0,
-														15
-												  ) + "..."
+													0,
+													15
+												) + '...'
 												: formData.topic}
 										</text>
 									</g>
 									<path
 										d="M443.32 117.77C443.32 125.186 440.356 132.3 435.076 137.547C429.796 142.795 422.633 145.744 415.161 145.744H67.1214C64.5396 145.744 62.018 146.524 59.8863 147.98L20.4839 174.902C14.2021 179.194 5.68016 174.696 5.68016 167.088V31.1511C5.68016 23.7351 8.64433 16.6208 13.924 11.3737C19.2039 6.12624 26.3673 3.17641 33.8388 3.17641H415.161C422.633 3.17641 429.796 6.12625 435.076 11.3737C440.356 16.6208 443.32 23.7351 443.32 31.1511V117.77Z"
 										stroke="black"
-										stroke-width="3.36032"
-										stroke-linejoin="round"
+										strokeWidth="3.36032"
+										strokeLinejoin="round"
 									/>
 								</g>
 
@@ -296,10 +297,10 @@ const Contact = ({ formData, navigation }) => {
 										width="448.867"
 										height="184.622"
 										filterUnits="userSpaceOnUse"
-										color-interpolation-filters="sRGB"
+										colorInterpolationFilters="sRGB"
 									>
 										<feFlood
-											flood-opacity="0"
+											floodOpacity="0"
 											result="BackgroundImageFix"
 										/>
 										<feColorMatrix
@@ -331,29 +332,29 @@ const Contact = ({ formData, navigation }) => {
 						<div
 							style={{
 								background:colorArr[chatColor],
-								position: "absolute",
+								position: 'absolute',
 								height: 50,
 								width: 50,
-								top: "35%",
-								left: "15%",
-								border: "3px solid #fff",
-								borderRadius: "30px",
+								top: '35%',
+								left: '15%',
+								border: '3px solid #fff',
+								borderRadius: '30px',
 							}} >
-						{fnAvatar()}
+							{fnAvatar()}
 						</div>
 						<div
 							onClick={joinRoom}
 							className="btn-join-chat btnh btnOutline"
 							style={{
-								position: "absolute",
-								top: "65%",
-								backgroundColor: "#6800EC",
-								justifyContent: "center",
-								display: "flex",
-								alignItems: "center",
-								fontSize: "1.5em",
+								position: 'absolute',
+								top: '65%',
+								backgroundColor: '#6800EC',
+								justifyContent: 'center',
+								display: 'flex',
+								alignItems: 'center',
+								fontSize: '1.5em',
 								borderRadius: 15,
-								fontSize: 25,
+								// fontSize: 25,
 								height: 30
 							}}
 						>
@@ -362,14 +363,14 @@ const Contact = ({ formData, navigation }) => {
 					</div>
 				</div>
 				<div className="circular-btns noSelect" style={{ zIndex: 10 }}>
-					<div className="avatarBtn" style={{ width: "50%" }}>
+					<div className="avatarBtn" style={{ width: '50%' }}>
 						<span
 							style={{
-								width: "35%",
-								textAlign: "right"
+								width: '35%',
+								textAlign: 'right'
 							}}
 						>
-							{" "}
+							{' '}
 							Next buddy
 						</span>
 						<div
@@ -380,9 +381,9 @@ const Contact = ({ formData, navigation }) => {
 									setChatAvatar(chatAvatar + 1);
 									
 								}
-								setChatColor(Math.floor(Math.random()*12))
+								setChatColor(Math.floor(Math.random()*12));
 								// if (window.getSelection) {
-									// document.selection.empty();
+								// document.selection.empty();
 								// 	window.getSelection().empty()
 								// }
 							}}
@@ -397,7 +398,7 @@ const Contact = ({ formData, navigation }) => {
 								height: 67,
 								width: 67,
 								// border:"3px solid #fff",
-								borderRadius: "50%",
+								borderRadius: '50%',
 								background: colorArr[chatColor]
 							}}
 						>
@@ -406,14 +407,14 @@ const Contact = ({ formData, navigation }) => {
 					</div>
 					<div className="nextGif btnh">
 						<div
-						className = "btnOutline"
+							className = "btnOutline"
 							style={{
 								height: 67,
 								width: 67,
 								// border:"3px solid #fff",
-								borderRadius: "50%",
-								background: "#A6FAAA"
-						}}>
+								borderRadius: '50%',
+								background: '#A6FAAA'
+							}}>
 							<svg 
 								width="35" 
 								height="35" 
@@ -431,12 +432,12 @@ const Contact = ({ formData, navigation }) => {
 								<path d="M48 42.6667V5.33333C48 2.4 45.6 0 42.6667 0H5.33333C2.4 0 0 2.4 0 5.33333V42.6667C0 45.6 2.4 48 5.33333 48H42.6667C45.6 48 48 45.6 48 42.6667ZM14.6667 28L21.3333 36.0267L30.6667 24L42.6667 40H5.33333L14.6667 28Z" fill="#48BDFF" />
 							</svg>
 							
-						{/* /> */}
+							{/* /> */}
 						</div>
 						<span
 							style={{
-								width: "25%",
-								textAlign: "left",
+								width: '25%',
+								textAlign: 'left',
 								marginRight: 10,
 							}}
 						>
@@ -448,12 +449,12 @@ const Contact = ({ formData, navigation }) => {
 					className="ui circular massive  button copyHover"
 					onClick={() => copyRoomID()}
 					style={{
-						color: "#fff",
-						background:"transparent",
-						transform: "translateX(2%)",
-						width: "inherit",
-						marginTop: ".5em",
-						boxShadow: "0px 0px 0px 2px #fff inset"
+						color: '#fff',
+						background:'transparent',
+						transform: 'translateX(2%)',
+						width: 'inherit',
+						marginTop: '.5em',
+						boxShadow: '0px 0px 0px 2px #fff inset'
 						// textTransform: "uppercase"
 					}}
 				>
@@ -463,7 +464,7 @@ const Contact = ({ formData, navigation }) => {
 				<h3
 					className="ui header linkCopied"
 					style={{
-						padding: "10px 18px",
+						padding: '10px 18px',
 						// display: 'none'
 						// marginTop: "15em"
 					}}
