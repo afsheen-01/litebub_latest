@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import './css/styles.css';
 import './css/mobileRes.css';
 import './css/tabletRes.css';
@@ -8,8 +8,15 @@ import MultiStepForm from './pages/MultiStepForm';
 import ChatRoom from './pages/ChatRoom';
 import ErrorBoundary from './components/ErrorBoundary';
 
+export const FormContext = createContext(null);
+
 export default function App() {
 	var [bgs, setbgs] = useState([]);
+	let [formData, setFormData] = useState({
+		topic: '',
+		roomId: '',
+		bgGif: ''
+	})
 	useEffect(() => {
 		firebase
 			.database()
@@ -31,39 +38,46 @@ export default function App() {
 	return (
 		<Router>
 			<Switch>
-				<Route exact path='/'>
-					<div className='app'>
+				<FormContext.Provider
+					value={{
+						formData,
+						setFormData
+					}}
+				>
+					<Route exact path='/'>
+						<div className='app'>
 
-						<div
-							className='wrapper'
-							style={{
-								backgroundImage: 'url(' + bgs.url + ')',
-								opacity: 1,
-								backgroundPosition: 'center',
-								backgroundSize: 'cover',
-								objectFit: 'cover',
-							}}>
-							<MultiStepForm />
+							<div
+								className='wrapper'
+								style={{
+									backgroundImage: 'url(' + bgs.url + ')',
+									opacity: 1,
+									backgroundPosition: 'center',
+									backgroundSize: 'cover',
+									objectFit: 'cover',
+								}}>
+								<MultiStepForm />
 								
+							</div>
 						</div>
-					</div>
-					<a
-						href={bgs.artistURL}
-						target='_blank'
-						className='artistLink' rel="noreferrer">
-						<span
-							role='img'
-							aria-label='camera to define artist who made the background gif'>
+						<a
+							href={bgs.artistURL}
+							target='_blank'
+							className='artistLink' rel="noreferrer">
+							<span
+								role='img'
+								aria-label='camera to define artist who made the background gif'>
 								📷
-						</span>{' '}
-						{bgs.artist}
-					</a>
-				</Route>
-				<ErrorBoundary>
-					<Route path='/room/:id'>
-						<ChatRoom />
+							</span>{' '}
+							{bgs.artist}
+						</a>
 					</Route>
-				</ErrorBoundary>
+					<ErrorBoundary>
+						<Route path='/room/:id'>
+							<ChatRoom />
+						</Route>
+					</ErrorBoundary>
+				</FormContext.Provider>
 			</Switch>
 		</Router>
 	);

@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import firebase from 'firebase/app';
 import '@firebase/database';
 import '../css/bubbles.css';
 import '../css/mobileRes.css';
 import '../css/tabletRes.css';
+import { LitebubInput } from '../components/LitebubInput';
+import { FormContext } from '../App';
 
-const Address = ({ formData, navigation }) => {
-	let [btnState, setBtnState] = useState(true);
-	let [currentTopic, settopic] = useState('');
+const Address = ({navigation}) => {
+	// const [btnState, setBtnState] = useState(true);
 	const [bubbleTopics, setTopics] = useState([]);
-
+	const [currTopic, setCurrTopic] = useState('');
 	useEffect(() => {
 		firebase
 			.database()
@@ -21,15 +22,18 @@ const Address = ({ formData, navigation }) => {
 					setTopics(data);
 				}
 			});
-		// console.log(formData);
-		// const topicInput = document.querySelector('.topic-input')
 		// topicInput.focus()
 	}, []);
+
+	useEffect(() => {
+		console.log(formData, 1);
+	}, [formData]);
+
+	const {formData, setFormData} = useContext(FormContext)
+
 	function createRoom() {
-		// console.log(formData);
 		// let val = document.querySelector('.topic-input').value
 		// formData.topic = val
-		// console.log(formData.topic)
 		let r = Math.random().toString(36).substring(7);
 		var roomID = new Date().getTime() + r;
 		firebase
@@ -40,43 +44,35 @@ const Address = ({ formData, navigation }) => {
 				participantCount: 0,
 				chatTopic: formData.topic
 			});
-		formData.roomId = roomID;
-		// formData.chatBg = "";
+		setFormData({...formData, roomId: roomID})
+		console.log(formData);
 		navigation.next();
 	}
-  
-	// const transparentBtn = (btn, cBtn) => {
-	//   setBtnState(true)
-	//   cBtn.style.visibility = "hidden"
-	//   btn.style.backgroundColor = "transparent"
-	//   btn.style.border = "2px solid #fff"
-	// }
 
-	const changeBtnState = (e) => {
-		// let btn = document.querySelector('.cbtn');
-		// let cBtn = document.querySelector('.cl-crossBtn');
-		if (e.keyCode > 31 && e.keyCode < 127) {
-			// settopic(document.querySelector('.topic-input').value)
-			setBtnState(false);
-			// cBtn.style.visibility = "visible"
-			// btn.style.backgroundColor = "#48A7FF"
-			// btn.style.border = "2px solid #48A7FF"
-		}
-		if (e.target.value === '') {
-			settopic('');
-			// transparentBtn(btn, cBtn)
-		}
-	};
+	// const changeTopic = (topic) => {
+	// 	console.log(typeof topic);
+	// 	if (typeof topic === 'string') {
+	// 		setCurrTopic(topic, 1);
+	// 		// console.log(topic);
+	// 	}
+	// 	if (typeof topic === 'object') {
+	// 		console.log(topic.target.value, 2);
+	// 		setCurrTopic('');
+	// 		// setCurrTopic(topic.target.value);
+	// 	}
+	// 	// if (e.keyCode > 31 && e.keyCode < 127) {
+	// 	// 	setBtnState(false);
+	// 	// 	setCurrTopic(e.target.value);
+	// 	// cBtn.style.visibility = "visible"
+	// 	// btn.style.backgroundColor = "#48A7FF"
+	// 	// btn.style.border = "2px solid #48A7FF"
+	// 	// }
+	// };
+	
 	const emptyInp = () => {
-		// const topicInput = document.querySelector('.topic-input')
-		// topicInput.value = ""
-		// topicInput.focus()
-		// let btn = document.querySelector('.cbtn');
-		// let cBtn = document.querySelector('.cl-crossBtn');
-		// transparentBtn(btn, cBtn)
 	};
 	const goBackAndEmptyInput = () => {
-		formData.topic = '';
+		// setFormData;
 		navigation.previous();
 	};
 
@@ -87,7 +83,7 @@ const Address = ({ formData, navigation }) => {
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			boxShadow: currentTopic === obj.topic ? '0 0 0 4px #fff' : 'none',
+			boxShadow: formData.topic === obj.topic ? '0 0 0 4px #fff' : 'none',
 			height:
 			obj.size == 'big'
 				? '9.5vw'
@@ -184,24 +180,8 @@ const Address = ({ formData, navigation }) => {
 				<div
 					className="bubble"
 					onClick={() => {
-						// const topicInp = document.querySelector('.topic-input')
-
-						// let btn = document.querySelector('.cbtn');
-						// let cBtn = document.querySelector('.cl-crossBtn');
-
-						if (currentTopic === obj.topic) {
-							// topicInp.value = ""
-							settopic('');
-							// transparentBtn(btn, cBtn)
-
-						} else {
-							// topicInp.value = obj.topic
-							setBtnState(false);
-							settopic(obj.topic);
-							// cBtn.style.visibility = "visible"
-							// btn.style.backgroundColor = "#48A7FF"
-							// btn.style.border = "2px solid #48A7FF"
-						}
+						// console.log(obj.topic);
+						setCurrTopic(obj.topic);
 					}}
 					style={bubbleSize(obj)} key={i} id={i}>
 					{obj.topic.replace(' ', '\n')}
@@ -229,11 +209,16 @@ const Address = ({ formData, navigation }) => {
 					<div
 						className = "cl-inputDiv"
 					>
-						<input
-							className = "ui input massive topic-input"
-							name="topic"
-							placeholder="type a topic" 
-							onKeyUp = {changeBtnState}      
+						<LitebubInput
+							label="topic"
+							placeholder="type a topic"
+							// isEvent={true}
+							// eventTyper='onKeyUp'
+							// eventFunction={() => { }}
+							onChange={(e) => {
+								// setCurrTopic(e.target.value);
+								setFormData({...formData, topic: e.target.value})
+							}}
 						/>
 						<svg
 							onClick = {emptyInp}
@@ -247,8 +232,10 @@ const Address = ({ formData, navigation }) => {
 							</g>
 						</svg>
 					</div>
-					<button  className = "ui button circular huge cbtn" id = "create-link-btn"
-						disabled = {btnState}
+					<button
+						className="ui button circular huge cbtn"
+						id="create-link-btn"
+						// disabled = {btnState}
 						style = {{
 							background: 'transparent',
 							border: '2px solid #fff',
@@ -264,9 +251,11 @@ const Address = ({ formData, navigation }) => {
 							<path d="M5.13674 15.4096C6.08072 15.4096 6.84891 14.6414 6.84891 13.6974C6.84891 12.7534 6.08072 11.9852 5.13674 11.9852C4.19276 11.9852 3.42456 12.7534 3.42456 13.6974C3.42456 14.6414 4.19276 15.4096 5.13674 15.4096ZM5.13674 13.1267C5.45121 13.1267 5.70746 13.3829 5.70746 13.6974C5.70746 14.0124 5.45121 14.2681 5.13674 14.2681C4.82227 14.2681 4.56601 14.0124 4.56601 13.6974C4.56601 13.3824 4.82227 13.1267 5.13674 13.1267Z" fill="white"/>
 							<path d="M14.8391 2.2829C14.8391 1.33892 14.0709 0.570724 13.127 0.570724C12.183 0.570724 11.4148 1.33892 11.4148 2.2829C11.4148 3.22688 12.183 3.99507 13.127 3.99507C14.0709 3.99507 14.8391 3.22688 14.8391 2.2829ZM12.5562 2.2829C12.5562 1.96843 12.8125 1.71217 13.127 1.71217C13.4414 1.71217 13.6977 1.96843 13.6977 2.2829C13.6977 2.59737 13.4414 2.85362 13.127 2.85362C12.8125 2.85362 12.5562 2.59737 12.5562 2.2829Z" fill="white"/>
 						</svg>
-						<span style = {{paddingBottom:'4em',
-							height: 'inherit',
-						}}
+						<span
+							style={{
+								paddingBottom: '4em',
+								height: 'inherit',
+							}}
 						>Create Link</span>
 					</button>
 				</div>

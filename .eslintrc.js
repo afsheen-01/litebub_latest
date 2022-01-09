@@ -37,6 +37,7 @@ module.exports = {
 		],
 		'react/prop-types': [
 			'warn',
-		]
+		],
+		'no-console': 'off'
 	}
 };

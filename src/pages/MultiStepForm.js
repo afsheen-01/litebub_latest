@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, useStep } from 'react-hooks-helper';
+import { useStep } from 'react-hooks-helper';
 import Start from './Start';
 import CreateLink from './CreateLink';
 import CopyLink from './CopyLink';
@@ -13,24 +13,20 @@ const steps = [
 	{ id: 'copy' },
 	{ id: 'chat' }
 ];
-var defaultData = {
-	topic: '',
-	roomId: '',
-	bgGif: ''
-};
+// var defaultData = {
+// 	topic: '',
+// 	roomId: '',
+// 	bgGif: ''
+// };
 
 const MultiStepForm = () => {
-	let [formData, setForm] = useForm(defaultData);
+	// let [formData, setForm] = useForm(defaultData);
 	const { step, navigation } = useStep({ steps });
 	const { id } = step;
 	const [visible, setVisible] = useState(false);
-	const litebub = {
-		name: 'litebub'
-	};
+	const litebub = 'litebub';
 
 	const props = {
-		formData,
-		setForm,
 		navigation,
 		litebub,
 		visible,
