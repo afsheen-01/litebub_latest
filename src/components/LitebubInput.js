@@ -1,18 +1,24 @@
-import React from 'react';
+import React, {createRef, useEffect} from 'react';
 
-export const LitebubInput = ({label, placeholder, onChange }) => {
+export const LitebubInput = (props) => {
 	
-	console.log(label, placeholder, onChange    );
+	const { label, placeholder, defaultValue } = props;
+
+	const inputRef = createRef();
+
+	console.log(defaultValue);
+
 
 	return (
 		<>
 			<input
 				className="ui input massive topic-input"
+				ref={inputRef}
+				label={label}
 				name="topic"
-				placeholder="type a topic"
-				// onKeyUp={(e) => {
-				// 	setCurrTopic(e.target.value);
-				// }}
+				defaultValue={defaultValue}
+				placeholder={placeholder}
+				{...props}
 			/>	
 		</>
 	);

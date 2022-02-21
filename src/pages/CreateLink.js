@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, createRef } from 'react';
 import firebase from 'firebase/app';
 import '@firebase/database';
 import '../css/bubbles.css';
@@ -11,6 +11,12 @@ const Address = ({navigation}) => {
 	// const [btnState, setBtnState] = useState(true);
 	const [bubbleTopics, setTopics] = useState([]);
 	const [currTopic, setCurrTopic] = useState('');
+
+	const { formData, setFormData } = useContext(FormContext)
+
+	// const inputRef = createRef();
+	// console.log(inputRef)
+	
 	useEffect(() => {
 		firebase
 			.database()
@@ -26,14 +32,11 @@ const Address = ({navigation}) => {
 	}, []);
 
 	useEffect(() => {
-		console.log(formData, 1);
-	}, [formData]);
-
-	const {formData, setFormData} = useContext(FormContext)
+		setFormData({ ...formData, topic: currTopic });
+		// console.log(formData, currTopic, 1);
+	}, [currTopic]);
 
 	function createRoom() {
-		// let val = document.querySelector('.topic-input').value
-		// formData.topic = val
 		let r = Math.random().toString(36).substring(7);
 		var roomID = new Date().getTime() + r;
 		firebase
@@ -45,21 +48,10 @@ const Address = ({navigation}) => {
 				chatTopic: formData.topic
 			});
 		setFormData({...formData, roomId: roomID})
-		console.log(formData);
+		// console.log(formData);
 		navigation.next();
 	}
 
-	// const changeTopic = (topic) => {
-	// 	console.log(typeof topic);
-	// 	if (typeof topic === 'string') {
-	// 		setCurrTopic(topic, 1);
-	// 		// console.log(topic);
-	// 	}
-	// 	if (typeof topic === 'object') {
-	// 		console.log(topic.target.value, 2);
-	// 		setCurrTopic('');
-	// 		// setCurrTopic(topic.target.value);
-	// 	}
 	// 	// if (e.keyCode > 31 && e.keyCode < 127) {
 	// 	// 	setBtnState(false);
 	// 	// 	setCurrTopic(e.target.value);
@@ -74,6 +66,7 @@ const Address = ({navigation}) => {
 	const goBackAndEmptyInput = () => {
 		// setFormData;
 		navigation.previous();
+		setCurrTopic('');
 	};
 
 	const bubbleSize = obj => {
@@ -179,17 +172,22 @@ const Address = ({navigation}) => {
 			<>
 				<div
 					className="bubble"
-					onClick={() => {
-						// console.log(obj.topic);
-						setCurrTopic(obj.topic);
-					}}
+					onClick={() => directInput(obj.topic)}
 					style={bubbleSize(obj)} key={i} id={i}>
 					{obj.topic.replace(' ', '\n')}
 				</div>
 				{' '}
 			</>); 
 	});
- 
+
+	const typeInput = (val) => {
+		setCurrTopic(val);
+	}
+
+	const directInput = (val) => {
+		setCurrTopic(val);
+	}
+
 	return (
 		<div 
 			className="copyLink-div" id="createLink-div">
@@ -210,15 +208,10 @@ const Address = ({navigation}) => {
 						className = "cl-inputDiv"
 					>
 						<LitebubInput
-							label="topic"
+							label={formData.topic}
+							defaultValue={formData.topic}
 							placeholder="type a topic"
-							// isEvent={true}
-							// eventTyper='onKeyUp'
-							// eventFunction={() => { }}
-							onChange={(e) => {
-								// setCurrTopic(e.target.value);
-								setFormData({...formData, topic: e.target.value})
-							}}
+							onKeyUp={(e) => typeInput(e.target.value)}
 						/>
 						<svg
 							onClick = {emptyInp}
