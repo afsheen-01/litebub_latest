@@ -1,13 +1,10 @@
-import React, {createRef, useEffect} from 'react';
+import React, {createRef} from 'react';
 
 export const LitebubInput = (props) => {
 	
 	const { label, placeholder, defaultValue } = props;
 
 	const inputRef = createRef();
-
-	console.log(defaultValue);
-
 
 	return (
 		<>

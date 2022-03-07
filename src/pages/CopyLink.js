@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import html2canvas from 'html2canvas';
 import firebase from 'firebase/app';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,8 +20,9 @@ import AvatarNine from '../avatars/avatar-9.js';
 import AvatarTen from '../avatars/avatar-10.js';
 import AvatarEleven from '../avatars/avatar-11.js';
 import AvatarTwelve from '../avatars/avatar-12.js';
+import { FormContext } from '../App';
 
-const Contact = ({ formData, navigation }) => {
+const Contact = ({ navigation }) => {
 	const { previous } = navigation;
 
 	var [chatBg, setChatBg] = useState(0);
@@ -37,6 +38,7 @@ const Contact = ({ formData, navigation }) => {
 	var [chatAvatar, setChatAvatar] = useState(0);
 	var [chatColor, setChatColor] = useState(0);
 	const history = useHistory();
+	const { formData } = useContext(FormContext);
 	/*avatar setting from chatRoom - start*/
 	
 	let colorArr = [

@@ -16,7 +16,7 @@ export default function App() {
 		topic: '',
 		roomId: '',
 		bgGif: ''
-	})
+	});
 	useEffect(() => {
 		firebase
 			.database()

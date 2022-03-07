@@ -20,7 +20,6 @@ const steps = [
 // };
 
 const MultiStepForm = () => {
-	// let [formData, setForm] = useForm(defaultData);
 	const { step, navigation } = useStep({ steps });
 	const { id } = step;
 	const [visible, setVisible] = useState(false);
@@ -32,7 +31,6 @@ const MultiStepForm = () => {
 		visible,
 		setVisible,
 	};
-	// console.log(formData);
 	switch (id) {
 	case 'start':
 		return <Start {...props} />;

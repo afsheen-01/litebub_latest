@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, createRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import firebase from 'firebase/app';
 import '@firebase/database';
 import '../css/bubbles.css';
@@ -12,7 +12,7 @@ const Address = ({navigation}) => {
 	const [bubbleTopics, setTopics] = useState([]);
 	const [currTopic, setCurrTopic] = useState('');
 
-	const { formData, setFormData } = useContext(FormContext)
+	const { formData, setFormData } = useContext(FormContext);
 
 	// const inputRef = createRef();
 	// console.log(inputRef)
@@ -33,12 +33,12 @@ const Address = ({navigation}) => {
 
 	useEffect(() => {
 		setFormData({ ...formData, topic: currTopic });
-		// console.log(formData, currTopic, 1);
 	}, [currTopic]);
 
 	function createRoom() {
 		let r = Math.random().toString(36).substring(7);
 		var roomID = new Date().getTime() + r;
+		console.log(roomID);
 		firebase
 			.database()
 			.ref('rooms/' + roomID)
@@ -47,7 +47,7 @@ const Address = ({navigation}) => {
 				participantCount: 0,
 				chatTopic: formData.topic
 			});
-		setFormData({...formData, roomId: roomID})
+		setFormData({...formData, roomId: roomID});
 		// console.log(formData);
 		navigation.next();
 	}
@@ -182,11 +182,11 @@ const Address = ({navigation}) => {
 
 	const typeInput = (val) => {
 		setCurrTopic(val);
-	}
+	};
 
 	const directInput = (val) => {
 		setCurrTopic(val);
-	}
+	};
 
 	return (
 		<div 
