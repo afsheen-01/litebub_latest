@@ -181,10 +181,12 @@ const Address = ({navigation}) => {
 	});
 
 	const typeInput = (val) => {
+		console.log(val, 'typeInput');
 		setCurrTopic(val);
 	};
 
 	const directInput = (val) => {
+		console.log(val, 'directInput');
 		setCurrTopic(val);
 	};
 

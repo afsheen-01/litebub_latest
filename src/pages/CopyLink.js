@@ -97,11 +97,9 @@ const Contact = ({ navigation }) => {
 		document.execCommand('copy');
 		textField.remove();
 	}
-	// console.log(window.getSelection.isCollapsed(true))
 
 	var roomID = formData.roomId;
 	function copyRoomID() {
-		// console.log("https://hkwft.csb.app/room/" + roomID);
 		copyToClipboard(
 			'https://d3fn7.csb.app/room/' +
 				roomID +
